@@ -1,0 +1,22 @@
+theme:
+  name: material
+  palette:
+    scheme: default
+  features:
+    - tabs
+  icon:
+    repo: fontawesome/brands/github
+
+site_name: DiRAC Extreme Scaling User Documentation
+repo_url: https://github.com/EPCCed/dirac-docs.git
+repo_name: EPCCed/dirac-docs
+edit_uri: edit/main/docs/
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+nav:
+  - "Documentation overview": index.md
+
