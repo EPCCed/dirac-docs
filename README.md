@@ -9,7 +9,7 @@ to a rendered version currently hosted on Github pages.
 
 ## Rendered documentation
 
-  - DiRAC Extreme Scaling Documentation (HTML)
+  - [DiRAC Extreme Scaling Documentation (HTML)](https://epcced.github.io/dirac-docs/)
 
 ## How to contribute
 
