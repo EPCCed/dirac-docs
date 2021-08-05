@@ -20,7 +20,7 @@ DiRAC Extreme Scaling currently provides two HPC resources:
 This is the documentation for the ARCHER2 service and includes:
 
   - [Tesseract User Guide](https://tesseract-dirac.readthedocs.io/en/latest/)
-    Covers all aspects of use of the Tursa resource.
+    Covers all aspects of use of the Tesseract resource.
     This includes fundamentals (required by all users to use the system
     effectively), best practice for getting the most out of Tursa, and
     other advanced technical topics.
