@@ -34,8 +34,8 @@ This is the documentation for the ARCHER2 service and includes:
 
 ## Contributing to the documentation
 
-The source for this documentation is publicly available in the [ARCHER2
-documentation Github
+The source for this documentation is publicly available in the [DiRAC
+Extreme Scaling documentation Github
 repository](https://github.com/EPCCed/dirac-docs.git) so that anyone
 can contribute to improve the documentation for the service.
 Contributions can be in the form of improvements or addtions to the

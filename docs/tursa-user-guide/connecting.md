@@ -132,7 +132,7 @@ and debuggers when used in conjunction with an X client.
 You can use the following command from the [terminal](#command-line-terminal) window to login into
 Tursa:
 
-    ssh username@login.tursa.ac.uk
+    ssh username@tursa.dirac.ed.ac.uk
 
 You will first be prompted for your machine account password. Once you have entered your password successfully, you will then be prompted for the passphrase associated with your SSH key pair. You need to enter both credentials correctly to be able to access Tursa.
 
@@ -158,7 +158,7 @@ You will first be prompted for your machine account password. Once you have ente
 
 To allow remote programs, especially graphical applications to control your local display, such as being able to open up a new GUI window (such as for a debugger), use:
 
-    ssh -X username@login.tursa.ac.uk
+    ssh -X username@tursa.dirac.ed.ac.uk
 
 Some sites recommend using the `-Y` flag. While this can fix some
 compatibility issues, the `-X` flag is more secure.
@@ -166,8 +166,6 @@ compatibility issues, the `-X` flag is more secure.
 Current MacOS systems do not have an X window system. Users should install the XQuartz package to allow for SSH with X11 forwarding on MacOS systems:
 
   - [XQuartz website](http://www.xquartz.org/)
-
-
 
 ## Making access more convenient using the SSH configuration file
 
@@ -180,17 +178,17 @@ Each remote site (or group of sites) can have an entry in this file
 which may look something like:
 
     Host tursa
-      HostName login.tursa.ac.uk
+      HostName tursa.dirac.ed.ac.uk
       User username
 
 (remember to replace `username` with your actual username\!).
 
 The `Host tursa` line defines a short name for the entry. In this
-case, instead of typing `ssh username@login.tursa.ac.uk` to access the
+case, instead of typing `ssh username@tursa.dirac.ed.ac.uk` to access the
 Tursa login nodes, you could use `ssh tursa` instead. The remaining
 lines define the options for the `tursa` host.
 
-   - `Hostname login.tursa.ac.uk` - defines the full address of the
+   - `Hostname tursa.dirac.ed.ac.uk` - defines the full address of the
      host
    - `User username` - defines the username to use by default for this
      host (replace `username` with your own username on the remote
@@ -224,30 +222,30 @@ you can try and diagnose the issue. Some of these are collected below -
 if you are having difficulties connecting we suggest trying these before
 contacting the Tursa service desk.
 
-### Use the `user@login.tursa.ac.uk` syntax rather than `-l user login.tursa.ac.uk`
+### Use the `user@tursa.dirac.ed.ac.uk` syntax rather than `-l user tursa.dirac.ed.ac.uk`
 
 We have seen a number of instances where people using the syntax
 
 ```
-ssh -l user login.tursa.ac.uk
+ssh -l user tursa.dirac.ed.ac.uk
 ```
 
 have not been able to connect properly and get prompted for a password many
 times. We have found that using the alternative syntax:
 
 ```
-ssh user@login.tursa.ac.uk
+ssh user@tursa.dirac.ed.ac.uk
 ```
 
 works more reliably. If you are using the `-l user` option to connect and 
-are seeing issues, then try using `user@login.tursa.ac.uk` instead.
+are seeing issues, then try using `user@tursa.dirac.ed.ac.uk` instead.
 
 ### Can you connect to the login node?
 
-Try the command `ping -c 3 login.tursa.ac.uk`. If you successfully
+Try the command `ping -c 3 tursa.dirac.ed.ac.uk`. If you successfully
 connect to the login node, the output should include:
 
-    --- login.tursa.ac.uk ping statistics ---
+    --- tursa.dirac.ed.ac.uk ping statistics ---
     3 packets transmitted, 3 received, 0% packet loss, time 38ms
 
 (the ping time '38ms' is not important). If not all packets are received
@@ -279,7 +277,7 @@ indicate a problem with your SSH key. Some things to check:
    - Is ssh using the correct key? You can check which keys are being
      found and offered by ssh using `ssh -vvv`. If your private key has
      a non-default name you can use the `-i` flag to provide it to ssh,
-     i.e. `ssh -i path/to/key username@login.tursa.ac.uk`.
+     i.e. `ssh -i path/to/key username@tursa.dirac.ed.ac.uk`.
  
    - Are you entering the passphrase correctly? You will be asked for
      your private key's passphrase first. If you enter it incorrectly
@@ -356,7 +354,7 @@ with the SSH key and password - further details are given below. To
 enable verbose output add the `-vvv` flag to your SSH command. For
 example:
 
-    ssh -vvv username@login.tursa.ac.uk
+    ssh -vvv username@tursa.dirac.ed.ac.uk
 
 The output is lengthy, but somewhere in there you should see lines
 similar to the following:
@@ -416,6 +414,3 @@ up to three times in total, before being disconnected with `Permission
 denied (publickey)`. If you enter your passphrase correctly, but still
 see this error message, please consider the advice under *SSH key*
 above.
-
-The equivalent information can be obtained in PuTTY by
-enabling all logging in settings.

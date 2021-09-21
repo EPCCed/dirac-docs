@@ -23,116 +23,26 @@ also to ensure that your valuable data is protected.
 
 ## Tursa storage
 
-The Tursa service, like many HPC systems, has a complex structure.
-There are a number of different data storage types available to users:
+The Tursa storage is provided by a parallel Lustre file system that 
+provides your home directories and working storage. When you log in
+you will be placed in your home directory. 
 
-   - Home file systems
-   - Work file systems
+The home directory for each user is located at:
 
-Each type of storage has different characteristics and policies, and is
-suitable for different types of use.
+    /home/[project code]/[group code]/[username]
 
-There are also two different types of node available to users:
+where
 
-   - Login nodes
-   - Compute nodes
+   - `[project code]` is the code for your project (e.g., x01);
+   - `[group code]` is the code for your project group, if your project has
+     groups, (e.g. x01-a) or the same as the project code, if not;
+   - `[username]` is your login name.
 
-Each type of node sees a different combination of the storage types.
-The following table shows which storage options are avalable on 
-different node types:
-
-| Storage | Login Nodes | Compute Nodes | Notes | 
-|---------|-------------|---------------|-------|
-| /home   | yes         | no            | Backed up |
-| /work   | yes         | yes           | Not backed up, high performance |
-
-### Home file systems
-
-There are four independent home file-systems. Every project has an
-allocation on one of the four. You do not need to know which one your
-project uses as your projects space can always be accessed via the path
-`/home/project-code`. Each home file-system is approximately 60TB in
-size and is implemented using standard Network Attached Storage (NAS)
-technology. This means that these disks are not particularly high
-performance but are well suited to standard operations like compilation
-and file editing. These file systems are visible from the Tursa login
-nodes.
-
-The home file systems **are fully backed up**. Full backups are taken
-weekly (for each of the past two weeks), daily (for each of the past
-two days) and hourly (for each of the last 6 hours). You can access the
-snapshots at the `/home1/.snapshot`, `/home2/.snapshot`, `/home3/.snapshot`
-and `/home4/.snapshot` depending on which of the file systems you have
-your home directories on. You can find out which file system your
-home directory is on with the command:
-
-```
-readlink -f $HOME
-```
-
-These file-systems are a good location to keep source-code, copies of
-scripts and compiled binaries. Small amounts of important data can also
-be copied here for safe keeping though the file systems are not fast
-enough to manipulate large datasets effectively.
-
-!!! warning
-    Files with filenames that contain non-ascii characters and/or
-    non-printable characters cannot be backed up using our automated process
-    and so will be omitted from all backups.
-
-### Work file systems
-
-There is one work file-system:
-
-   - /work 3.4 PB
-
-Every project has an allocation on the file system.
-
-This is a high-performance, Lustre parallel file system. It is
-designed to support data in large files. The performance for data stored
-in large numbers of small files is probably not going to be as good.
-
-This is the only file system that is available on the compute nodes
-so all data read or written by jobs running on the compute nodes has to
-be hosted here.
-
-!!! warning
-    There are no backups of any data on the work file system. You should
-    not rely on these file systems for long term storage.
-
-Ideally, this file system should only contain data that is:
-
-   - actively in use;
-   - recently generated and in the process of being saved elsewhere; or
-   - being made ready for up-coming work.
-
-In practice it may be convenient to keep copies of datasets on the work
-file system that you know will be needed at a later date. However, make
-sure that important data is always backed up elsewhere and that your
-work would not be significantly impacted if the data on the work file
-system was lost.
-
-Large data sets can be moved to the RDF storage or transferred off the
-Tursa service entirely.
-
-If you have data on the work file system that you are not going to need
-in the future please delete it.
-
-
-### Subprojects
-
-Some large projects may choose to split their resources into multiple subprojects. 
-These subprojects will have identifiers appended to the main project ID. For example,
-the `rse` subgroup of the `z19` project would have the ID `z19-rse`. If the main
-project has allocated storage quotas to the subproject the directories for this
-storage will be found at, for example:
-```
-/home/z19/z19-rse/auser
-```
-
-Your Linux home directory will generally not be changed when you are made a member
-of a subproject so you must change directories manually (or change the ownership of
-files) to make use of this different storage quota allocation.
+Each project is allocated a portion of the total storage available, and
+the project PI will be able to sub-divide this quota among the groups
+and users within the project. As is standard practice on UNIX and Linux
+systems, the environment variable `$HOME` is automatically set to point
+to your home directory.
 
 ## Sharing data with other Tursa users
 
@@ -165,12 +75,12 @@ at `/work/x01/shared`.
 
 ### Permissions
 
-You should check the permissions of any files that you place in the shared area,
-especially if those files were created in your own Tursa account. Files of the
-latter type are likely to be readable by you only.
+You should check the permissions of any files that you place in the shared
+area, especially if those files were created in your own Tursa account
+Files of the latter type are likely to be readable by you only.
 
-The `chmod` command below shows how to make sure that a file placed in the outer
-shared folder is also readable by all Tursa users.
+The `chmod` command below shows how to make sure that a file placed in the
+outer shared folder is also readable by all Tursa users.
 
     chmod a+r /work/x01/shared/your-shared-file.txt
 
@@ -179,30 +89,15 @@ permission is granted to all users within the x01 project.
 
     chmod g+r /work/x01/x01/shared/your-shared-file.txt
 
-If you're sharing a set of files stored within a folder hierarchy the `chmod`
-is slightly more complicated.
+If you're sharing a set of files stored within a folder hierarchy the
+`chmod` is slightly more complicated.
 
     chmod -R a+Xr /work/x01/shared/my-shared-folder
     chmod -R g+Xr /work/x01/x01/shared/my-shared-folder
 
 The `-R` option ensures that the read permission is enabled recursively and
-the `+X` guarantees that the user(s) you're sharing the folder with can access
-the subdirectories below `my-shared-folder`.
-
-### Sharing data between projects and subprojects
-
-Every file has an *owner* group that specifies access permissions for users
-belonging to that group. It's usually the case that the group id is synonymous
-with the project code. Somewhat confusingly however, projects can contain
-groups of their own, called subprojects, which can be assigned disk space
-quotas distinct from the project.
-
-    chown -R $USER:x01-subproject /work/x01/x01-subproject/$USER/my-folder 
-
-The `chown` command above changes the owning group for all the files within
-`my-folder` to the `x01-subproject` group. This might be necessary if previously
-those files were *owned* by the x01 group and thereby using some of the x01
-disk quota.
+the `+X` guarantees that the user(s) you're sharing the folder with can 
+access the subdirectories below `my-shared-folder`.
 
 ## Archiving and data transfer
 
@@ -245,8 +140,6 @@ guide are:
      transferring data and can be used up to moderate amounts of data.
      If you are transferring data to your workstation/laptop then this
      is the method you will use.
-   - **GridFTP** - It is sometimes more convenient to transfer large
-     amounts of data (> 100 GBs) using GridFTP servers.
 
 Before discussing specific data transfer methods, we cover *archiving*
 which is an essential process for transferring data efficiently.
@@ -410,7 +303,7 @@ remote machine onto a local machine.
 
 For example, to transfer files to Tursa from a local machine:
 
-    scp [options] source user@login.tursa.ac.uk:[destination]
+    scp [options] source user@tursa.dirac.ed.ac.uk:[destination]
 
 (Remember to replace `user` with your Tursa username in the example
 above.)
@@ -426,7 +319,7 @@ If you want to request a different encryption algorithm add the `-c
 (usually faster) *arcfour* encryption algorithm you would
     use:
 
-    scp [options] -c aes128-ctr source user@login.tursa.ac.uk:[destination]
+    scp [options] -c aes128-ctr source user@tursa.dirac.ed.ac.uk:[destination]
 
 (Remember to replace `user` with your Tursa username in the example
 above.)
@@ -445,7 +338,7 @@ machine.
 To transfer files to Tursa using `rsync` with `ssh` the command has
 the form:
 
-    rsync [options] -e ssh source user@login.tursa.ac.uk:[destination]
+    rsync [options] -e ssh source user@tursa.dirac.ed.ac.uk:[destination]
 
 (Remember to replace `user` with your Tursa username in the example
 above.)
@@ -460,7 +353,7 @@ Additional flags can be specified for the underlying `ssh` command by
 using a quoted string as the argument of the `-e` flag.
     e.g.
 
-    rsync [options] -e "ssh -c arcfour" source user@login.tursa.ac.uk:[destination]
+    rsync [options] -e "ssh -c arcfour" source user@tursa.dirac.ed.ac.uk:[destination]
 
 (Remember to replace `user` with your Tursa username in the example
 above.)
@@ -470,20 +363,6 @@ above.)
     (accessed via `man rsync` or at [man
     rsync](https://linux.die.net/man/1/rsync)).
 
-### Data transfer via GridFTP
-
-Tursa provides a module for grid computing, `gct/6.2`, otherwise known
-as the Globus Grid Community Toolkit v6.2.20201212. This toolkit provides
-a command line interface for moving data to and from GridFTP servers. 
-
-Data transfers are managed by the `globus-url-copy` command. Full details
-concerning this command's use can be found in the [GCT 6.2 GridFTP User's Guide](https://gridcf.org/gct-docs/6.2/gridftp/user/index.html).
-
-Please note, the GCT module does *not* yet support parallel streams.
-We anticipate having this feature available soon. Please consult the
-module help (`module help gct/6.2`) for confirmation of when this work
-has been completed.
-
 ## SSH data transfer example: laptop/workstation to Tursa
 
 Here we have a short example demonstrating transfer of data directly
@@ -491,8 +370,7 @@ from a laptop/workstation to Tursa.
 
 !!! note
     This guide assumes you are using a command line interface to transfer
-    data. This means the terminal on Linux or macOS, MobaXterm local terminal
-    on Windows or Powershell.
+    data. This means the terminal on Linux or macOS, MobaXterm local terminal on Windows or Powershell.
 
 Before we can transfer of data to Tursa we need to make sure we have an
 SSH key setup to access Tursa from the system we are transferring data
@@ -505,28 +383,27 @@ connect to Tursa.
     Remember that you will need to use both a key and your password to
     transfer data to Tursa.
 
-Once we know our keys are setup correctly, we are now ready to transfer data directly between the
-two machines. We begin by combining our important research data in to a
-single archive file using the following command:
+Once we know our keys are setup correctly, we are now ready to transfer 
+data directly between the two machines. We begin by combining our important 
+research data in to a single archive file using the following command:
 
     tar -czf all_my_files.tar.gz file1.txt file2.txt file3.txt
 
 We then initiate the data transfer from our system to Tursa, here using
 `rsync` to allow the transfer to be recommenced without needing to start
-again, in the event of a loss of connection or other failure. For example, using
-the SSH key in the file `~/.ssh/id_RSA_A2` on our local system:
+again, in the event of a loss of connection or other failure. For example, 
+using the SSH key in the file `~/.ssh/id_RSA_A2` on our local system:
 
-    rsync -Pv -e"ssh -c aes128-gcm@openssh.com -i $HOME/.ssh/id_RSA_A2" ./all_my_files.tar.gz otbz19@login.tursa.ac.uk:/work/z19/z19/otbz19/
+    rsync -Pv -e"ssh -c aes128-gcm@openssh.com -i $HOME/.ssh/id_RSA_A2" ./all_my_files.tar.gz otbz19@tursa.dirac.ed.ac.uk:/work/z19/z19/otbz19/
 
 Note the use of the `-P` flag to allow partial transfer -- the same
 command could be used to restart the transfer after a loss of
 connection. The `-e` flag allows specification of the ssh command - we
 have used this to add the location of the identity file. 
-The `-c` option specifies the cipher to be used as `aes128-gcm` which has been found to increase performance
-Unfortunately
-the `~` shortcut is not correctly expanded, so we have specified the
-full path. We move our research archive to our project work directory on
-Tursa.
+The `-c` option specifies the cipher to be used as `aes128-gcm` which has 
+been found to increase performance. Unfortunately the `~` shortcut is not
+correctly expanded, so we have specified the full path. We move our 
+research archive to our project work directory on Tursa.
 
 !!! note
     Remember to replace `otbz19` with your username on Tursa.

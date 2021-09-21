@@ -52,12 +52,8 @@ These are described in more detail below.
 ### Information on the available modules
 
 The `module list` command will give the names of the modules and their
-versions you have presently loaded in your environment:
-
-```
-auser@login01:~> module list
-Currently Loaded Modulefiles:
-```
+versions you have presently loaded in your environment. By default, you
+will have no modules loaded when you first log into Tursa
 
 Finding out which software modules are available on the system is
 performed using the `module avail` command. To list all software modules
@@ -65,7 +61,17 @@ available, use:
 
 ```
 auser@login01:~> module avail
- 
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
+cuda/11.0.2  openmpi/4.1.1  ucx/1.10.1  
+
+------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+cuda/11.4.1  openmpi/4.1.1-cuda11.4  ucx/1.12.0-cuda11.4  
+
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
+
+----------------------------------- /mnt/lustre/tursafs1/apps/modulefiles -----------------------------------
+cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  use.own  xpmem/2.6.5  
 ```
 
 This will list all the names and versions of the modules available on
@@ -82,17 +88,14 @@ available versions of the OpenMPI library, use:
 
 ```
 auser@login01:~> module avail openmpi
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
+openmpi/4.1.1  
 
+------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+openmpi/4.1.1-cuda11.4  
 
-```
-
-If you want more info on any of the modules, you can use the `module
-help` command:
-
-```
-auser@login01:~> module help openmpi
-
-
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+openmpi/4.1.1-cuda11.4.1  
 ```
 
 The `module show` command reveals what operations the module actually
@@ -102,7 +105,20 @@ below. For example, for the default openmpi module:
 
 ```
 auser@login01:~> module show openmpi
--
+-------------------------------------------------------------------
+/mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles/openmpi/4.1.1:
+
+module-whatis   Sets up OpenMPI on your environment
+setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/openmpi/4.1.1/
+prepend-path    PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/bin/
+prepend-path    LD_LIBRARY_PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/lib
+prepend-path    MANPATH /opt/mpi/openmpi/4.0.4.1/share/man
+module load     ucx/1.10.1
+setenv          OMPI_CC cc
+setenv          OMPI_CXX        g++
+setenv          OMPI_CFLAGS     -g -m64
+setenv          OMPI_CXXFLAGS   -g -m64
+-------------------------------------------------------------------
 ```
 
 ### Loading, removing and swapping modules
@@ -112,6 +128,11 @@ the default version of OpenMPI into your environment, use:
 
 ```
 auser@login01:~> module load openmpi
+
+        UCX 1.10 loaded
+
+
+        OpenMPI 4.1.1 loaded
 ```
 
 Once you have done this, your environment will be setup to use the OpenMPI library.
@@ -120,17 +141,22 @@ OpenMPI. If you need a specific version of the software, you can
 add more information:
 
 ```
-auser@login01:~> module load cray-fftw/4.0.5
+auser@login01:~> module load openmpi/4.1.1-cuda11.4.1
+
+        UCX 1.12.0 compiled with cuda 11.4.1 loaded
+
+
+        OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
 ```
 
-will load OpenMPI version 4.0.5 into your environment,
+will load OpenMPI version 4.1.1 with CUDA 11.4.1 into your environment,
 regardless of the default.
 
-If you want to remove software from your environment, `module remove`
+If you want to remove software from your environment, `module rm`
 will remove a loaded module:
 
 ```
-auser@login01:~> module remove openmpi
+auser@login01:~> module rm openmpi
 ```
 
 will unload what ever version of `openmpi` (even if it is not the
@@ -142,18 +168,16 @@ version which is not yet the default or using a legacy version to keep
 compatibility with old data. This can be achieved most easily by using
 `module swap oldmodule newmodule`.
 
-Suppose you have loaded version 4.0.4 of `openmpi`, the following
-command will change to version 4.0.5:
+Suppose you have loaded version 4.1.1 of `openmpi`, the following
+command will change to version 4.1.1-cuda11.4.1:
 
 ```
-auser@login01:~> module swap openmpi openmpi/4.0.5
+auser@login01:~> module swap openmpi openmpi/4.1.1-cuda11.4.1
 ```
 
 You did not need to specify the version of the loaded module in your
 current environment as this can be inferred as it will be the only one
 you have loaded.
-
-
 
 ### Capturing your environment for reuse
 
@@ -182,27 +206,17 @@ To list the modules in a collection, you can execute, e.g.,:
 ```
 auser@login01:~> module saveshow default
 -------------------------------------------------------------------
-/home/t01/t01/auser/.module/default:
-module use --append /opt/cray/pe/perftools/20.09.0/modulefiles
-module use --append /opt/cray/pe/craype/2.7.0/modulefiles
-module use --append /usr/local/Modules/modulefiles
-module use --append /opt/cray/pe/cpe-prgenv/7.0.0
-module use --append /opt/modulefiles
-module use --append /opt/cray/modulefiles
-module use --append /opt/cray/pe/modulefiles
-module use --append /opt/cray/pe/craype-targets/default/modulefiles
-module load cpe-gnu
-module load gcc
-module load craype
-module load craype-x86-rome
-module load --notuasked libfabric
-module load craype-network-ofi
-module load cray-dsmml
-module load perftools-base
-module load xpmem
-module load cray-mpich
-module load cray-libsci
-module load /work/y07/shared/tursa-modules/modulefiles-cse/epcc-setup-env
+/home/z01/z01/dc-turn1/.module/default:
+
+module use --append /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles
+module use --append /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles
+module use --append /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles
+module use --append /mnt/lustre/tursafs1/apps/modulefilesintel
+module use --append /mnt/lustre/tursafs1/apps/modulefiles
+module load ucx/1.12.0-cuda11.4.1
+module load openmpi/4.1.1-cuda11.4.1
+
+-------------------------------------------------------------------
 ```
 
 Note again that the details of the collection have been saved to the
@@ -210,10 +224,10 @@ home directory (the first line of output above). It is possible to save
 a module collection with a fully qualified path, e.g.,
 
 ```
-auser@login1:~> module save /work/t01/z01/auser/.module/myenv
+auser@login1:~> module save /home/t01/z01/auser/my-module-collection
 ```
 
-which would make it available from the batch system.
+if you want to save to a specific file name.
 
 To delete a module environment, you can execute:
 

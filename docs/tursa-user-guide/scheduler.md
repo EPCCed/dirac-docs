@@ -56,7 +56,7 @@ This will list all the budget codes that you have access to e.g.
 
 This shows that `userx` is a member of budgets `e123` and `e123-test`.  However, the `cpu=0` indicates that the `e123` budget is empty or disabled.   This user can submit jobs using the `e123-test` budget.
 
-To see the number of CUs remaining you must check in [SAFE](https://safe.epcc.ed.ac.uk).
+To see the number of coreh or GPUh remaining you must check in [SAFE](https://safe.epcc.ed.ac.uk).
 
 ### Charging
 
@@ -87,20 +87,33 @@ We cover each of these commands in more detail below.
 partitions. Without any options, `sinfo` lists the status of all
 resources and partitions, e.g.
 
-    sinfo 
+```
+[dc-user1@tursa-login1 ~]$ sinfo 
     
-    PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST 
-    standard     up 1-00:00:00    105  down* nid[001006,...,002014]
-    standard     up 1-00:00:00     12  drain nid[001016,...,001969]
-    standard     up 1-00:00:00      5   resv nid[001000,001002-001004,001114] 
-    standard     up 1-00:00:00    683  alloc nid[001001,...,001970-001991] 
-    standard     up 1-00:00:00    214   idle nid[001022-001023,...,002015-002023]
-    standard     up 1-00:00:00      2   down nid[001021,001050]
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu          up   infinite      6   idle tu-c0r0n[66-71]
+gpu*         up   infinite      2 drain* tu-c0r0n[27,30]
+gpu*         up   infinite      1  down* tu-c0r4n33
+gpu*         up   infinite      1  drain tu-c0r3n81
+gpu*         up   infinite     58  alloc tu-c0r0n[00,03,06,09,12,15,18,21,24,33,36,39,42,45],tu-c0r1n[24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93],tu-c0r2n[24,27,30,33,60,63,66,69],tu-c0r3n[03,72,75,78,84,87,90,93],tu-c0r4n[00,03,06,12,15,24,27,30,60,63,66,69]
+gpu*         up   infinite     50   idle tu-c0r1n[00,03,06,09,12,15,18,21],tu-c0r2n[00,03,06,09,12,15,18,21,72,75,78,81,84,87,90,93],tu-c0r3n[00,06,09,12,15,18,21,24,27,30,33,60,63,66,69],tu-c0r4n[09,18,21,72,75,78,81,84,87,90,93]
+rack0        up   infinite      2 drain* tu-c0r0n[27,30]
+rack0        up   infinite     14  alloc tu-c0r0n[00,03,06,09,12,15,18,21,24,33,36,39,42,45]
+rack1        up   infinite     16  alloc tu-c0r1n[24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93]
+rack1        up   infinite      8   idle tu-c0r1n[00,03,06,09,12,15,18,21]
+rack2        up   infinite      8  alloc tu-c0r2n[24,27,30,33,60,63,66,69]
+rack2        up   infinite     16   idle tu-c0r2n[00,03,06,09,12,15,18,21,72,75,78,81,84,87,90,93]
+rack3        up   infinite      1  drain tu-c0r3n81
+rack3        up   infinite      8  alloc tu-c0r3n[03,72,75,78,84,87,90,93]
+rack3        up   infinite     15   idle tu-c0r3n[00,06,09,12,15,18,21,24,27,30,33,60,63,66,69]
+rack4        up   infinite      1  down* tu-c0r4n33
+rack4        up   infinite     12  alloc tu-c0r4n[00,03,06,12,15,24,27,30,60,63,66,69]
+rack4        up   infinite     11   idle tu-c0r4n[09,18,21,72,75,78,81,84,87,90,93]
+```
 
-Here we see the number of nodes in different states. For example, 683
-nodes are allocated (running jobs), and 214 are idle (available to run
-jobs). !!! note that long lists of node IDs have been abbreviated with
-`...`.
+* `alloc` nodes are those that are running jobs
+* `idle` nodes are empty
+* `drain`, `down`, `maint` nodes are unavailable to users
 
 ### `sbatch`: submitting jobs
 
@@ -124,7 +137,7 @@ all jobs known to the scheduler. For example:
 
 will list all jobs on Tursa.
 
-The output of this is often overwhelmingly large. You can restrict the
+The output of this is often large. You can restrict the
 output to just your jobs by adding the `-u $USER` option:
 
     squeue -u $USER
@@ -162,9 +175,7 @@ The *primary resource* you can request for your job is the compute node.
     of how many processes are actually running on the node.
 
 !!! note
-    You will not generally have access to the full amount of memory resource
-    on the the node as some is retained for running the operating system and
-    other system processes.
+    You will not generally have access to the full amount of memory resource on the the node as some is retained for running the operating system and other system processes.
 
 ### Partitions
 
@@ -175,49 +186,13 @@ on Tursa.
 
 | Partition | Description                                                 | Max nodes available |
 | --------- | ----------------------------------------------------------- | ------------------- |
-| standard  | CPU nodes with AMD EPYC 7742 64-core processor &times; 2    | 1024                |
-
-Tursa Partitions
+| cpu  | CPU nodes with AMD EPYC 32-core processor &times; 2    | 6               |
+| gpu  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4  | 114                |
 
 You can list the active partitions by running `sinfo`.
 
 !!! tip
     You may not have access to all the available partitions.
-
-### Quality of Service (QoS)
-
-On Tursa, job limits are defined by the requested Quality of Service
-(QoS), as specified by the `--qos` Slurm directive. The following table
-lists the active QoS on Tursa.
-
-| QoS        | Max Nodes Per Job | Max Walltime | Jobs Queued | Jobs Running | Partition(s) | Notes |
-| ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
-| standard   | 256               | 24 hrs       | 64          | 16           | standard     | Maximum of 256 nodes in use by any one user at any time |
-| short      | 8                 | 20 mins      | 16           | 4            | standard     | |
-| long       | 64                | 48 hrs       | 16          | 16           | standard     | Minimum walltime of 24 hrs |
-| largescale | 940               | 3 hrs        | 4           | 1            | standard     | Minimum job size of 257 nodes |
-| lowpriority | 256               | 3 hrs        | 4           | 1            | standard     | Maximum of 256 nodes in use by any one user at any time. Jobs not charged but requires at least 1 CU in budget to use. |
-
-!!! warning
-    If you want to use the `short` QoS then you also need to add the
-    `--reservation=shortqos` to your job submission command.
-
-You can find out the QoS that you can use by running the following
-command:
-
-    sacctmgr show assoc user=$USER cluster=tursa-es format=cluster,account,user,qos%50
-
-!!! hint
-    If you have needs which do not fit within the current QoS, please
-    [contact the Service
-    Desk](https://www.tursa.ac.uk/support-access/servicedesk.html) and we
-    can discuss how to accommodate your requirements.
-
-### E-mail notifications
-
-E-mail notifications from the batch system are not currently available
-on Tursa.
-
 
 ## Troubleshooting
 
@@ -339,8 +314,7 @@ the top of your job submission script using lines that start with the
 directive `#SBATCH`.
 
 !!! hint
-    Most options provided using `#SBATCH` directives can also be specified as
-    command line options to `srun`.
+    Most options provided using `#SBATCH` directives can also be specified as command line options to `srun`.
 
 If you do not specify any options, then the default for each option will
 be applied. As a minimum, all job submissions must specify the budget
@@ -362,28 +336,16 @@ parallel processes and threads they require.
 
    - `--nodes=<nodes>` the number of nodes to use for the job.
    - `--tasks-per-node=<processes per node>` the number of parallel
-     processes (e.g. MPI ranks) per node.
-   - `--cpus-per-task=1` if you are using parallel processes only with
-     no threading then you should set the number of CPUs (cores) per
-     parallel process to 1. **!!! note:** if you are using threading (e.g.
-     with OpenMP) then you will need to change this option as described
-     below.
-
-For parallel jobs that use threading (e.g. OpenMP), you will also need
-to change the `--cpus-per-task` option.
-
-   - `--cpus-per-task=<threads per task>` the number of threads per
-     parallel process (e.g. number of OpenMP threads per MPI task for
-     hybrid MPI/OpenMP jobs). **!!! note:** you must also set the
-     `OMP_NUM_THREADS` environment variable if using OpenMP in your
-     job.
+     processes (e.g. MPI ranks) per node. For Grid this will typically be 4 to give 1 MPI process per GPU
+   - `--cpus-per-task=8` for Grid jobs where you typically use 1 MPI process per GPU, 4 per node, this will usually be 8 (so that the 32 cores on a node are evenly divided between the 4 MPI processes)
+   - `--gres=gpu:4` the number of GPU to use per node. This will almost always be 4 to use all GPUs on a node
 
 !!! note
     For parallel jobs, Tursa operates in a *node exclusive* way. This
     means that you are assigned resources in the units of full compute nodes
-    for your jobs (*i.e.* 128 cores) and that no other user can share those
+    for your jobs (*i.e.* 32 cores and 4 GPU) and that no other user can share those
     compute nodes with you. Hence, the minimum amount of resource you can
-    request for a parallel job is 1 node (or 128 cores).
+    request for a parallel job is 1 node (or 32 cores and 4 GPU).
 
 To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option
@@ -396,63 +358,66 @@ should be repeatable. We strongly recommend its use, although see
 [the following section](scheduler.md#using-modules-in-the-batch-system-the-epcc-job-env-module)
 to enable access to the usual modules.
 
-## `srun`: Launching parallel jobs
+## `mpirun`: Launching parallel jobs
 
 If you are running parallel jobs, your job submission script should
-contain one or more `srun` commands to launch the parallel executable
-across the compute nodes. In most cases you will want to add the options
-`--distribution=block:block` and `--hint=nomultithread` to your 
-`srun` command to ensure you get the correct pinning of processes to 
-cores on a compute node.
+contain one or more `mpirun` commands to launch the parallel executable
+across the compute nodes. You will usually add the following options to
+`mpirun`:
 
-!!! warning
-    If you do not add the `--distribution=block:block` and `--hint=nomultithread`
-    options to your `srun` command the default process placement 
-    may lead to a drop in performance for your jobs on Tursa.
-
-A brief explanation of these options:
- - `--hint=nomultithread` - do not use hyperthreads/SMP
- - `--distribution=block:block` - the first `block` means use a block distribution
-   of processes across nodes (i.e. fill nodes before moving onto the next one) and
-   the second `block` means use a block distribution of processes across NUMA regions
-   within a node (i.e. fill a NUMA region before moving on to the next one).
+- `-np <number of MPI processes>`: specify the number of MPI processes
+  to launch
+- `--map-by-numa`
+- `-x $LD_LIBRARY_PATH`: ensure that the libray paths are available to MPI processes
+- `--bind-to none`
 
 ## Example job submission scripts
 
-A subset of example job submission scripts are included in full below.
+A subset of example job submission scripts for the Grid program are included in full below.
 
-### Example: job submission script for MPI parallel job
+### Example: job submission script for Grid parallel job using CUDA
 
-A simple MPI job submission script to submit a job using 4 compute nodes
-and 128 MPI ranks per node for 20 minutes would look like:
+A job submission script for a Grid job that uses 4 compute nodes, 16 MPI
+processes per node and 4 GPUs per node:
 
-    #!/bin/bash
-    
-    # Slurm job options (job-name, compute nodes, job time)
-    #SBATCH --job-name=Example_MPI_Job
-    #SBATCH --time=0:20:0
-    #SBATCH --nodes=4
-    #SBATCH --tasks-per-node=128
-    #SBATCH --cpus-per-task=1
-    
-    # Replace [budget code] below with your budget code (e.g. t01)
-    #SBATCH --account=[budget code]             
-    #SBATCH --partition=standard
-    #SBATCH --qos=standard
-    
-    # Setup the job environment (this module needs to be loaded before any other modules)
-    module load epcc-job-env
-    
-    # Set the number of threads to 1
-    #   This prevents any threaded system libraries from automatically 
-    #   using threading.
-    export OMP_NUM_THREADS=1
-    
-    # Launch the parallel job
-    #   Using 512 MPI processes and 128 MPI processes per node
-    #   srun picks up the distribution from the sbatch options
-    
-    srun --distribution=block:block --hint=nomultithread ./my_mpi_executable.x
+```
+#!/bin/bash
+
+# Slurm job options (job-name, compute nodes, job time)
+#SBATCH --job-name=Example_Grid_job
+#SBATCH --time=12:0:0
+#SBATCH --nodes=4
+#SBATCH --tasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:4
+
+# Replace [budget code] below with your budget code (e.g. t01)
+#SBATCH --account=[budget code]             
+
+# Load the correct modules
+
+ACC_THREADS=8
+
+export OMP_NUM_THREADS=8
+
+# Settings for MPI performance
+export OMPI_MCA_btl=^uct,openib
+export UCX_TLS=rc,rc_x,sm,cuda_copy,cuda_ipc,gdr_copy
+export UCX_RNDV_THRESH=16384
+export UCX_RNDV_SCHEME=put_zcopy
+export UCX_IB_GPU_DIRECT_RDMA=yes
+export UCX_MEMTYPE_CACHE=n
+
+export OMPI_MCA_io=romio321
+export OMPI_MCA_btl_openib_allow_ib=true
+export OMPI_MCA_btl_openib_device_type=infiniband
+export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
+
+options=" --grid @grid@ --mpi @mpi@ --shm 2048 --shm-hugepages --accelerator-threads ${ACC_THREADS} --comms-overlap --decomposition --log Error,Warning,Message"
+
+mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}"
+```
+
 
 This will run your executable "my\_mpi\_executable.x" in parallel on 512
 MPI processes using 4 nodes (128 cores per node, i.e. not using
