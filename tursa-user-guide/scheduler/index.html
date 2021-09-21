@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.2">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.8">
     
     
       
@@ -18,10 +18,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.92558b1b.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -465,20 +465,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#quality-of-service-qos" class="md-nav__link">
-    Quality of Service (QoS)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-mail-notifications" class="md-nav__link">
-    E-mail notifications
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -526,8 +512,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#srun-launching-parallel-jobs" class="md-nav__link">
-    srun: Launching parallel jobs
+  <a href="#mpirun-launching-parallel-jobs" class="md-nav__link">
+    mpirun: Launching parallel jobs
   </a>
   
 </li>
@@ -541,8 +527,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-job-submission-script-for-mpi-parallel-job" class="md-nav__link">
-    Example: job submission script for MPI parallel job
+  <a href="#example-job-submission-script-for-grid-parallel-job-using-cuda" class="md-nav__link">
+    Example: job submission script for Grid parallel job using CUDA
   </a>
   
 </li>
@@ -872,20 +858,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#quality-of-service-qos" class="md-nav__link">
-    Quality of Service (QoS)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-mail-notifications" class="md-nav__link">
-    E-mail notifications
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -933,8 +905,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#srun-launching-parallel-jobs" class="md-nav__link">
-    srun: Launching parallel jobs
+  <a href="#mpirun-launching-parallel-jobs" class="md-nav__link">
+    mpirun: Launching parallel jobs
   </a>
   
 </li>
@@ -948,8 +920,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-job-submission-script-for-mpi-parallel-job" class="md-nav__link">
-    Example: job submission script for MPI parallel job
+  <a href="#example-job-submission-script-for-grid-parallel-job-using-cuda" class="md-nav__link">
+    Example: job submission script for Grid parallel job using CUDA
   </a>
   
 </li>
@@ -1195,7 +1167,7 @@ submission scripts.</p>
  e123-test      userx
 </code></pre>
 <p>This shows that <code>userx</code> is a member of budgets <code>e123</code> and <code>e123-test</code>.  However, the <code>cpu=0</code> indicates that the <code>e123</code> budget is empty or disabled.   This user can submit jobs using the <code>e123-test</code> budget.</p>
-<p>To see the number of CUs remaining you must check in <a href="https://safe.epcc.ed.ac.uk">SAFE</a>.</p>
+<p>To see the number of coreh or GPUh remaining you must check in <a href="https://safe.epcc.ed.ac.uk">SAFE</a>.</p>
 <h3 id="charging">Charging</h3>
 <p>Jobs run on Tursa are charged for the time they use i.e. from the time the job begins to run until the time the job ends (not the full wall time requested).</p>
 <p>Jobs are charged for the full number of nodes which are requested, even if they are not all used.</p>
@@ -1216,20 +1188,33 @@ command line:</p>
 <p><code>sinfo</code> is used to query information about available resources and
 partitions. Without any options, <code>sinfo</code> lists the status of all
 resources and partitions, e.g.</p>
-<pre><code>sinfo
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ sinfo 
 
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST 
-standard     up 1-00:00:00    105  down* nid[001006,...,002014]
-standard     up 1-00:00:00     12  drain nid[001016,...,001969]
-standard     up 1-00:00:00      5   resv nid[001000,001002-001004,001114] 
-standard     up 1-00:00:00    683  alloc nid[001001,...,001970-001991] 
-standard     up 1-00:00:00    214   idle nid[001022-001023,...,002015-002023]
-standard     up 1-00:00:00      2   down nid[001021,001050]
-</code></pre>
-<p>Here we see the number of nodes in different states. For example, 683
-nodes are allocated (running jobs), and 214 are idle (available to run
-jobs). !!! note that long lists of node IDs have been abbreviated with
-<code>...</code>.</p>
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu          up   infinite      6   idle tu-c0r0n[66-71]
+gpu*         up   infinite      2 drain* tu-c0r0n[27,30]
+gpu*         up   infinite      1  down* tu-c0r4n33
+gpu*         up   infinite      1  drain tu-c0r3n81
+gpu*         up   infinite     58  alloc tu-c0r0n[00,03,06,09,12,15,18,21,24,33,36,39,42,45],tu-c0r1n[24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93],tu-c0r2n[24,27,30,33,60,63,66,69],tu-c0r3n[03,72,75,78,84,87,90,93],tu-c0r4n[00,03,06,12,15,24,27,30,60,63,66,69]
+gpu*         up   infinite     50   idle tu-c0r1n[00,03,06,09,12,15,18,21],tu-c0r2n[00,03,06,09,12,15,18,21,72,75,78,81,84,87,90,93],tu-c0r3n[00,06,09,12,15,18,21,24,27,30,33,60,63,66,69],tu-c0r4n[09,18,21,72,75,78,81,84,87,90,93]
+rack0        up   infinite      2 drain* tu-c0r0n[27,30]
+rack0        up   infinite     14  alloc tu-c0r0n[00,03,06,09,12,15,18,21,24,33,36,39,42,45]
+rack1        up   infinite     16  alloc tu-c0r1n[24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93]
+rack1        up   infinite      8   idle tu-c0r1n[00,03,06,09,12,15,18,21]
+rack2        up   infinite      8  alloc tu-c0r2n[24,27,30,33,60,63,66,69]
+rack2        up   infinite     16   idle tu-c0r2n[00,03,06,09,12,15,18,21,72,75,78,81,84,87,90,93]
+rack3        up   infinite      1  drain tu-c0r3n81
+rack3        up   infinite      8  alloc tu-c0r3n[03,72,75,78,84,87,90,93]
+rack3        up   infinite     15   idle tu-c0r3n[00,06,09,12,15,18,21,24,27,30,33,60,63,66,69]
+rack4        up   infinite      1  down* tu-c0r4n33
+rack4        up   infinite     12  alloc tu-c0r4n[00,03,06,12,15,24,27,30,60,63,66,69]
+rack4        up   infinite     11   idle tu-c0r4n[09,18,21,72,75,78,81,84,87,90,93]
+</code></pre></div>
+<ul>
+<li><code>alloc</code> nodes are those that are running jobs</li>
+<li><code>idle</code> nodes are empty</li>
+<li><code>drain</code>, <code>down</code>, <code>maint</code> nodes are unavailable to users</li>
+</ul>
 <h3 id="sbatch-submitting-jobs"><code>sbatch</code>: submitting jobs</h3>
 <p><code>sbatch</code> is used to submit a job script to the job submission system.
 The script will typically contain one or more <code>srun</code> commands to launch
@@ -1246,7 +1231,7 @@ all jobs known to the scheduler. For example:</p>
 <pre><code>squeue
 </code></pre>
 <p>will list all jobs on Tursa.</p>
-<p>The output of this is often overwhelmingly large. You can restrict the
+<p>The output of this is often large. You can restrict the
 output to just your jobs by adding the <code>-u $USER</code> option:</p>
 <pre><code>squeue -u $USER
 </code></pre>
@@ -1279,9 +1264,7 @@ of how many processes are actually running on the node.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You will not generally have access to the full amount of memory resource
-on the the node as some is retained for running the operating system and
-other system processes.</p>
+<p>You will not generally have access to the full amount of memory resource on the the node as some is retained for running the operating system and other system processes.</p>
 </div>
 <h3 id="partitions">Partitions</h3>
 <p>On Tursa, compute nodes are grouped into partitions. You will have to
@@ -1298,101 +1281,22 @@ on Tursa.</p>
 </thead>
 <tbody>
 <tr>
-<td>standard</td>
-<td>CPU nodes with AMD EPYC 7742 64-core processor &times; 2</td>
-<td>1024</td>
+<td>cpu</td>
+<td>CPU nodes with AMD EPYC 32-core processor &times; 2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>gpu</td>
+<td>GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4</td>
+<td>114</td>
 </tr>
 </tbody>
 </table>
-<p>Tursa Partitions</p>
 <p>You can list the active partitions by running <code>sinfo</code>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You may not have access to all the available partitions.</p>
 </div>
-<h3 id="quality-of-service-qos">Quality of Service (QoS)</h3>
-<p>On Tursa, job limits are defined by the requested Quality of Service
-(QoS), as specified by the <code>--qos</code> Slurm directive. The following table
-lists the active QoS on Tursa.</p>
-<table>
-<thead>
-<tr>
-<th>QoS</th>
-<th>Max Nodes Per Job</th>
-<th>Max Walltime</th>
-<th>Jobs Queued</th>
-<th>Jobs Running</th>
-<th>Partition(s)</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>standard</td>
-<td>256</td>
-<td>24 hrs</td>
-<td>64</td>
-<td>16</td>
-<td>standard</td>
-<td>Maximum of 256 nodes in use by any one user at any time</td>
-</tr>
-<tr>
-<td>short</td>
-<td>8</td>
-<td>20 mins</td>
-<td>16</td>
-<td>4</td>
-<td>standard</td>
-<td></td>
-</tr>
-<tr>
-<td>long</td>
-<td>64</td>
-<td>48 hrs</td>
-<td>16</td>
-<td>16</td>
-<td>standard</td>
-<td>Minimum walltime of 24 hrs</td>
-</tr>
-<tr>
-<td>largescale</td>
-<td>940</td>
-<td>3 hrs</td>
-<td>4</td>
-<td>1</td>
-<td>standard</td>
-<td>Minimum job size of 257 nodes</td>
-</tr>
-<tr>
-<td>lowpriority</td>
-<td>256</td>
-<td>3 hrs</td>
-<td>4</td>
-<td>1</td>
-<td>standard</td>
-<td>Maximum of 256 nodes in use by any one user at any time. Jobs not charged but requires at least 1 CU in budget to use.</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If you want to use the <code>short</code> QoS then you also need to add the
-<code>--reservation=shortqos</code> to your job submission command.</p>
-</div>
-<p>You can find out the QoS that you can use by running the following
-command:</p>
-<pre><code>sacctmgr show assoc user=$USER cluster=tursa-es format=cluster,account,user,qos%50
-</code></pre>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>If you have needs which do not fit within the current QoS, please
-<a href="https://www.tursa.ac.uk/support-access/servicedesk.html">contact the Service
-Desk</a> and we
-can discuss how to accommodate your requirements.</p>
-</div>
-<h3 id="e-mail-notifications">E-mail notifications</h3>
-<p>E-mail notifications from the batch system are not currently available
-on Tursa.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="slurm-error-messages">Slurm error messages</h3>
 <p>An incorrect submission will cause Slurm to return an error.
@@ -1622,8 +1526,7 @@ the top of your job submission script using lines that start with the
 directive <code>#SBATCH</code>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>Most options provided using <code>#SBATCH</code> directives can also be specified as
-command line options to <code>srun</code>.</p>
+<p>Most options provided using <code>#SBATCH</code> directives can also be specified as command line options to <code>srun</code>.</p>
 </div>
 <p>If you do not specify any options, then the default for each option will
 be applied. As a minimum, all job submissions must specify the budget
@@ -1645,29 +1548,17 @@ parallel processes and threads they require.</p>
 <ul>
 <li><code>--nodes=&lt;nodes&gt;</code> the number of nodes to use for the job.</li>
 <li><code>--tasks-per-node=&lt;processes per node&gt;</code> the number of parallel
-     processes (e.g. MPI ranks) per node.</li>
-<li><code>--cpus-per-task=1</code> if you are using parallel processes only with
-     no threading then you should set the number of CPUs (cores) per
-     parallel process to 1. <strong>!!! note:</strong> if you are using threading (e.g.
-     with OpenMP) then you will need to change this option as described
-     below.</li>
-</ul>
-<p>For parallel jobs that use threading (e.g. OpenMP), you will also need
-to change the <code>--cpus-per-task</code> option.</p>
-<ul>
-<li><code>--cpus-per-task=&lt;threads per task&gt;</code> the number of threads per
-     parallel process (e.g. number of OpenMP threads per MPI task for
-     hybrid MPI/OpenMP jobs). <strong>!!! note:</strong> you must also set the
-     <code>OMP_NUM_THREADS</code> environment variable if using OpenMP in your
-     job.</li>
+     processes (e.g. MPI ranks) per node. For Grid this will typically be 4 to give 1 MPI process per GPU</li>
+<li><code>--cpus-per-task=8</code> for Grid jobs where you typically use 1 MPI process per GPU, 4 per node, this will usually be 8 (so that the 32 cores on a node are evenly divided between the 4 MPI processes)</li>
+<li><code>--gres=gpu:4</code> the number of GPU to use per node. This will almost always be 4 to use all GPUs on a node</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
 means that you are assigned resources in the units of full compute nodes
-for your jobs (<em>i.e.</em> 128 cores) and that no other user can share those
+for your jobs (<em>i.e.</em> 32 cores and 4 GPU) and that no other user can share those
 compute nodes with you. Hence, the minimum amount of resource you can
-request for a parallel job is 1 node (or 128 cores).</p>
+request for a parallel job is 1 node (or 32 cores and 4 GPU).</p>
 </div>
 <p>To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option</p>
@@ -1679,58 +1570,59 @@ environment at the point of submission, the option</p>
 should be repeatable. We strongly recommend its use, although see
 <a href="./#using-modules-in-the-batch-system-the-epcc-job-env-module">the following section</a>
 to enable access to the usual modules.</p>
-<h2 id="srun-launching-parallel-jobs"><code>srun</code>: Launching parallel jobs</h2>
+<h2 id="mpirun-launching-parallel-jobs"><code>mpirun</code>: Launching parallel jobs</h2>
 <p>If you are running parallel jobs, your job submission script should
-contain one or more <code>srun</code> commands to launch the parallel executable
-across the compute nodes. In most cases you will want to add the options
-<code>--distribution=block:block</code> and <code>--hint=nomultithread</code> to your 
-<code>srun</code> command to ensure you get the correct pinning of processes to 
-cores on a compute node.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If you do not add the <code>--distribution=block:block</code> and <code>--hint=nomultithread</code>
-options to your <code>srun</code> command the default process placement 
-may lead to a drop in performance for your jobs on Tursa.</p>
-</div>
-<p>A brief explanation of these options:
- - <code>--hint=nomultithread</code> - do not use hyperthreads/SMP
- - <code>--distribution=block:block</code> - the first <code>block</code> means use a block distribution
-   of processes across nodes (i.e. fill nodes before moving onto the next one) and
-   the second <code>block</code> means use a block distribution of processes across NUMA regions
-   within a node (i.e. fill a NUMA region before moving on to the next one).</p>
+contain one or more <code>mpirun</code> commands to launch the parallel executable
+across the compute nodes. You will usually add the following options to
+<code>mpirun</code>:</p>
+<ul>
+<li><code>-np &lt;number of MPI processes&gt;</code>: specify the number of MPI processes
+  to launch</li>
+<li><code>--map-by-numa</code></li>
+<li><code>-x $LD_LIBRARY_PATH</code>: ensure that the libray paths are available to MPI processes</li>
+<li><code>--bind-to none</code></li>
+</ul>
 <h2 id="example-job-submission-scripts">Example job submission scripts</h2>
-<p>A subset of example job submission scripts are included in full below.</p>
-<h3 id="example-job-submission-script-for-mpi-parallel-job">Example: job submission script for MPI parallel job</h3>
-<p>A simple MPI job submission script to submit a job using 4 compute nodes
-and 128 MPI ranks per node for 20 minutes would look like:</p>
-<pre><code>#!/bin/bash
+<p>A subset of example job submission scripts for the Grid program are included in full below.</p>
+<h3 id="example-job-submission-script-for-grid-parallel-job-using-cuda">Example: job submission script for Grid parallel job using CUDA</h3>
+<p>A job submission script for a Grid job that uses 4 compute nodes, 16 MPI
+processes per node and 4 GPUs per node:</p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash
 
 # Slurm job options (job-name, compute nodes, job time)
-#SBATCH --job-name=Example_MPI_Job
-#SBATCH --time=0:20:0
+#SBATCH --job-name=Example_Grid_job
+#SBATCH --time=12:0:0
 #SBATCH --nodes=4
-#SBATCH --tasks-per-node=128
-#SBATCH --cpus-per-task=1
+#SBATCH --tasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:4
 
 # Replace [budget code] below with your budget code (e.g. t01)
 #SBATCH --account=[budget code]             
-#SBATCH --partition=standard
-#SBATCH --qos=standard
 
-# Setup the job environment (this module needs to be loaded before any other modules)
-module load epcc-job-env
+# Load the correct modules
 
-# Set the number of threads to 1
-#   This prevents any threaded system libraries from automatically 
-#   using threading.
-export OMP_NUM_THREADS=1
+ACC_THREADS=8
 
-# Launch the parallel job
-#   Using 512 MPI processes and 128 MPI processes per node
-#   srun picks up the distribution from the sbatch options
+export OMP_NUM_THREADS=8
 
-srun --distribution=block:block --hint=nomultithread ./my_mpi_executable.x
-</code></pre>
+# Settings for MPI performance
+export OMPI_MCA_btl=^uct,openib
+export UCX_TLS=rc,rc_x,sm,cuda_copy,cuda_ipc,gdr_copy
+export UCX_RNDV_THRESH=16384
+export UCX_RNDV_SCHEME=put_zcopy
+export UCX_IB_GPU_DIRECT_RDMA=yes
+export UCX_MEMTYPE_CACHE=n
+
+export OMPI_MCA_io=romio321
+export OMPI_MCA_btl_openib_allow_ib=true
+export OMPI_MCA_btl_openib_device_type=infiniband
+export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
+
+options=&quot; --grid @grid@ --mpi @mpi@ --shm 2048 --shm-hugepages --accelerator-threads ${ACC_THREADS} --comms-overlap --decomposition --log Error,Warning,Message&quot;
+
+mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}&quot;
+</code></pre></div>
 <p>This will run your executable "my_mpi_executable.x" in parallel on 512
 MPI processes using 4 nodes (128 cores per node, i.e. not using
 hyper-threading). Slurm will allocate 4 nodes to your job and srun will
@@ -2388,10 +2280,10 @@ srun /tmp/exe
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.94ec81fe.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.2b46852b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.48dfec6c.min.js"></script>
       
     
   </body>

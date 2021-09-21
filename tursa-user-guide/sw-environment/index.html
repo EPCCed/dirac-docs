@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.2">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.8">
     
     
       
@@ -18,10 +18,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.92558b1b.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -546,14 +546,23 @@ wish to perform. Common subcommands are:</p>
 <p>These are described in more detail below.</p>
 <h3 id="information-on-the-available-modules">Information on the available modules</h3>
 <p>The <code>module list</code> command will give the names of the modules and their
-versions you have presently loaded in your environment:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module list
-Currently Loaded Modulefiles:
-</code></pre></div>
+versions you have presently loaded in your environment. By default, you
+will have no modules loaded when you first log into Tursa</p>
 <p>Finding out which software modules are available on the system is
 performed using the <code>module avail</code> command. To list all software modules
 available, use:</p>
 <div class="highlight"><pre><span></span><code>auser@login01:~&gt; module avail
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
+cuda/11.0.2  openmpi/4.1.1  ucx/1.10.1  
+
+------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+cuda/11.4.1  openmpi/4.1.1-cuda11.4  ucx/1.12.0-cuda11.4  
+
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
+
+----------------------------------- /mnt/lustre/tursafs1/apps/modulefiles -----------------------------------
+cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  use.own  xpmem/2.6.5  
 </code></pre></div>
 <p>This will list all the names and versions of the modules available on
 the service. Not all of them may work in your account though due to, for
@@ -566,34 +575,61 @@ deleted.</p>
 argument to the <code>module avail</code> command. For example, to list all
 available versions of the OpenMPI library, use:</p>
 <div class="highlight"><pre><span></span><code>auser@login01:~&gt; module avail openmpi
-</code></pre></div>
-<p>If you want more info on any of the modules, you can use the <code>module
-help</code> command:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module help openmpi
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
+openmpi/4.1.1  
+
+------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+openmpi/4.1.1-cuda11.4  
+
+----------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+openmpi/4.1.1-cuda11.4.1  
 </code></pre></div>
 <p>The <code>module show</code> command reveals what operations the module actually
 performs to change your environment when it is loaded. We provide a
 brief overview of what the significance of these different settings mean
 below. For example, for the default openmpi module:</p>
 <div class="highlight"><pre><span></span><code>auser@login01:~&gt; module show openmpi
--
+-------------------------------------------------------------------
+/mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles/openmpi/4.1.1:
+
+module-whatis   Sets up OpenMPI on your environment
+setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/openmpi/4.1.1/
+prepend-path    PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/bin/
+prepend-path    LD_LIBRARY_PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/lib
+prepend-path    MANPATH /opt/mpi/openmpi/4.0.4.1/share/man
+module load     ucx/1.10.1
+setenv          OMPI_CC cc
+setenv          OMPI_CXX        g++
+setenv          OMPI_CFLAGS     -g -m64
+setenv          OMPI_CXXFLAGS   -g -m64
+-------------------------------------------------------------------
 </code></pre></div>
 <h3 id="loading-removing-and-swapping-modules">Loading, removing and swapping modules</h3>
 <p>To load a module to use the <code>module load</code> command. For example, to load
 the default version of OpenMPI into your environment, use:</p>
 <div class="highlight"><pre><span></span><code>auser@login01:~&gt; module load openmpi
+
+        UCX 1.10 loaded
+
+
+        OpenMPI 4.1.1 loaded
 </code></pre></div>
 <p>Once you have done this, your environment will be setup to use the OpenMPI library.
 The above command will load the default version of
 OpenMPI. If you need a specific version of the software, you can
 add more information:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module load cray-fftw/4.0.5
+<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module load openmpi/4.1.1-cuda11.4.1
+
+        UCX 1.12.0 compiled with cuda 11.4.1 loaded
+
+
+        OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
 </code></pre></div>
-<p>will load OpenMPI version 4.0.5 into your environment,
+<p>will load OpenMPI version 4.1.1 with CUDA 11.4.1 into your environment,
 regardless of the default.</p>
-<p>If you want to remove software from your environment, <code>module remove</code>
+<p>If you want to remove software from your environment, <code>module rm</code>
 will remove a loaded module:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module remove openmpi
+<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module rm openmpi
 </code></pre></div>
 <p>will unload what ever version of <code>openmpi</code> (even if it is not the
 default) you might have loaded.</p>
@@ -602,9 +638,9 @@ presently loaded version to a different one, such as trying the latest
 version which is not yet the default or using a legacy version to keep
 compatibility with old data. This can be achieved most easily by using
 <code>module swap oldmodule newmodule</code>.</p>
-<p>Suppose you have loaded version 4.0.4 of <code>openmpi</code>, the following
-command will change to version 4.0.5:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module swap openmpi openmpi/4.0.5
+<p>Suppose you have loaded version 4.1.1 of <code>openmpi</code>, the following
+command will change to version 4.1.1-cuda11.4.1:</p>
+<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module swap openmpi openmpi/4.1.1-cuda11.4.1
 </code></pre></div>
 <p>You did not need to specify the version of the loaded module in your
 current environment as this can be inferred as it will be the only one
@@ -628,34 +664,24 @@ Named collection list:
 <p>To list the modules in a collection, you can execute, e.g.,:</p>
 <div class="highlight"><pre><span></span><code>auser@login01:~&gt; module saveshow default
 -------------------------------------------------------------------
-/home/t01/t01/auser/.module/default:
-module use --append /opt/cray/pe/perftools/20.09.0/modulefiles
-module use --append /opt/cray/pe/craype/2.7.0/modulefiles
-module use --append /usr/local/Modules/modulefiles
-module use --append /opt/cray/pe/cpe-prgenv/7.0.0
-module use --append /opt/modulefiles
-module use --append /opt/cray/modulefiles
-module use --append /opt/cray/pe/modulefiles
-module use --append /opt/cray/pe/craype-targets/default/modulefiles
-module load cpe-gnu
-module load gcc
-module load craype
-module load craype-x86-rome
-module load --notuasked libfabric
-module load craype-network-ofi
-module load cray-dsmml
-module load perftools-base
-module load xpmem
-module load cray-mpich
-module load cray-libsci
-module load /work/y07/shared/tursa-modules/modulefiles-cse/epcc-setup-env
+/home/z01/z01/dc-turn1/.module/default:
+
+module use --append /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles
+module use --append /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles
+module use --append /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles
+module use --append /mnt/lustre/tursafs1/apps/modulefilesintel
+module use --append /mnt/lustre/tursafs1/apps/modulefiles
+module load ucx/1.12.0-cuda11.4.1
+module load openmpi/4.1.1-cuda11.4.1
+
+-------------------------------------------------------------------
 </code></pre></div>
 <p>Note again that the details of the collection have been saved to the
 home directory (the first line of output above). It is possible to save
 a module collection with a fully qualified path, e.g.,</p>
-<div class="highlight"><pre><span></span><code>auser@login1:~&gt; module save /work/t01/z01/auser/.module/myenv
+<div class="highlight"><pre><span></span><code>auser@login1:~&gt; module save /home/t01/z01/auser/my-module-collection
 </code></pre></div>
-<p>which would make it available from the batch system.</p>
+<p>if you want to save to a specific file name.</p>
 <p>To delete a module environment, you can execute:</p>
 <div class="highlight"><pre><span></span><code>auser@login01:~&gt; module saverm &lt;environment_name&gt;
 </code></pre></div>
@@ -755,10 +781,10 @@ execute:</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.94ec81fe.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.2b46852b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.48dfec6c.min.js"></script>
       
     
   </body>

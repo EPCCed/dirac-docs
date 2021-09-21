@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.2">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.8">
     
     
       
@@ -18,10 +18,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.92558b1b.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -429,8 +429,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#use-the-userlogintursaacuk-syntax-rather-than-l-user-logintursaacuk" class="md-nav__link">
-    Use the user@login.tursa.ac.uk syntax rather than -l user login.tursa.ac.uk
+  <a href="#use-the-usertursadiracedacuk-syntax-rather-than-l-user-tursadiracedacuk" class="md-nav__link">
+    Use the user@tursa.dirac.ed.ac.uk syntax rather than -l user tursa.dirac.ed.ac.uk
   </a>
   
 </li>
@@ -647,8 +647,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#use-the-userlogintursaacuk-syntax-rather-than-l-user-logintursaacuk" class="md-nav__link">
-    Use the user@login.tursa.ac.uk syntax rather than -l user login.tursa.ac.uk
+  <a href="#use-the-usertursadiracedacuk-syntax-rather-than-l-user-tursadiracedacuk" class="md-nav__link">
+    Use the user@tursa.dirac.ed.ac.uk syntax rather than -l user tursa.dirac.ed.ac.uk
   </a>
   
 </li>
@@ -819,7 +819,7 @@ and debuggers when used in conjunction with an X client.</p>
 <h3 id="logging-in">Logging in</h3>
 <p>You can use the following command from the <a href="#command-line-terminal">terminal</a> window to login into
 Tursa:</p>
-<pre><code>ssh username@login.tursa.ac.uk
+<pre><code>ssh username@tursa.dirac.ed.ac.uk
 </code></pre>
 <p>You will first be prompted for your machine account password. Once you have entered your password successfully, you will then be prompted for the passphrase associated with your SSH key pair. You need to enter both credentials correctly to be able to access Tursa.</p>
 <div class="admonition tip">
@@ -845,7 +845,7 @@ initial password. This is a three step process:</p>
 <p>Your password has now been changed</p>
 </div>
 <p>To allow remote programs, especially graphical applications to control your local display, such as being able to open up a new GUI window (such as for a debugger), use:</p>
-<pre><code>ssh -X username@login.tursa.ac.uk
+<pre><code>ssh -X username@tursa.dirac.ed.ac.uk
 </code></pre>
 <p>Some sites recommend using the <code>-Y</code> flag. While this can fix some
 compatibility issues, the <code>-X</code> flag is more secure.</p>
@@ -861,16 +861,16 @@ the SSH configuration file, usually located on your local machine at
 <p>Each remote site (or group of sites) can have an entry in this file
 which may look something like:</p>
 <pre><code>Host tursa
-  HostName login.tursa.ac.uk
+  HostName tursa.dirac.ed.ac.uk
   User username
 </code></pre>
 <p>(remember to replace <code>username</code> with your actual username!).</p>
 <p>The <code>Host tursa</code> line defines a short name for the entry. In this
-case, instead of typing <code>ssh username@login.tursa.ac.uk</code> to access the
+case, instead of typing <code>ssh username@tursa.dirac.ed.ac.uk</code> to access the
 Tursa login nodes, you could use <code>ssh tursa</code> instead. The remaining
 lines define the options for the <code>tursa</code> host.</p>
 <ul>
-<li><code>Hostname login.tursa.ac.uk</code> - defines the full address of the
+<li><code>Hostname tursa.dirac.ed.ac.uk</code> - defines the full address of the
      host</li>
 <li><code>User username</code> - defines the username to use by default for this
      host (replace <code>username</code> with your own username on the remote
@@ -901,20 +901,20 @@ above) or add the path to your SSH config file by using the
 you can try and diagnose the issue. Some of these are collected below -
 if you are having difficulties connecting we suggest trying these before
 contacting the Tursa service desk.</p>
-<h3 id="use-the-userlogintursaacuk-syntax-rather-than-l-user-logintursaacuk">Use the <code>user@login.tursa.ac.uk</code> syntax rather than <code>-l user login.tursa.ac.uk</code></h3>
+<h3 id="use-the-usertursadiracedacuk-syntax-rather-than-l-user-tursadiracedacuk">Use the <code>user@tursa.dirac.ed.ac.uk</code> syntax rather than <code>-l user tursa.dirac.ed.ac.uk</code></h3>
 <p>We have seen a number of instances where people using the syntax</p>
-<div class="highlight"><pre><span></span><code>ssh -l user login.tursa.ac.uk
+<div class="highlight"><pre><span></span><code>ssh -l user tursa.dirac.ed.ac.uk
 </code></pre></div>
 <p>have not been able to connect properly and get prompted for a password many
 times. We have found that using the alternative syntax:</p>
-<div class="highlight"><pre><span></span><code>ssh user@login.tursa.ac.uk
+<div class="highlight"><pre><span></span><code>ssh user@tursa.dirac.ed.ac.uk
 </code></pre></div>
 <p>works more reliably. If you are using the <code>-l user</code> option to connect and 
-are seeing issues, then try using <code>user@login.tursa.ac.uk</code> instead.</p>
+are seeing issues, then try using <code>user@tursa.dirac.ed.ac.uk</code> instead.</p>
 <h3 id="can-you-connect-to-the-login-node">Can you connect to the login node?</h3>
-<p>Try the command <code>ping -c 3 login.tursa.ac.uk</code>. If you successfully
+<p>Try the command <code>ping -c 3 tursa.dirac.ed.ac.uk</code>. If you successfully
 connect to the login node, the output should include:</p>
-<pre><code>--- login.tursa.ac.uk ping statistics ---
+<pre><code>--- tursa.dirac.ed.ac.uk ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 38ms
 </code></pre>
 <p>(the ping time '38ms' is not important). If not all packets are received
@@ -943,7 +943,7 @@ indicate a problem with your SSH key. Some things to check:</p>
 <p>Is ssh using the correct key? You can check which keys are being
      found and offered by ssh using <code>ssh -vvv</code>. If your private key has
      a non-default name you can use the <code>-i</code> flag to provide it to ssh,
-     i.e. <code>ssh -i path/to/key username@login.tursa.ac.uk</code>.</p>
+     i.e. <code>ssh -i path/to/key username@tursa.dirac.ed.ac.uk</code>.</p>
 </li>
 <li>
 <p>Are you entering the passphrase correctly? You will be asked for
@@ -1039,7 +1039,7 @@ the issue. In particular, it can be used to distinguish between problems
 with the SSH key and password - further details are given below. To
 enable verbose output add the <code>-vvv</code> flag to your SSH command. For
 example:</p>
-<pre><code>ssh -vvv username@login.tursa.ac.uk
+<pre><code>ssh -vvv username@tursa.dirac.ed.ac.uk
 </code></pre>
 <p>The output is lengthy, but somewhere in there you should see lines
 similar to the following:</p>
@@ -1095,8 +1095,6 @@ up to three times in total, before being disconnected with <code>Permission
 denied (publickey)</code>. If you enter your passphrase correctly, but still
 see this error message, please consider the advice under <em>SSH key</em>
 above.</p>
-<p>The equivalent information can be obtained in PuTTY by
-enabling all logging in settings.</p>
                 
               
               
@@ -1172,10 +1170,10 @@ enabling all logging in settings.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.94ec81fe.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.2b46852b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.48dfec6c.min.js"></script>
       
     
   </body>
