@@ -268,3 +268,34 @@ execute:
 ```
 unset OMP_NUM_THREADS
 ```
+
+## Compiler environment
+
+The system supports the following compilers and MPI library:
+
+- GCC 9.3.0
+- CUDA 11.4
+- OpenMPI 4.1.1
+
+To compile on the system, you would typically load the required modules:
+
+```
+auser@login01:~> module load gcc/9.3.0
+auser@login01:~> module load cuda/11.4.1 
+auser@login01:~> module load openmpi/4.1.1-cuda11.4
+auser@login01:~> module list
+Currently Loaded Modulefiles:
+ 1) gcc/9.3.0   2) cuda/11.4.1   3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4 
+```
+
+Once you have loaded the modules, the standard OpenMPI compiler wrapper
+scripts are available:
+
+- `mpicc`
+- `mpicxx`
+- `mpif90`
+
+You can find more information on these scripts in the
+[OpenMPI documentation](https://www.open-mpi.org/doc/v4.1/).
+
+

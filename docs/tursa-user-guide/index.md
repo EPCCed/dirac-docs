@@ -11,4 +11,3 @@ The Tursa User Guide contains the following sections:
   - [Data management and transfer](data.md)
   - [Software environment](sw-environment.md)
   - [Running jobs on Tursa](scheduler.md)
-  - [Application development environment](dev-environment.md)
