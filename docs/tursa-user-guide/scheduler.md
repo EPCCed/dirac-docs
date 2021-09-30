@@ -427,6 +427,35 @@ MPI process and 4 GPUs will be used per node (32 cores per
 node, 4 GPUs per node). Slurm will allocate 4 nodes to your
 job and srun will place 4 MPI processes on each node.
 
+When running on Tursa it is important that we specify how
+each of the GPU's interacts with the network interfaces to
+reach optimal network communication performance. To achieve
+this, we introduce a wrapper script (specified as `wrapper.sh`
+in the example job script above) that sets a number of
+environment parameters for each rank in a node (each GPU
+in a node) explicitly tell each rank which network interface
+it should use to communicate internode.
+
+`wrapper.sh` script example:
+
+```
+#!/bin/bash
+
+
+lrank=$OMPI_COMM_WORLD_LOCAL_RANK
+numa1=$(( 2 * $lrank))
+numa2=$(( 2 * $lrank + 1 ))
+netdev=mlx5_${lrank}:1
+
+export CUDA_VISIBLE_DEVICES=$OMPI_COMM_WORLD_LOCAL_RANK
+export UCX_NET_DEVICES=mlx5_${lrank}:1
+BINDING="--interleave=$numa1,$numa2"
+
+echo "`hostname` - $lrank device=$CUDA_VISIBLE_DEVICES binding=$BINDING"
+
+numactl ${BINDING}  $*
+```
+
 See above for a more detailed discussion of the different `sbatch`
 options
 
