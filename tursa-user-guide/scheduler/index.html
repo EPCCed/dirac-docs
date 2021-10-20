@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.0">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.8b42a75e.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -394,13 +394,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#coreh" class="md-nav__link">
-    coreh
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gpuh" class="md-nav__link">
     GPUh
   </a>
@@ -485,6 +478,13 @@
           <li class="md-nav__item">
   <a href="#partitions" class="md-nav__link">
     Partitions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-of-service-qos" class="md-nav__link">
+    Quality of Service (QoS)
   </a>
   
 </li>
@@ -611,13 +611,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#coreh" class="md-nav__link">
-    coreh
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gpuh" class="md-nav__link">
     GPUh
   </a>
@@ -702,6 +695,13 @@
           <li class="md-nav__item">
   <a href="#partitions" class="md-nav__link">
     Partitions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-of-service-qos" class="md-nav__link">
+    Quality of Service (QoS)
   </a>
   
 </li>
@@ -816,14 +816,15 @@ login nodes (to submit, check and cancel jobs), and by specifying Slurm
 directives that describe the resources required for your jobs in job
 submission scripts.</p>
 <h2 id="resources">Resources</h2>
-<h3 id="coreh">coreh</h3>
-<p>Time used on Tursa CPU nodes is measured in coreh.<br />
-1 coreh = 1 physical core for 1 hour. So a Tursa compute node with 2, 64 core CPUs would cost
-128 coreh per hour. </p>
 <h3 id="gpuh">GPUh</h3>
-<p>Time used on Tursa GPU nodes  is measured in GPUh.<br />
+<p>Time used on Tursa nodes is measured in GPUh.<br />
 1 GPUh = 1 GPU for 1 hour. So a Tursa compute node with 4 GPUs would cost
-4 GPUh per hour. </p>
+4 GPUh per hour.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The minimum resource request on Tursa is one full node which is charged 
+at a rate of 4 GPUh per hour.</p>
+</div>
 <h3 id="checking-available-budget">Checking available budget</h3>
 <p>You can check in <a href="https://safe.epcc.ed.ac.uk">SAFE</a> by selecting <code>Login accounts</code> from the menu, select the login account you want to query.</p>
 <p>Under <code>Login account details</code> you will see each of the budget codes you have access to listed e.g.
@@ -935,7 +936,9 @@ of how many processes are actually running on the node.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You will not generally have access to the full amount of memory resource on the the node as some is retained for running the operating system and other system processes.</p>
+<p>You will not generally have access to the full amount of memory resource
+on the the node as some is retained for running the operating system and
+other system processes.</p>
 </div>
 <h3 id="partitions">Partitions</h3>
 <p>On Tursa, compute nodes are grouped into partitions. You will have to
@@ -967,6 +970,60 @@ on Tursa.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You may not have access to all the available partitions.</p>
+</div>
+<h3 id="quality-of-service-qos">Quality of Service (QoS)</h3>
+<p>On Tursa, job limits are defined by the requested Quality of Service
+(QoS), as specified by the <code>--qos</code> Slurm directive. The following table
+lists the active QoS on Tursa.</p>
+<table>
+<thead>
+<tr>
+<th>QoS</th>
+<th>Max Nodes Per Job</th>
+<th>Max Walltime</th>
+<th>Jobs Queued</th>
+<th>Jobs Running</th>
+<th>Partition(s)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>standard</td>
+<td>64</td>
+<td>48 hrs</td>
+<td>16</td>
+<td>16</td>
+<td>gpu, cpu</td>
+<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes)</td>
+</tr>
+<tr>
+<td>low</td>
+<td>64</td>
+<td>24 hrs</td>
+<td>4</td>
+<td>4</td>
+<td>gpu, cpu</td>
+<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), runs in this QoS are uncharged but jobs in charged QoS have higher priority and run first.</td>
+</tr>
+</tbody>
+</table>
+<p>You can find out the QoS that you can use by running the following
+command:</p>
+<pre><code>sacctmgr show assoc user=$USER cluster=tursa format=cluster,account,user,qos%50
+</code></pre>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you have needs which do not fit within the current QoS, please
+<a href="https://www.archer2.ac.uk/support-access/servicedesk.html">contact the Service
+Desk</a> and we
+can discuss how to accommodate your requirements.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Only jobs sizes that are powers of 2 nodes
+are allowed. i.e. 1, 2, 4, 8, 16, 32, 64 nodes on the <code>gpu</code> partition and 
+1, 2, 4 nodes on the <code>cpu</code> partition.</p>
 </div>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="slurm-error-messages">Slurm error messages</h3>
@@ -1391,10 +1448,10 @@ options</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.4fc53ad4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
       
     
   </body>
