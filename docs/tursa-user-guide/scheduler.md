@@ -23,17 +23,15 @@ submission scripts.
 
 ## Resources
 
-### coreh
-
-Time used on Tursa CPU nodes is measured in coreh.  
-1 coreh = 1 physical core for 1 hour. So a Tursa compute node with 2, 64 core CPUs would cost
-128 coreh per hour. 
-
 ### GPUh
 
-Time used on Tursa GPU nodes  is measured in GPUh.  
+Time used on Tursa nodes is measured in GPUh.  
 1 GPUh = 1 GPU for 1 hour. So a Tursa compute node with 4 GPUs would cost
-4 GPUh per hour. 
+4 GPUh per hour.
+
+!!! note
+    The minimum resource request on Tursa is one full node which is charged 
+    at a rate of 4 GPUh per hour.
 
 ### Checking available budget
 
@@ -175,7 +173,9 @@ The *primary resource* you can request for your job is the compute node.
     of how many processes are actually running on the node.
 
 !!! note
-    You will not generally have access to the full amount of memory resource on the the node as some is retained for running the operating system and other system processes.
+    You will not generally have access to the full amount of memory resource
+    on the the node as some is retained for running the operating system and
+    other system processes.
 
 ### Partitions
 
@@ -193,6 +193,33 @@ You can list the active partitions by running `sinfo`.
 
 !!! tip
     You may not have access to all the available partitions.
+
+### Quality of Service (QoS)
+
+On Tursa, job limits are defined by the requested Quality of Service
+(QoS), as specified by the `--qos` Slurm directive. The following table
+lists the active QoS on Tursa.
+
+| QoS        | Max Nodes Per Job | Max Walltime | Jobs Queued | Jobs Running | Partition(s) | Notes |
+| ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
+| standard   | 64                | 48 hrs       | 16          | 16           | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes) |
+| low        | 64                | 24 hrs       | 4           | 4            | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), runs in this QoS are uncharged but jobs in charged QoS have higher priority and run first. |
+
+You can find out the QoS that you can use by running the following
+command:
+
+    sacctmgr show assoc user=$USER cluster=tursa format=cluster,account,user,qos%50
+
+!!! hint
+    If you have needs which do not fit within the current QoS, please
+    [contact the Service
+    Desk](https://www.archer2.ac.uk/support-access/servicedesk.html) and we
+    can discuss how to accommodate your requirements.
+
+!!! important
+    Only jobs sizes that are powers of 2 nodes
+    are allowed. i.e. 1, 2, 4, 8, 16, 32, 64 nodes on the `gpu` partition and 
+    1, 2, 4 nodes on the `cpu` partition.
 
 ## Troubleshooting
 
