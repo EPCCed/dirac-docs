@@ -54,24 +54,24 @@ folders that can be used for sharing data.
 
 Each project has an *inner* shared folder.
 
-    /work/[project code]/[project code]/shared
+    /home/[project code]/[project code]/shared
 
 This folder has read/write permissions for all project members. You can
 place any data you wish to share with other project members in this
 directory. For example, if your project code is x01 the inner shared
-folder would be located at `/work/x01/x01/shared`.
+folder would be located at `/home/x01/x01/shared`.
 
 ### Sharing data with all Tursa users
 
 Each project also has an *outer* shared folder.:
 
-    /work/[project code]/shared
+    /home/[project code]/shared
 
 It is writable by all project members and readable by any user on the
 system. You can place any data you wish to share with other Tursa
 users who are not members of your project in this directory. For example,
 if your project code is x01 the outer shared folder would be located
-at `/work/x01/shared`.
+at `/home/x01/shared`.
 
 ### Permissions
 
@@ -82,18 +82,18 @@ Files of the latter type are likely to be readable by you only.
 The `chmod` command below shows how to make sure that a file placed in the
 outer shared folder is also readable by all Tursa users.
 
-    chmod a+r /work/x01/shared/your-shared-file.txt
+    chmod a+r /home/x01/shared/your-shared-file.txt
 
 Similarly, for the inner shared folder, `chmod` can be called such that read
 permission is granted to all users within the x01 project.
 
-    chmod g+r /work/x01/x01/shared/your-shared-file.txt
+    chmod g+r /home/x01/x01/shared/your-shared-file.txt
 
 If you're sharing a set of files stored within a folder hierarchy the
 `chmod` is slightly more complicated.
 
-    chmod -R a+Xr /work/x01/shared/my-shared-folder
-    chmod -R g+Xr /work/x01/x01/shared/my-shared-folder
+    chmod -R a+Xr /home/x01/shared/my-shared-folder
+    chmod -R g+Xr /home/x01/x01/shared/my-shared-folder
 
 The `-R` option ensures that the read permission is enabled recursively and
 the `+X` guarantees that the user(s) you're sharing the folder with can 
