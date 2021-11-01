@@ -105,7 +105,7 @@ Data transfer speed may be limited by many different factors so the best
 data transfer mechanism to use depends on the type of data being
 transferred and where the data is going.
 
-   - **Disk speed** - The Tursa /work file system is highly parallel,
+   - **Disk speed** - The Tursa  file system is highly parallel,
      consisting of a very large number
      of high performance disk drives. This allows it to support a
      very high data bandwidth. Unless the remote system has a similar
@@ -394,7 +394,7 @@ We then initiate the data transfer from our system to Tursa, here using
 again, in the event of a loss of connection or other failure. For example, 
 using the SSH key in the file `~/.ssh/id_RSA_A2` on our local system:
 
-    rsync -Pv -e"ssh -c aes128-gcm@openssh.com -i $HOME/.ssh/id_RSA_A2" ./all_my_files.tar.gz otbz19@tursa.dirac.ed.ac.uk:/work/z19/z19/otbz19/
+    rsync -Pv -e"ssh -c aes128-gcm@openssh.com -i $HOME/.ssh/id_RSA_A2" ./all_my_files.tar.gz otbz19@tursa.dirac.ed.ac.uk:/home/z19/z19/otbz19/
 
 Note the use of the `-P` flag to allow partial transfer -- the same
 command could be used to restart the transfer after a loss of
@@ -411,6 +411,6 @@ research archive to our project work directory on Tursa.
 If we were unconcerned about being able to restart an interrupted
 transfer, we could instead use the `scp` command,
 
-    scp -c aes128-gcm@openssh.com -i ~/.ssh/id_RSA_A2 all_my_files.tar.gz otbz19@transfer.dyn.tursa.ac.uk:/work/z19/z19/otbz19/
+    scp -c aes128-gcm@openssh.com -i ~/.ssh/id_RSA_A2 all_my_files.tar.gz otbz19@transfer.dyn.tursa.ac.uk:/home/z19/z19/otbz19/
 
 but `rsync` is recommended for larger transfers.
