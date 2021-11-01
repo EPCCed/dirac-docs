@@ -60,18 +60,18 @@ performed using the `module avail` command. To list all software modules
 available, use:
 
 ```
-auser@login01:~> module avail
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
-cuda/11.0.2  openmpi/4.1.1  ucx/1.10.1  
+[dc-user1@tursa-login1 ~]$ module avail
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -------------------------------------------
+cuda/11.0.2  openmpi/4.1.1-cuda11.0.2  ucx/1.10.1-cuda11.0.2  
 
------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles --------------------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4  ucx/1.12.0-cuda11.4  
 
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -------------------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
 
------------------------------------ /mnt/lustre/tursafs1/apps/modulefiles -----------------------------------
-cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  use.own  xpmem/2.6.5  
+------------------------------------------------ /mnt/lustre/tursafs1/apps/modulefiles -------------------------------------------------
+cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  openmpi/4.1.1  ucx/1.10.1  use.own  xpmem/2.6.5   
 ```
 
 This will list all the names and versions of the modules available on
@@ -87,15 +87,17 @@ argument to the `module avail` command. For example, to list all
 available versions of the OpenMPI library, use:
 
 ```
-auser@login01:~> module avail openmpi
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
-openmpi/4.1.1  
+[dc-user1@tursa-login1 ~]$ module avail openmpi
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -------------------------------------------
+openmpi/4.1.1-cuda11.0.2  
 
------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles --------------------------------------------
 openmpi/4.1.1-cuda11.4  
 
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -------------------------------------------
 openmpi/4.1.1-cuda11.4.1  
+
+----------------
 ```
 
 The `module show` command reveals what operations the module actually
@@ -104,14 +106,14 @@ brief overview of what the significance of these different settings mean
 below. For example, for the default openmpi module:
 
 ```
-auser@login01:~> module show openmpi
+[dc-user1@tursa-login1 ~]$ module show openmpi
 -------------------------------------------------------------------
-/mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles/openmpi/4.1.1:
+/mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles/openmpi/4.1.1-cuda11.0.2:
 
 module-whatis   Sets up OpenMPI on your environment
-setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/openmpi/4.1.1/
-prepend-path    PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/bin/
-prepend-path    LD_LIBRARY_PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/lib
+setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/basestack/cuda-11.0.2/openmpi/4.1.1/
+prepend-path    PATH /mnt/lustre/tursafs1/apps/basestack/cuda-11.0.2/openmpi/4.1.1/bin/
+prepend-path    LD_LIBRARY_PATH /mnt/lustre/tursafs1/apps/basestack/cuda-11.0.2/openmpi/4.1.1/lib
 prepend-path    MANPATH /opt/mpi/openmpi/4.0.4.1/share/man
 module load     ucx/1.10.1
 setenv          OMPI_CC cc
@@ -127,12 +129,13 @@ To load a module to use the `module load` command. For example, to load
 the default version of OpenMPI into your environment, use:
 
 ```
-auser@login01:~> module load openmpi
+[dc-user1@tursa-login1 ~]$ module load openmpi
 
         UCX 1.10 loaded
 
 
         OpenMPI 4.1.1 loaded
+
 ```
 
 Once you have done this, your environment will be setup to use the OpenMPI library.
@@ -141,12 +144,13 @@ OpenMPI. If you need a specific version of the software, you can
 add more information:
 
 ```
-auser@login01:~> module load openmpi/4.1.1-cuda11.4.1
+[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4.1
 
         UCX 1.12.0 compiled with cuda 11.4.1 loaded
 
 
         OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
+
 ```
 
 will load OpenMPI version 4.1.1 with CUDA 11.4.1 into your environment,
@@ -156,7 +160,7 @@ If you want to remove software from your environment, `module rm`
 will remove a loaded module:
 
 ```
-auser@login01:~> module rm openmpi
+[dc-user1@tursa-login1 ~]$ module rm openmpi
 ```
 
 will unload what ever version of `openmpi` (even if it is not the
@@ -172,7 +176,13 @@ Suppose you have loaded version 4.1.1 of `openmpi`, the following
 command will change to version 4.1.1-cuda11.4.1:
 
 ```
-auser@login01:~> module swap openmpi openmpi/4.1.1-cuda11.4.1
+[dc-user1@tursa-login1 ~]$ module swap openmpi openmpi/4.1.1-cuda11.4.1
+
+        UCX 1.12.0 compiled with cuda 11.4.1 loaded
+
+
+        OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
+
 ```
 
 You did not need to specify the version of the loaded module in your
@@ -187,7 +197,7 @@ as a module collection. You can save a collection from your current
 environment by executing:
 
 ```
-auser@login01:~> module save [collection_name]
+[dc-user1@tursa-login1 ~]$ module save [collection_name]
 ```
 
 !!! note
@@ -196,7 +206,7 @@ auser@login01:~> module save [collection_name]
 You can find the list of saved module environments by executing:
 
 ```
-auser@login01:~> module savelist
+[dc-user1@tursa-login1 ~]$ module savelist
 Named collection list:
  1) default
 ```
@@ -204,7 +214,7 @@ Named collection list:
 To list the modules in a collection, you can execute, e.g.,:
 
 ```
-auser@login01:~> module saveshow default
+[dc-user1@tursa-login1 ~]$ module saveshow default
 -------------------------------------------------------------------
 /home/z01/z01/dc-turn1/.module/default:
 
@@ -224,7 +234,7 @@ home directory (the first line of output above). It is possible to save
 a module collection with a fully qualified path, e.g.,
 
 ```
-auser@login1:~> module save /home/t01/z01/auser/my-module-collection
+[dc-user1@tursa-login1 ~]$ module save /home/t01/z01/auser/my-module-collection
 ```
 
 if you want to save to a specific file name.
@@ -232,7 +242,7 @@ if you want to save to a specific file name.
 To delete a module environment, you can execute:
 
 ```
-auser@login01:~> module saverm <environment_name>
+[dc-user1@tursa-login1 ~]$ module saverm <environment_name>
 ```
 
 ## Shell environment overview
@@ -280,10 +290,10 @@ The system supports the following compilers and MPI library:
 To compile on the system, you would typically load the required modules:
 
 ```
-auser@login01:~> module load gcc/9.3.0
-auser@login01:~> module load cuda/11.4.1 
-auser@login01:~> module load openmpi/4.1.1-cuda11.4
-auser@login01:~> module list
+[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
+[dc-user1@tursa-login1 ~]$ module load cuda/11.4.1 
+[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
+[dc-user1@tursa-login1 ~]$ module list
 Currently Loaded Modulefiles:
  1) gcc/9.3.0   2) cuda/11.4.1   3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4 
 ```
