@@ -395,7 +395,7 @@ across the compute nodes. You will usually add the following options to
 - `-np <number of MPI processes>`: specify the number of MPI processes
   to launch
 - `--map-by-numa`
-- `-x $LD_LIBRARY_PATH`: ensure that the libray paths are available to MPI processes
+- `-x $LD_LIBRARY_PATH`: ensure that the library paths are available to MPI processes
 - `--bind-to none`
 
 ## Example job submission scripts
@@ -441,12 +441,12 @@ export OMPI_MCA_btl_openib_allow_ib=true
 export OMPI_MCA_btl_openib_device_type=infiniband
 export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
 
-application="./grid"
-options=" --grid @grid@ --mpi @mpi@ --shm 2048 --shm-hugepages --accelerator-threads ${ACC_THREADS} --comms-overlap --decomposition --log Error,Warning,Message"
+# These will need to be changed to match the actual application you are running
+application="my_mpi_openmp_app.x"
+options="arg 1 arg2"
 
 mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}"
 ```
-
 
 This will run your executable "grid" in parallel usimg 16
 MPI processes on 4 nodes, 8 OpenMP thread will be used per
