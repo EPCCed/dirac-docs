@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -372,6 +372,8 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -589,6 +591,8 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -1307,7 +1311,7 @@ across the compute nodes. You will usually add the following options to
 <li><code>-np &lt;number of MPI processes&gt;</code>: specify the number of MPI processes
   to launch</li>
 <li><code>--map-by-numa</code></li>
-<li><code>-x $LD_LIBRARY_PATH</code>: ensure that the libray paths are available to MPI processes</li>
+<li><code>-x $LD_LIBRARY_PATH</code>: ensure that the library paths are available to MPI processes</li>
 <li><code>--bind-to none</code></li>
 </ul>
 <h2 id="example-job-submission-scripts">Example job submission scripts</h2>
@@ -1349,8 +1353,9 @@ export OMPI_MCA_btl_openib_allow_ib=true
 export OMPI_MCA_btl_openib_device_type=infiniband
 export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
 
-application=&quot;./grid&quot;
-options=&quot; --grid @grid@ --mpi @mpi@ --shm 2048 --shm-hugepages --accelerator-threads ${ACC_THREADS} --comms-overlap --decomposition --log Error,Warning,Message&quot;
+# These will need to be changed to match the actual application you are running
+application=&quot;my_mpi_openmp_app.x&quot;
+options=&quot;arg 1 arg2&quot;
 
 mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}&quot;
 </code></pre></div>
@@ -1448,10 +1453,10 @@ options</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>

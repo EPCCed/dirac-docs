@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -358,6 +358,8 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -460,6 +462,8 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -590,18 +594,18 @@ will have no modules loaded when you first log into Tursa</p>
 <p>Finding out which software modules are available on the system is
 performed using the <code>module avail</code> command. To list all software modules
 available, use:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module avail
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
-cuda/11.0.2  openmpi/4.1.1  ucx/1.10.1  
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module avail
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -------------------------------------------
+cuda/11.0.2  openmpi/4.1.1-cuda11.0.2  ucx/1.10.1-cuda11.0.2  
 
------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles --------------------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4  ucx/1.12.0-cuda11.4  
 
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -------------------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
 
------------------------------------ /mnt/lustre/tursafs1/apps/modulefiles -----------------------------------
-cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  use.own  xpmem/2.6.5  
+------------------------------------------------ /mnt/lustre/tursafs1/apps/modulefiles -------------------------------------------------
+cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  openmpi/4.1.1  ucx/1.10.1  use.own  xpmem/2.6.5   
 </code></pre></div>
 <p>This will list all the names and versions of the modules available on
 the service. Not all of them may work in your account though due to, for
@@ -613,28 +617,30 @@ deleted.</p>
 <p>You can list all the modules of a particular type by providing an
 argument to the <code>module avail</code> command. For example, to list all
 available versions of the OpenMPI library, use:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module avail openmpi
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -----------------------------
-openmpi/4.1.1  
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module avail openmpi
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles -------------------------------------------
+openmpi/4.1.1-cuda11.0.2  
 
------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ------------------------------
+------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles --------------------------------------------
 openmpi/4.1.1-cuda11.4  
 
------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -----------------------------
+------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -------------------------------------------
 openmpi/4.1.1-cuda11.4.1  
+
+----------------
 </code></pre></div>
 <p>The <code>module show</code> command reveals what operations the module actually
 performs to change your environment when it is loaded. We provide a
 brief overview of what the significance of these different settings mean
 below. For example, for the default openmpi module:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module show openmpi
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module show openmpi
 -------------------------------------------------------------------
-/mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles/openmpi/4.1.1:
+/mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles/openmpi/4.1.1-cuda11.0.2:
 
 module-whatis   Sets up OpenMPI on your environment
-setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/openmpi/4.1.1/
-prepend-path    PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/bin/
-prepend-path    LD_LIBRARY_PATH /mnt/lustre/tursafs1/apps/openmpi/4.1.1/lib
+setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/basestack/cuda-11.0.2/openmpi/4.1.1/
+prepend-path    PATH /mnt/lustre/tursafs1/apps/basestack/cuda-11.0.2/openmpi/4.1.1/bin/
+prepend-path    LD_LIBRARY_PATH /mnt/lustre/tursafs1/apps/basestack/cuda-11.0.2/openmpi/4.1.1/lib
 prepend-path    MANPATH /opt/mpi/openmpi/4.0.4.1/share/man
 module load     ucx/1.10.1
 setenv          OMPI_CC cc
@@ -646,7 +652,7 @@ setenv          OMPI_CXXFLAGS   -g -m64
 <h3 id="loading-removing-and-swapping-modules">Loading, removing and swapping modules</h3>
 <p>To load a module to use the <code>module load</code> command. For example, to load
 the default version of OpenMPI into your environment, use:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module load openmpi
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module load openmpi
 
         UCX 1.10 loaded
 
@@ -657,7 +663,7 @@ the default version of OpenMPI into your environment, use:</p>
 The above command will load the default version of
 OpenMPI. If you need a specific version of the software, you can
 add more information:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module load openmpi/4.1.1-cuda11.4.1
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4.1
 
         UCX 1.12.0 compiled with cuda 11.4.1 loaded
 
@@ -668,7 +674,7 @@ add more information:</p>
 regardless of the default.</p>
 <p>If you want to remove software from your environment, <code>module rm</code>
 will remove a loaded module:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module rm openmpi
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module rm openmpi
 </code></pre></div>
 <p>will unload what ever version of <code>openmpi</code> (even if it is not the
 default) you might have loaded.</p>
@@ -679,7 +685,12 @@ compatibility with old data. This can be achieved most easily by using
 <code>module swap oldmodule newmodule</code>.</p>
 <p>Suppose you have loaded version 4.1.1 of <code>openmpi</code>, the following
 command will change to version 4.1.1-cuda11.4.1:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module swap openmpi openmpi/4.1.1-cuda11.4.1
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module swap openmpi openmpi/4.1.1-cuda11.4.1
+
+        UCX 1.12.0 compiled with cuda 11.4.1 loaded
+
+
+        OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
 </code></pre></div>
 <p>You did not need to specify the version of the loaded module in your
 current environment as this can be inferred as it will be the only one
@@ -689,19 +700,19 @@ you have loaded.</p>
 to compile a piece of code or execute a piece of software. This is saved
 as a module collection. You can save a collection from your current
 environment by executing:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module save [collection_name]
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module save [collection_name]
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you do not specify the environment name, it is called <code>default</code>.</p>
 </div>
 <p>You can find the list of saved module environments by executing:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module savelist
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module savelist
 Named collection list:
  1) default
 </code></pre></div>
 <p>To list the modules in a collection, you can execute, e.g.,:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module saveshow default
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module saveshow default
 -------------------------------------------------------------------
 /home/z01/z01/dc-turn1/.module/default:
 
@@ -718,11 +729,11 @@ module load openmpi/4.1.1-cuda11.4.1
 <p>Note again that the details of the collection have been saved to the
 home directory (the first line of output above). It is possible to save
 a module collection with a fully qualified path, e.g.,</p>
-<div class="highlight"><pre><span></span><code>auser@login1:~&gt; module save /home/t01/z01/auser/my-module-collection
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module save /home/t01/z01/auser/my-module-collection
 </code></pre></div>
 <p>if you want to save to a specific file name.</p>
 <p>To delete a module environment, you can execute:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module saverm &lt;environment_name&gt;
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module saverm &lt;environment_name&gt;
 </code></pre></div>
 <h2 id="shell-environment-overview">Shell environment overview</h2>
 <p>When you log in to Tursa, you are using the <em>bash</em> shell by default.
@@ -753,10 +764,10 @@ execute:</p>
 <li>OpenMPI 4.1.1</li>
 </ul>
 <p>To compile on the system, you would typically load the required modules:</p>
-<div class="highlight"><pre><span></span><code>auser@login01:~&gt; module load gcc/9.3.0
-auser@login01:~&gt; module load cuda/11.4.1 
-auser@login01:~&gt; module load openmpi/4.1.1-cuda11.4
-auser@login01:~&gt; module list
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
+[dc-user1@tursa-login1 ~]$ module load cuda/11.4.1 
+[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
+[dc-user1@tursa-login1 ~]$ module list
 Currently Loaded Modulefiles:
  1) gcc/9.3.0   2) cuda/11.4.1   3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4 
 </code></pre></div>
@@ -846,10 +857,10 @@ scripts are available:</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>

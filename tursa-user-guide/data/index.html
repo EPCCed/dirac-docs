@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -344,6 +344,8 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -548,6 +550,8 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -799,7 +803,7 @@ access the subdirectories below <code>my-shared-folder</code>.</p>
 data transfer mechanism to use depends on the type of data being
 transferred and where the data is going.</p>
 <ul>
-<li><strong>Disk speed</strong> - The Tursa /work file system is highly parallel,
+<li><strong>Disk speed</strong> - The Tursa  file system is highly parallel,
      consisting of a very large number
      of high performance disk drives. This allows it to support a
      very high data bandwidth. Unless the remote system has a similar
@@ -1052,7 +1056,7 @@ research data in to a single archive file using the following command:</p>
 <code>rsync</code> to allow the transfer to be recommenced without needing to start
 again, in the event of a loss of connection or other failure. For example, 
 using the SSH key in the file <code>~/.ssh/id_RSA_A2</code> on our local system:</p>
-<pre><code>rsync -Pv -e"ssh -c aes128-gcm@openssh.com -i $HOME/.ssh/id_RSA_A2" ./all_my_files.tar.gz otbz19@tursa.dirac.ed.ac.uk:/work/z19/z19/otbz19/
+<pre><code>rsync -Pv -e"ssh -c aes128-gcm@openssh.com -i $HOME/.ssh/id_RSA_A2" ./all_my_files.tar.gz otbz19@tursa.dirac.ed.ac.uk:/home/z19/z19/otbz19/
 </code></pre>
 <p>Note the use of the <code>-P</code> flag to allow partial transfer -- the same
 command could be used to restart the transfer after a loss of
@@ -1068,7 +1072,7 @@ research archive to our project work directory on Tursa.</p>
 </div>
 <p>If we were unconcerned about being able to restart an interrupted
 transfer, we could instead use the <code>scp</code> command,</p>
-<pre><code>scp -c aes128-gcm@openssh.com -i ~/.ssh/id_RSA_A2 all_my_files.tar.gz otbz19@transfer.dyn.tursa.ac.uk:/work/z19/z19/otbz19/
+<pre><code>scp -c aes128-gcm@openssh.com -i ~/.ssh/id_RSA_A2 all_my_files.tar.gz otbz19@transfer.dyn.tursa.ac.uk:/home/z19/z19/otbz19/
 </code></pre>
 <p>but <code>rsync</code> is recommended for larger transfers.</p>
                 
@@ -1148,10 +1152,10 @@ transfer, we could instead use the <code>scp</code> command,</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>
