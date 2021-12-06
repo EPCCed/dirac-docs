@@ -221,6 +221,57 @@ command:
     are allowed. i.e. 1, 2, 4, 8, 16, 32, 64 nodes on the `gpu` partition and 
     1, 2, 4 nodes on the `cpu` partition.
 
+### Priority
+
+Job priority on Tursa depends on a number of different factors:
+
+ - The QoS your job has specified
+ - The amount of time you have been queuing for
+ - Your current fairshare factor
+
+Each of these factors is normalised to a value between 0 and 1, is multiplied
+with a weight and the resulting values combined to produce a priority for the job. 
+The current job priority formula on Tursa is:
+
+```
+Priority = [10000 * P(QoS)] + [500 * P(Age)] + [300 * P(Fairshare)]
+```
+
+The priority factors are:
+
+- P(QoS) - The QoS priority normalised to a value between 0 and 1. The maximum raw
+  value is 10000 and the minimum is 0. `standard` QoS has a value of 5000 and `low`
+  QoS a value of 1.
+- P(Age) - The priority based on the job age normalised to a value between 0 and 1.
+  The maximum raw value is 14 days (where P(Age) = 1).
+- P(Fairshare) - The fairshare priority normalised to a value between 0 and 1. Your
+  fairshare priority is determined by a combination of your budget code fairshare 
+  value and your user fairshare value within that budget code. The more use that 
+  the budget code you are using has made of the system recently relative to other 
+  budget codes on the system, the lower the budget code fairshare value will be; and the more
+  use you have made of the system recently relative to other users within your
+  budget code, the lower your user fairshare value will be. The decay half life 
+  for fairshare on Tursa is set to 14 days. [More information on the Slurm fairshare
+  algorithm](https://slurm.schedmd.com/fair_tree.html).
+
+You can view the priorities for current queued jobs on the system with the `sprio`
+command:
+
+```
+[dc-user1@tursa-login1 ~]$ sprio 
+          JOBID PARTITION   PRIORITY       SITE        AGE  FAIRSHARE        QOS
+          43767 gpu              379          0        289         90          1
+          43772 gpu              377          0        287         90          1
+          43815 gpu              354          0        263         90          1
+          43963 gpu             5055          0         51          5       5000
+          43975 gpu             5061          0         41         20       5000
+          43976 gpu             5061          0         41         20       5000
+          43982 gpu             5046          0         26         20       5000
+          43986 gpu             5011          0          6          5       5000
+          43996 gpu             5020          0          0         20       5000
+          43997 gpu             5020          0          0         20       5000
+```
+
 ## Troubleshooting
 
 ### Slurm error messages
