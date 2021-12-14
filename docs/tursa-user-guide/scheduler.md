@@ -203,7 +203,6 @@ lists the active QoS on Tursa.
 | QoS        | Max Nodes Per Job | Max Walltime | Jobs Queued | Jobs Running | Partition(s) | Notes |
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
 | standard   | 64                | 48 hrs       | 16          | 16           | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes) |
-| low        | 64                | 24 hrs       | 4           | 4            | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), runs in this QoS are uncharged but jobs in charged QoS have higher priority and run first. |
 
 You can find out the QoS that you can use by running the following
 command:
@@ -260,9 +259,6 @@ command:
 ```
 [dc-user1@tursa-login1 ~]$ sprio 
           JOBID PARTITION   PRIORITY       SITE        AGE  FAIRSHARE        QOS
-          43767 gpu              379          0        289         90          1
-          43772 gpu              377          0        287         90          1
-          43815 gpu              354          0        263         90          1
           43963 gpu             5055          0         51          5       5000
           43975 gpu             5061          0         41         20       5000
           43976 gpu             5061          0         41         20       5000
