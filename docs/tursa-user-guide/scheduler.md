@@ -202,12 +202,17 @@ lists the active QoS on Tursa.
 
 | QoS        | Max Nodes Per Job | Max Walltime | Jobs Queued | Jobs Running | Partition(s) | Notes |
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
-| standard   | 64                | 48 hrs       | 16          | 16           | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes) |
+| standard   | 64                | 48 hrs       | 32          | 32           | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive. |
+| low        | 64                | 24 hrs       | 4           | 4            | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative |
 
 You can find out the QoS that you can use by running the following
 command:
 
     sacctmgr show assoc user=$USER cluster=tursa format=cluster,account,user,qos%50
+
+As long as you have a positive budget, you should use the `standard` QoS. Once you have exhausted your
+budget you can use the `low` QoS to continue to run jobs at a lower priority than jobs in the 
+`standard` QoS.
 
 !!! hint
     If you have needs which do not fit within the current QoS, please
@@ -410,16 +415,24 @@ parallel processes and threads they require.
 
    - `--nodes=<nodes>` the number of nodes to use for the job.
    - `--tasks-per-node=<processes per node>` the number of parallel
-     processes (e.g. MPI ranks) per node. For Grid this will typically be 4 to give 1 MPI process per GPU
-   - `--cpus-per-task=8` for Grid jobs where you typically use 1 MPI process per GPU, 4 per node, this will usually be 8 (so that the 32 cores on a node are evenly divided between the 4 MPI processes)
-   - `--gres=gpu:4` the number of GPU to use per node. This will almost always be 4 to use all GPUs on a node
+     processes (e.g. MPI ranks) per node. For Grid on GPU nodes this will
+     typically be 4 to give 1 MPI process per GPU. The CPU nodes have 128
+     cores per node.
+   - `--cpus-per-task=<stride between processes>` for Grid jobs on GPU nodes
+     where you typically use 1 MPI process per GPU, 4 per node, this will
+     usually be 8 (so that the 32 cores on a node are evenly divided between
+     the 4 MPI processes)
+   - `--gres=gpu:4` the number of GPU to use per node. This will almost always
+     be 4 to use all GPUs on a node. (This option should not be specified for
+     jobs on the CPU nodes.)
 
 !!! note
     For parallel jobs, Tursa operates in a *node exclusive* way. This
     means that you are assigned resources in the units of full compute nodes
-    for your jobs (*i.e.* 32 cores and 4 GPU) and that no other user can share those
-    compute nodes with you. Hence, the minimum amount of resource you can
-    request for a parallel job is 1 node (or 32 cores and 4 GPU).
+    for your jobs (*i.e.* 32 cores and 4 GPU on GPU nodes, 128 cores on CPU nodes)
+    and that no other user can share those compute nodes with you. Hence,
+    the minimum amount of resource you can request for a parallel job is 1 node
+    (or 32 cores and 4 GPU on GPU nodes, 128 cores on CPU nodes).
 
 To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option
