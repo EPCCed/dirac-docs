@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
     
     
       
@@ -17,11 +17,12 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.8c5ef100.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d29e8d0.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.9647289d.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
         
+      
       
     
     
@@ -220,7 +221,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -372,6 +373,74 @@
   <a href="#tursa-storage" class="md-nav__link">
     Tursa storage
   </a>
+  
+    <nav class="md-nav" aria-label="Tursa storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel-lustre-file-system" class="md-nav__link">
+    Parallel Lustre file system
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tape-archive" class="md-nav__link">
+    Tape archive
+  </a>
+  
+    <nav class="md-nav" aria-label="Tape archive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requesting-access-to-the-tape-archive" class="md-nav__link">
+    Requesting access to the tape archive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-locations" class="md-nav__link">
+    Data locations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-the-ssh-tunnel-for-miria" class="md-nav__link">
+    Setup the SSH tunnel for Miria
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-the-miria-interface" class="md-nav__link">
+    Access the Miria interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transfer-data-from-tursa-lustre-to-tape" class="md-nav__link">
+    Transfer data from Tursa Lustre to tape
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-data-from-tape-to-tursa-lustre" class="md-nav__link">
+    Restore data from tape to Tursa Lustre
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -578,6 +647,74 @@
     Tursa storage
   </a>
   
+    <nav class="md-nav" aria-label="Tursa storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel-lustre-file-system" class="md-nav__link">
+    Parallel Lustre file system
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tape-archive" class="md-nav__link">
+    Tape archive
+  </a>
+  
+    <nav class="md-nav" aria-label="Tape archive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requesting-access-to-the-tape-archive" class="md-nav__link">
+    Requesting access to the tape archive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-locations" class="md-nav__link">
+    Data locations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-the-ssh-tunnel-for-miria" class="md-nav__link">
+    Setup the SSH tunnel for Miria
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-the-miria-interface" class="md-nav__link">
+    Access the Miria interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transfer-data-from-tursa-lustre-to-tape" class="md-nav__link">
+    Transfer data from Tursa Lustre to tape
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-data-from-tape-to-tursa-lustre" class="md-nav__link">
+    Restore data from tape to Tursa Lustre
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -715,7 +852,7 @@
 
 <h1 id="data-management-and-transfer">Data management and transfer</h1>
 <p>This section covers best practice and tools for data management on
-Tursa.</p>
+Tursa as well as information on the storgae available on the system.</p>
 <div class="admonition information">
 <p class="admonition-title">Information</p>
 <p>If you have any questions on data management and transfer please do not
@@ -734,6 +871,12 @@ various data storage facilities that are part of the Tursa service.
 This will not only allow you to use the machine more effectively but
 also to ensure that your valuable data is protected.</p>
 <h2 id="tursa-storage">Tursa storage</h2>
+<p>Tursa has two different storage systems available:</p>
+<ul>
+<li>Parallel Lustre file system - for working, high-performance storage</li>
+<li>Tape archive - for storing large amounts of data that are not currently required for jobs on the system</li>
+</ul>
+<h3 id="parallel-lustre-file-system">Parallel Lustre file system</h3>
 <p>The Tursa storage is provided by a parallel Lustre file system that 
 provides your home directories and working storage. When you log in
 you will be placed in your home directory. </p>
@@ -752,6 +895,94 @@ the project PI will be able to sub-divide this quota among the groups
 and users within the project. As is standard practice on UNIX and Linux
 systems, the environment variable <code>$HOME</code> is automatically set to point
 to your home directory.</p>
+<h3 id="tape-archive">Tape archive</h3>
+<p>The tape archive can be made available to any Tursa user on request and 
+can be used to store data from the Lustre parallel file system.</p>
+<p>Managing and transferring data to/from the Tursa tape archive is
+done via the <em>Miria</em> web interface via an SSH tunnel to the Tursa
+login nodes.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>All data on the tape archive is shared project data rather than
+data associated with individual user accounts. Any data you move
+to the archive will be visible to all users in the same project
+as you who have access to the archive service</p>
+</div>
+<h4 id="requesting-access-to-the-tape-archive">Requesting access to the tape archive</h4>
+<p>If you want to use the Tursa tape archive, you should contact the
+<a href="mailto:dirac-support@epcc.ed.ac.uk">DiRAC Service Desk</a> with the
+username and project ID you want to use to access the archive.</p>
+<h4 id="data-locations">Data locations</h4>
+<p>In order to move data to the tape archive it must exist in a specific
+directory on the Tursa Lustre file system. You will need to move or copy
+the data to this location before it can be moved to tape and when you 
+restore data from tape it will be placed in this location.</p>
+<p>There is one directory per project on Tursa. The directory has the path:</p>
+<div class="highlight"><pre><span></span><code>/mnt/lustre/tursafs1/archive/[project code]
+</code></pre></div>
+<p>So, for example, the directory for project <code>dp001</code> would be:</p>
+<div class="highlight"><pre><span></span><code>/mnt/lustre/tursafs1/archive/dp001
+</code></pre></div>
+<h4 id="setup-the-ssh-tunnel-for-miria">Setup the SSH tunnel for Miria</h4>
+<p>Once your archive access has been setup and you have moved data to the
+archive directory, you will need to connect to the Miria web interface 
+in a web browser on your local system by setting up an SSH tunnel to the
+Tursa login nodes.</p>
+<p>You do this by logging into Tursa in the usual way (with your SSH key and password)
+and adding the <code>-L 9080:10.144.12.95:80</code> option to the <code>ssh</code> command.</p>
+<p>For example, if your username is <code>dc-user1</code>, you would setup the tunnel
+by logging into Tursa with (assuming your SSH key is in the default location):</p>
+<div class="highlight"><pre><span></span><code>ssh -L 9080:10.144.12.95:80 dc-user1@tursa.dirac.ed.ac.uk
+</code></pre></div>
+<p>Enter your SSH key passphrase and password in the usual way.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will need to setup the SSH tunnel each time you want to access the 
+Miria interface.</p>
+</div>
+<h4 id="access-the-miria-interface">Access the Miria interface</h4>
+<p>Once you have setup the SSH tunnel, you should be able to access the Miria
+interface in a web browser on your local system. Open a new tab and enter the
+URL:</p>
+<ul>
+<li>https://localhost:9080/webapp-en/login</li>
+</ul>
+<p>You should see an interface asking you for a username and password. Use the 
+username and password that you use to log into Tursa to log into the tape 
+archive interface.</p>
+<h4 id="transfer-data-from-tursa-lustre-to-tape">Transfer data from Tursa Lustre to tape</h4>
+<p>You use the "Easy Move" option from the left-hand menu to transfer data.</p>
+<ol>
+<li>Click on "Easy Move"</li>
+<li>Click on the "Find a source" menu and select the disk with your project ID (e.g. "dp001")</li>
+<li>Click on the "Find a target" menu and select the archive with your project ID (e.g. "dp001")</li>
+<li>Use the file explorer to select the files/directories you wish to move to tape</li>
+<li>Click the "Add" button</li>
+<li>Scroll to the bottom of the page and select "Validate basket" and confirm you wish to proceed</li>
+</ol>
+<p>Your transfer request will be added to the queue. You can check on progress by selecting the
+"Activity" option in the left hand menu.</p>
+<h4 id="restore-data-from-tape-to-tursa-lustre">Restore data from tape to Tursa Lustre</h4>
+<p>You use the "Easy Move" option from the left-hand menu to transfer data.</p>
+<ol>
+<li>Click on "Easy Move"</li>
+<li>Select the "Repository" icon next to the "Find a source" menu</li>
+<li>Click on the "Find a source" menu and select the archive with your project ID (e.g. "dp001")</li>
+<li>Select the "Platform" icon next to the "Find a source" menu</li>
+<li>Click on the "Find a target" menu and select the disk with your project ID (e.g. "dp001")</li>
+<li>Use the source file explorer to select the files/directories you wish to restore </li>
+<li>Use the target file explorer to select the location oon disk to restore the data</li>
+<li>Click the "Add" button</li>
+<li>Scroll to the bottom of the page and select "Validate basket" and confirm you wish to proceed</li>
+</ol>
+<p>Your transfer request will be added to the queue. You can check on progress by selecting the
+"Activity" option in the left hand menu.</p>
+<div class="admonition bug">
+<p class="admonition-title">Bug</p>
+<p>If you restore a file rather than a directory, the Miria tool will give the file the name
+<code>NULL</code> once it is restored, you should use the <code>mv</code> command to rename the file to the correct
+name once it has been restored.</p>
+</div>
 <h2 id="sharing-data-with-other-tursa-users">Sharing data with other Tursa users</h2>
 <p>How you share data with other Tursa users depends on whether or not
 they belong to the same project as you. Each project has two shared
@@ -1073,10 +1304,11 @@ transfer, we could instead use the <code>scp</code> command,</p>
 
               
             </article>
+            
           </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
@@ -1085,7 +1317,8 @@ transfer, we could instead use the <code>scp</code> command,</p>
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
         <a href="../connecting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Connecting to Tursa" rel="prev">
@@ -1140,10 +1373,10 @@ transfer, we could instead use the <code>scp</code> command,</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.748e2769.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c7ad80a.min.js"></script>
       
     
   </body>
