@@ -1,7 +1,7 @@
 # Data management and transfer
 
 This section covers best practice and tools for data management on
-Tursa.
+Tursa as well as information on the storgae available on the system.
 
 !!! information
     If you have any questions on data management and transfer please do not
@@ -23,6 +23,13 @@ also to ensure that your valuable data is protected.
 
 ## Tursa storage
 
+Tursa has two different storage systems available:
+
+* Parallel Lustre file system - for working, high-performance storage
+* Tape archive - for storing large amounts of data that are not currently required for jobs on the system
+
+### Parallel Lustre file system
+
 The Tursa storage is provided by a parallel Lustre file system that 
 provides your home directories and working storage. When you log in
 you will be placed in your home directory. 
@@ -43,6 +50,117 @@ the project PI will be able to sub-divide this quota among the groups
 and users within the project. As is standard practice on UNIX and Linux
 systems, the environment variable `$HOME` is automatically set to point
 to your home directory.
+
+### Tape archive
+
+The tape archive can be made available to any Tursa user on request and 
+can be used to store data from the Lustre parallel file system.
+
+Managing and transferring data to/from the Tursa tape archive is
+done via the *Miria* web interface via an SSH tunnel to the Tursa
+login nodes.
+
+!!! important
+    All data on the tape archive is shared project data rather than
+    data associated with individual user accounts. Any data you move
+    to the archive will be visible to all users in the same project
+    as you who have access to the archive service
+
+#### Requesting access to the tape archive
+
+If you want to use the Tursa tape archive, you should contact the
+[DiRAC Service Desk](mailto:dirac-support@epcc.ed.ac.uk) with the
+username and project ID you want to use to access the archive.
+
+#### Data locations
+
+In order to move data to the tape archive it must exist in a specific
+directory on the Tursa Lustre file system. You will need to move or copy
+the data to this location before it can be moved to tape and when you 
+restore data from tape it will be placed in this location.
+
+There is one directory per project on Tursa. The directory has the path:
+
+```
+/mnt/lustre/tursafs1/archive/[project code]
+```
+
+So, for example, the directory for project `dp001` would be:
+
+```
+/mnt/lustre/tursafs1/archive/dp001
+```
+
+#### Setup the SSH tunnel for Miria
+
+Once your archive access has been setup and you have moved data to the
+archive directory, you will need to connect to the Miria web interface 
+in a web browser on your local system by setting up an SSH tunnel to the
+Tursa login nodes.
+
+You do this by logging into Tursa in the usual way (with your SSH key and password)
+and adding the `-L 9080:10.144.12.95:80` option to the `ssh` command.
+
+For example, if your username is `dc-user1`, you would setup the tunnel
+by logging into Tursa with (assuming your SSH key is in the default location):
+
+```
+ssh -L 9080:10.144.12.95:80 dc-user1@tursa.dirac.ed.ac.uk
+```
+
+Enter your SSH key passphrase and password in the usual way.
+
+!!! note
+    You will need to setup the SSH tunnel each time you want to access the 
+    Miria interface.
+
+#### Access the Miria interface 
+
+Once you have setup the SSH tunnel, you should be able to access the Miria
+interface in a web browser on your local system. Open a new tab and enter the
+URL:
+
+ - https://localhost:9080/webapp-en/login
+
+You should see an interface asking you for a username and password. Use the 
+username and password that you use to log into Tursa to log into the tape 
+archive interface.
+
+#### Transfer data from Tursa Lustre to tape
+
+You use the "Easy Move" option from the left-hand menu to transfer data.
+
+1. Click on "Easy Move"
+2. Click on the "Find a source" menu and select the disk with your project ID (e.g. "dp001")
+3. Click on the "Find a target" menu and select the archive with your project ID (e.g. "dp001")
+4. Use the file explorer to select the files/directories you wish to move to tape
+5. Click the "Add" button
+6. Scroll to the bottom of the page and select "Validate basket" and confirm you wish to proceed
+
+Your transfer request will be added to the queue. You can check on progress by selecting the
+"Activity" option in the left hand menu.
+
+#### Restore data from tape to Tursa Lustre
+
+You use the "Easy Move" option from the left-hand menu to transfer data.
+
+1. Click on "Easy Move"
+2. Select the "Repository" icon next to the "Find a source" menu
+3. Click on the "Find a source" menu and select the archive with your project ID (e.g. "dp001")
+4. Select the "Platform" icon next to the "Find a source" menu
+5. Click on the "Find a target" menu and select the disk with your project ID (e.g. "dp001")
+6. Use the source file explorer to select the files/directories you wish to restore 
+7. Use the target file explorer to select the location oon disk to restore the data
+8. Click the "Add" button
+9. Scroll to the bottom of the page and select "Validate basket" and confirm you wish to proceed
+
+Your transfer request will be added to the queue. You can check on progress by selecting the
+"Activity" option in the left hand menu.
+
+!!! bug
+    If you restore a file rather than a directory, the Miria tool will give the file the name
+    `NULL` once it is restored, you should use the `mv` command to rename the file to the correct
+    name once it has been restored.
 
 ## Sharing data with other Tursa users
 
