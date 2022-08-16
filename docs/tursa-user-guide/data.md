@@ -26,7 +26,7 @@ also to ensure that your valuable data is protected.
 Tursa has two different storage systems available:
 
 * Parallel Lustre file system - for working, high-performance storage
-* Tape archive - for storing large amounts of data that are not currently required for jobs on the system
+* Tape storage - for storing large amounts of data that are not currently required for jobs on the system
 
 ### Parallel Lustre file system
 
@@ -51,30 +51,30 @@ and users within the project. As is standard practice on UNIX and Linux
 systems, the environment variable `$HOME` is automatically set to point
 to your home directory.
 
-### Tape archive
+### Tape storage
 
-The tape archive can be made available to any Tursa user on request and 
+The tape storage can be made available to any Tursa user on request and 
 can be used to store data from the Lustre parallel file system.
 
-Managing and transferring data to/from the Tursa tape archive is
+Managing and transferring data to/from the Tursa tape storage is
 done via the *Miria* web interface via an SSH tunnel to the Tursa
 login nodes.
 
 !!! important
-    All data on the tape archive is shared project data rather than
+    All data on the tape storage is shared project data rather than
     data associated with individual user accounts. Any data you move
-    to the archive will be visible to all users in the same project
-    as you who have access to the archive service
+    to tape will be visible to all users in the same project
+    as you who have access to the tape storage.
 
-#### Requesting access to the tape archive
+#### Requesting access to the tape storage
 
-If you want to use the Tursa tape archive, you should contact the
+If you want to use the Tursa tape storage, you should contact the
 [DiRAC Service Desk](mailto:dirac-support@epcc.ed.ac.uk) with the
-username and project ID you want to use to access the archive.
+username and project ID you want to use to access the storage.
 
 #### Data locations
 
-In order to move data to the tape archive it must exist in a specific
+In order to move data to the tape storage it must exist in a specific
 directory on the Tursa Lustre file system. You will need to move or copy
 the data to this location before it can be moved to tape and when you 
 restore data from tape it will be placed in this location.
@@ -93,7 +93,7 @@ So, for example, the directory for project `dp001` would be:
 
 #### Setup the SSH tunnel for Miria
 
-Once your archive access has been setup and you have moved data to the
+Once your tape storage access has been setup and you have moved data to the
 archive directory, you will need to connect to the Miria web interface 
 in a web browser on your local system by setting up an SSH tunnel to the
 Tursa login nodes.
@@ -124,7 +124,7 @@ URL:
 
 You should see an interface asking you for a username and password. Use the 
 username and password that you use to log into Tursa to log into the tape 
-archive interface.
+storage interface.
 
 #### Transfer data from Tursa Lustre to tape
 
