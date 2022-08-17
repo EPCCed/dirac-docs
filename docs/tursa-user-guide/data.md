@@ -120,7 +120,7 @@ Once you have setup the SSH tunnel, you should be able to access the Miria
 interface in a web browser on your local system. Open a new tab and enter the
 URL:
 
- - https://localhost:9080/webapp-en/login
+ - http://localhost:9080/webapp-en/login
 
 You should see an interface asking you for a username and password. Use the 
 username and password that you use to log into Tursa to log into the tape 
