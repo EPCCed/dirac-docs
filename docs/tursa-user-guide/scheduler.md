@@ -426,6 +426,12 @@ parallel processes and threads they require.
      be 4 to use all GPUs on a node. (This option should not be specified for
      jobs on the CPU nodes.)
 
+If you wish to use the A100-80 GPU nodes which have higher memory, you add the
+following option:
+
+   - `--constraint=highgpu` request the job is placed on nodes with high-memory
+   (80 GB) GPUs - there are only 3 high memory GPU nodes on the system. 
+
 !!! note
     For parallel jobs, Tursa operates in a *node exclusive* way. This
     means that you are assigned resources in the units of full compute nodes
