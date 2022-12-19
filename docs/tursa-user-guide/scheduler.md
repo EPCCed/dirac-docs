@@ -451,6 +451,24 @@ should be repeatable. We strongly recommend its use, although see
 [the following section](scheduler.md#using-modules-in-the-batch-system-the-epcc-job-env-module)
 to enable access to the usual modules.
 
+### GPU frequency
+
+!!! important
+    The default GPU frequency on Tursa compute nodes was changed from 1410 MHz
+    to 1040 MHz on Thursday 15 Dec 2022 to improve the energy efficiency of the
+    service.
+
+Users can control the GPU frequency in their job submission scripts:
+
+   - `--gpu-freq=<desired GPU freq in MHz>` allows users to set the GPU frequency 
+     on a per job basis. The frequency can be set in the range 210 - 1410 MHz in steps
+     of 15 MHz.
+
+!!! bug
+    When setting the GPU frequency you will see an error in the output from the job 
+    that says `control disabled`. This is an incorrect message due to an issue with 
+    how Slurm sets the GPU frequency and can be safely ignored.
+
 ## `mpirun`: Launching parallel jobs
 
 If you are running parallel jobs, your job submission script should
