@@ -22,8 +22,6 @@ markdown_extensions:
 
 nav:
   - "Documentation overview": index.md
-  - "Tesseract User Guide":
-    - "Overview": tesseract-user-guide/index.md
   - "Tursa User Guide":
     - "Overview": tursa-user-guide/index.md
     - "Connecting to Tursa": tursa-user-guide/connecting.md
