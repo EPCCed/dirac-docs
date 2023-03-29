@@ -8,29 +8,17 @@ The DiRAC Extreme Scaling service is an HPC resource for UK
 researchers. DiRAC Extreme Scaling is provided by [UKRI](https://www.ukri.org/),
 [EPCC](https://www.epcc.ed.ac.uk/) and the [University of
 Edinburgh](https://www.ed.ac.uk/). The hardware is provided
-by [HPE](https://www.hpe.com) and [ATOS](https://www.atos.net).
-
-DiRAC Extreme Scaling currently provides two HPC resources:
-
-* Tesseract: a CPU-based system provided by HPE.
-* Tursa: a GPU-based system provided by ATOS.
+by [ATOS](https://www.atos.net).
 
 ## What the documentation covers
 
-This is the documentation for the ARCHER2 service and includes:
-
-  - [Tesseract User Guide](https://tesseract-dirac.readthedocs.io/en/latest/)
-    Covers all aspects of use of the Tesseract resource.
-    This includes fundamentals (required by all users to use the system
-    effectively), best practice for getting the most out of Tursa, and
-    other advanced technical topics.
+The documentation currently includes:
 
   - [Tursa User Guide](tursa-user-guide/index.md)
     Covers all aspects of use of the Tursa resource.
     This includes fundamentals (required by all users to use the system
     effectively), best practice for getting the most out of Tursa, and
     other advanced technical topics.
-
 
 ## Contributing to the documentation
 
