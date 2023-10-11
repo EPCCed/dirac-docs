@@ -38,23 +38,24 @@ Time used on Tursa nodes is measured in GPUh.
 You can check in [SAFE](https://safe.epcc.ed.ac.uk) by selecting `Login accounts` from the menu, select the login account you want to query.
 
 Under `Login account details` you will see each of the budget codes you have access to listed e.g.
-`e123 resources` and then under Resource Pool to the right of this, a note of the remaining budgets. 
+`dp123 resources` and then under Resource Pool to the right of this, a note of the remaining budgets. 
 
 When logged in to the machine you can also use the command 
 
-    sacctmgr show assoc where user=$LOGNAME format=account,user,maxtresmins
+    sacctmgr show assoc where user=$LOGNAME format=account,user,maxtresmins%75
 
 This will list all the budget codes that you have access to e.g.
 
+```
+Account       User                                                                 MaxTRESMins 
+---------- ---------- --------------------------------------------------------------------------- 
+       t01   dc-user1                           gres/cpu-low=0,gres/cpu-standard=0,gres/gpu-low=0 
+       z01   dc-user1   
+```
 
-       Account       User   MaxTRESMins
-    ---------- ---------- -------------
-          e123      userx         cpu=0
-     e123-test      userx
+This shows that `dc-user1` is a member of budgets `t01` and `z01`.  However, the `gres/cpu-low=0,gres/cpu-standard=0,gres/gpu-low=0` indicates that the `t01` budget can only run GPU jobs in standard (charged) partitions (all other options are disabled, indicated by `=0` for CPU standard, CPU low and GPU low).  This user can also submit jobs to any partition using the `z01` budget.
 
-This shows that `userx` is a member of budgets `e123` and `e123-test`.  However, the `cpu=0` indicates that the `e123` budget is empty or disabled.   This user can submit jobs using the `e123-test` budget.
-
-To see the number of coreh or GPUh remaining you must check in [SAFE](https://safe.epcc.ed.ac.uk).
+To see the number of coreh or GPUh remaining you must check in [SAFE](https://safe.epcc.ed.ac.uk/dirac).
 
 ### Charging
 
@@ -89,34 +90,24 @@ resources and partitions, e.g.
 [dc-user1@tursa-login1 ~]$ sinfo 
     
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-cpu          up   infinite      6   idle tu-c0r0n[66-71]
-gpu*         up   infinite      2 drain* tu-c0r0n[27,30]
-gpu*         up   infinite      1  down* tu-c0r4n33
-gpu*         up   infinite      1  drain tu-c0r3n81
-gpu*         up   infinite     58  alloc tu-c0r0n[00,03,06,09,12,15,18,21,24,33,36,39,42,45],tu-c0r1n[24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93],tu-c0r2n[24,27,30,33,60,63,66,69],tu-c0r3n[03,72,75,78,84,87,90,93],tu-c0r4n[00,03,06,12,15,24,27,30,60,63,66,69]
-gpu*         up   infinite     50   idle tu-c0r1n[00,03,06,09,12,15,18,21],tu-c0r2n[00,03,06,09,12,15,18,21,72,75,78,81,84,87,90,93],tu-c0r3n[00,06,09,12,15,18,21,24,27,30,33,60,63,66,69],tu-c0r4n[09,18,21,72,75,78,81,84,87,90,93]
-rack0        up   infinite      2 drain* tu-c0r0n[27,30]
-rack0        up   infinite     14  alloc tu-c0r0n[00,03,06,09,12,15,18,21,24,33,36,39,42,45]
-rack1        up   infinite     16  alloc tu-c0r1n[24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93]
-rack1        up   infinite      8   idle tu-c0r1n[00,03,06,09,12,15,18,21]
-rack2        up   infinite      8  alloc tu-c0r2n[24,27,30,33,60,63,66,69]
-rack2        up   infinite     16   idle tu-c0r2n[00,03,06,09,12,15,18,21,72,75,78,81,84,87,90,93]
-rack3        up   infinite      1  drain tu-c0r3n81
-rack3        up   infinite      8  alloc tu-c0r3n[03,72,75,78,84,87,90,93]
-rack3        up   infinite     15   idle tu-c0r3n[00,06,09,12,15,18,21,24,27,30,33,60,63,66,69]
-rack4        up   infinite      1  down* tu-c0r4n33
-rack4        up   infinite     12  alloc tu-c0r4n[00,03,06,12,15,24,27,30,60,63,66,69]
-rack4        up   infinite     11   idle tu-c0r4n[09,18,21,72,75,78,81,84,87,90,93]
+cpu          up 2-00:00:00      4  alloc tu-c0r0n[66-69]
+cpu          up 2-00:00:00      2   idle tu-c0r0n[70-71]
+gpu          up 2-00:00:00      1   plnd tu-c0r2n93
+gpu          up 2-00:00:00     11  drain tu-c0r0n75,tu-c0r5n[48,51,54,57],tu-c0r6n[48,51,54,57],tu-c0r7n[00,48]
+gpu          up 2-00:00:00    112    mix tu-c0r0n[00,03,06,09,12,15,18,21,24,27,30,33,36,39,42,45,72,87,90],tu-c0r1n[00,03,06,09,12,15,18,21,24,27,30,33,60,63,66,69,72,75,78,81,84,87,90,93],tu-c0r2n[00,03,06,09,12,15,18,21,24,27,30,33,60,63,66,69,72,75,78,81,84,87,90],tu-c0r3n[00,03,06,09,12,15,18,21,24,27,30,33,60,63,66,69,72,75,78,81,84,90,93],tu-c0r4n[00,03,06,09,12,15,18,21,24,27,30,33,60,63,66,69,72,75,81,84,87,90,93]
+gpu          up 2-00:00:00     56   resv tu-c0r0n93,tu-c0r4n78,tu-c0r5n[00,03,06,09,12,15,18,21,24,27,30,33,36,39,42,45],tu-c0r6n[00,03,06,09,12,15,18,21,24,27,30,33,36,39,42,45,60,63,66,69],tu-c0r7n[03,06,09,12,15,18,21,24,27,30,33,36,39,42,45,51,54,57]
+gpu          up 2-00:00:00      1   idle tu-c0r3n87
 ```
 
 * `alloc` nodes are those that are running jobs
 * `idle` nodes are empty
 * `drain`, `down`, `maint` nodes are unavailable to users
+* `plnd` nodes are reserved for future jobs
 
 ### `sbatch`: submitting jobs
 
 `sbatch` is used to submit a job script to the job submission system.
-The script will typically contain one or more `srun` commands to launch
+The script will typically contain one or more `mpirun` commands to launch
 parallel tasks.
 
 When you submit the job, the scheduler provides the job ID, which is
@@ -136,9 +127,9 @@ all jobs known to the scheduler. For example:
 will list all jobs on Tursa.
 
 The output of this is often large. You can restrict the
-output to just your jobs by adding the `-u $USER` option:
+output to just your jobs by adding the `--me` option:
 
-    squeue -u $USER
+    squeue --me
 
 ### `scancel`: deleting jobs
 
@@ -187,7 +178,9 @@ on Tursa.
 | Partition | Description                                                 | Max nodes available |
 | --------- | ----------------------------------------------------------- | ------------------- |
 | cpu  | CPU nodes with AMD EPYC 32-core processor &times; 2    | 6               |
-| gpu  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4  | 114                |
+| gpu  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 178                |
+| gpu-a100-40  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100-40 GPU &times; 4  | 114                |
+| gpu-a100-80  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100-80 GPU &times; 4  | 64                |
 
 You can list the active partitions by running `sinfo`.
 
@@ -426,19 +419,24 @@ parallel processes and threads they require.
      be 4 to use all GPUs on a node. (This option should not be specified for
      jobs on the CPU nodes.)
 
+If you are happy to have any GPU type for your job (A100-40 or A100-80) then you
+select the `gpu` partition:
+
+   - `--partition=gpu`
+
 If you wish to use just the A100-80 GPU nodes which have higher memory, you add the
 following option:
 
-   - `--constraint=a100-80` request the job is placed on nodes with high-memory
-   (80 GB) GPUs - there are only 3 high memory GPU nodes on the system. 
+   - `--partition=gpu-a100-80` request the job is placed on nodes with high-memory
+   (80 GB) GPUs - there are 64 high memory GPU nodes on the system. 
 
 To just use the A100-40 GPU nodes:
 
-   - `--constraint=a100-40` request the job is placed on nodes with standard memory
+   - `--partition=gpu-a100-40` request the job is placed on nodes with standard memory
    (40 GB) GPUs.
 
-If you do not set a constraint, the scheduler may use any available node types for 
-the job.
+If you do not specfy a partition, the scheduler may use any available node types for 
+the job (equivalent of `--partition=gpu`).
 
 !!! note
     For parallel jobs, Tursa operates in a *node exclusive* way. This
@@ -495,7 +493,8 @@ across the compute nodes. You will usually add the following options to
 ### Example: job submission script for Grid parallel job using CUDA
 
 A job submission script for a Grid job that uses 4 compute nodes, 16 MPI
-processes per node and 4 GPUs per node:
+processes per node and 4 GPUs per node. It does not restrict what type of
+GPU the job can run on so both A100-40 and A100-80 can be used:
 
 ```
 #!/bin/bash
@@ -528,6 +527,7 @@ export UCX_RNDV_SCHEME=put_zcopy
 export UCX_IB_GPU_DIRECT_RDMA=yes
 export UCX_MEMTYPE_CACHE=n
 
+# Settings for MPI-IO
 export OMPI_MCA_io=romio321
 export OMPI_MCA_btl_openib_allow_ib=true
 export OMPI_MCA_btl_openib_device_type=infiniband
@@ -575,6 +575,7 @@ echo "`hostname` - $lrank device=$CUDA_VISIBLE_DEVICES binding=$BINDING"
 numactl ${BINDING}  $*
 ```
 
-See above for a more detailed discussion of the different `sbatch`
+See above for a more detailed discussion of the different `sbatch` options.
+
 options
 
