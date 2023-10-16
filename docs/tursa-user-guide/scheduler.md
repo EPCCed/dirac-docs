@@ -178,9 +178,9 @@ on Tursa.
 | Partition | Description                                                 | Max nodes available |
 | --------- | ----------------------------------------------------------- | ------------------- |
 | cpu  | CPU nodes with AMD EPYC 32-core processor &times; 2    | 6               |
-| gpu  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 178                |
-| gpu-a100-40  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100-40 GPU &times; 4  | 114                |
-| gpu-a100-80  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100-80 GPU &times; 4  | 64                |
+| gpu  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 181                |
+| gpu-a100-40  | GPU nodes with 2 AMD EPYC 16-core processors and NVIDIA A100-40 GPU &times; 4  | 114                |
+| gpu-a100-80  | GPU nodes with 2 AMD EPYC 24-core processor (3 nodes have 2 AMD EPYC 16-core processors) and NVIDIA A100-80 GPU &times; 4  | 67                |
 
 You can list the active partitions by running `sinfo`.
 
@@ -197,6 +197,7 @@ lists the active QoS on Tursa.
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
 | standard   | 64                | 48 hrs       | 32          | 16           | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive. |
 | low        | 64                | 24 hrs       | 4           | 4            | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative |
+| dev        | 2                | 4 hrs       | 2           | 1            | gpu, cpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is zero or negative. The dev QoS must be used with a GPU partition. |
 
 You can find out the QoS that you can use by running the following
 command:
