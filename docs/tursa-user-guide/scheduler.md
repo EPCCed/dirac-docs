@@ -219,7 +219,7 @@ budget you can use the `low` QoS to continue to run jobs at a lower priority tha
     are allowed. i.e. 1, 2, 4, 8, 16, 32, 64 nodes on the `gpu` partition and 
     1, 2, 4 nodes on the `cpu` partition.
 
-### Priority
+### Priority
 
 Job priority on Tursa depends on a number of different factors:
 
