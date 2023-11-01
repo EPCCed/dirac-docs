@@ -195,9 +195,9 @@ lists the active QoS on Tursa.
 
 | QoS        | Max Nodes Per Job | Max Walltime | Jobs Queued | Jobs Running | Partition(s) | Notes |
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
-| standard   | 64                | 48 hrs       | 32          | 16           | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive. |
-| low        | 64                | 24 hrs       | 4           | 4            | gpu, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative |
-| dev        | 2                | 4 hrs       | 2           | 1            | gpu, cpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with a GPU partition. |
+| standard   | 64                | 48 hrs       | 32          | 16           | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive. |
+| low        | 64                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative |
+| dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with the `gpu` partition. Only includes A100-40 GPU.  |
 
 You can find out the QoS that you can use by running the following
 command:
