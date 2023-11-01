@@ -1054,7 +1054,7 @@ lists the active QoS on Tursa.</p>
 <td>48 hrs</td>
 <td>32</td>
 <td>16</td>
-<td>gpu, cpu</td>
+<td>gpu, gpu-a100-40, gpu-a100-80, cpu</td>
 <td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive.</td>
 </tr>
 <tr>
@@ -1063,7 +1063,7 @@ lists the active QoS on Tursa.</p>
 <td>24 hrs</td>
 <td>4</td>
 <td>4</td>
-<td>gpu, cpu</td>
+<td>gpu, gpu-a100-40, gpu-a100-40, cpu</td>
 <td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative</td>
 </tr>
 <tr>
@@ -1072,8 +1072,8 @@ lists the active QoS on Tursa.</p>
 <td>4 hrs</td>
 <td>2</td>
 <td>1</td>
-<td>gpu, cpu</td>
-<td>For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with a GPU partition.</td>
+<td>gpu</td>
+<td>For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with the <code>gpu</code> partition. Only includes A100-40 GPU.</td>
 </tr>
 </tbody>
 </table>
