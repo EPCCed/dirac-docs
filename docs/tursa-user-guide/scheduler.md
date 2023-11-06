@@ -197,7 +197,7 @@ lists the active QoS on Tursa.
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
 | standard   | 64                | 48 hrs       | 32          | 16           | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive. |
 | low        | 64                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative |
-| dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with the `gpu` partition. Only includes A100-40 GPU.  |
+| dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with the `gpu-a100-40` (1-node maximum) or `gpu-a100-80` (2-node maximum) partitions.  |
 
 You can find out the QoS that you can use by running the following
 command:
@@ -497,7 +497,7 @@ A job submission script for a Grid job that uses 4 compute nodes, 16 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
 GPU the job can run on so both A100-40 and A100-80 can be used:
 
-```
+```slurm
 #!/bin/bash
 
 # Slurm job options (job-name, compute nodes, job time)
@@ -507,6 +507,8 @@ GPU the job can run on so both A100-40 and A100-80 can be used:
 #SBATCH --tasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:4
+#SBATCH --partition=gpu
+#SBATCH --qos=gpu
 
 # Replace [budget code] below with your budget code (e.g. t01)
 #SBATCH --account=[budget code]             
@@ -538,7 +540,7 @@ export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
 application="my_mpi_openmp_app.x"
 options="arg 1 arg2"
 
-mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}"
+mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}
 ```
 
 This will run your executable "grid" in parallel usimg 16
@@ -580,3 +582,66 @@ See above for a more detailed discussion of the different `sbatch` options.
 
 options
 
+## Using the `dev` QoS
+
+The `dev` QoS is designed for faster turnaround of short jobs than is usually available through
+the production QoS. It is subject to a number of restrictions:
+
+* 4 hour maximum walltime
+* Maximum job size:
+    * 2 nodes for `gpu-a100-80` partition
+    * 1 node for `gpu-a100-40` partition
+* Maximum 1 job running per user
+* Maximum 2 jobs queued per user
+* Only available to projects with a positive budget
+
+In addtion, you *must* specify either the `gpu-a100-80` or `gpu-a100-40` partitions when using the
+`dev` QoS.
+
+!!! tip
+    The generic `gpu` partition will not work consistently when using the `dev` QoS.
+
+Here is an example job submission script for a 2-node job in the `dev` QoS using the `gpu-a100-80` 
+partition:
+
+```slurm
+#!/bin/bash
+
+# Slurm job options (job-name, compute nodes, job time)
+#SBATCH --job-name=Example_Dev_Job
+#SBATCH --time=12:0:0
+#SBATCH --nodes=2
+#SBATCH --tasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:4
+#SBATCH --partition=gpu-a100-80
+#SBATCH --qos=dev
+
+# Replace [budget code] below with your budget code (e.g. t01)
+#SBATCH --account=[budget code]             
+
+# Load the correct modules
+module load gcc/9.3.0
+module load cuda/11.4.1 
+module load openmpi/4.1.1-cuda11.4
+
+ACC_THREADS=8
+
+export OMP_NUM_THREADS=8
+
+# Settings for MPI performance
+export OMPI_MCA_btl=^uct,openib
+export UCX_TLS=rc,rc_x,sm,cuda_copy,cuda_ipc,gdr_copy
+export UCX_RNDV_THRESH=16384
+export UCX_RNDV_SCHEME=put_zcopy
+export UCX_IB_GPU_DIRECT_RDMA=yes
+export UCX_MEMTYPE_CACHE=n
+
+# Settings for MPI-IO
+export OMPI_MCA_io=romio321
+export OMPI_MCA_btl_openib_allow_ib=true
+export OMPI_MCA_btl_openib_device_type=infiniband
+export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
+
+mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./my_mpi_program.exe
+```
