@@ -99,13 +99,13 @@ in a web browser on your local system by setting up an SSH tunnel to the
 Tursa login nodes.
 
 You do this by logging into Tursa in the usual way (with your SSH key and password)
-and adding the `-L 9080:10.144.12.95:80` option to the `ssh` command.
+and adding the `-L 9080:10.144.12.95:443` option to the `ssh` command.
 
 For example, if your username is `dc-user1`, you would setup the tunnel
 by logging into Tursa with (assuming your SSH key is in the default location):
 
 ```
-ssh -L 9080:10.144.12.95:80 dc-user1@tursa.dirac.ed.ac.uk
+ssh -L 9080:10.144.12.95:443 dc-user1@tursa.dirac.ed.ac.uk
 ```
 
 Enter your SSH key passphrase and password in the usual way.
