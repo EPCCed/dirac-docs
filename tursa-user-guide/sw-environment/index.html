@@ -448,6 +448,54 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Compiler environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gcc-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      GCC toolchain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nvhpc-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      NVHPC toolchain
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-build-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other build tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other build tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cmake" class="md-nav__link">
+    <span class="md-ellipsis">
+      cmake
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -571,6 +619,54 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Compiler environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gcc-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      GCC toolchain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nvhpc-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      NVHPC toolchain
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-build-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other build tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other build tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cmake" class="md-nav__link">
+    <span class="md-ellipsis">
+      cmake
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -603,7 +699,7 @@ encodes required dependencies on other software packages.</p>
 </div>
 <p>By default, all users on Tursa start with the default software
 environment loaded.</p>
-<p>Software modules on Tursa are provided by both ATOS and by EPCC.</p>
+<p>Software modules on Tursa are provided by both Eviden and by EPCC.</p>
 <p>In this section, we provide:</p>
 <ul>
 <li>A brief overview of the <code>module</code> command</li>
@@ -806,13 +902,13 @@ execute:</p>
 <div class="highlight"><pre><span></span><code>unset OMP_NUM_THREADS
 </code></pre></div>
 <h2 id="compiler-environment">Compiler environment</h2>
-<p>The system supports the following compilers and MPI library:</p>
+<p>The system supports two different primary compiler environments:</p>
 <ul>
-<li>GCC 9.3.0</li>
-<li>CUDA 11.4</li>
-<li>OpenMPI 4.1.1</li>
+<li>GCC toolchain: GCC, CUDA 11.4, OpenMPI 4.1.1</li>
+<li>NVHPC toolchain: NVHPC 21.7, OpenMPI 4.1.1</li>
 </ul>
-<p>To compile on the system, you would typically load the required modules:</p>
+<h3 id="gcc-toolchain">GCC toolchain</h3>
+<p>To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:</p>
 <div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
 [dc-user1@tursa-login1 ~]$ module load cuda/11.4.1 
 [dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
@@ -829,6 +925,47 @@ scripts are available:</p>
 </ul>
 <p>You can find more information on these scripts in the
 <a href="https://www.open-mpi.org/doc/v4.1/">OpenMPI documentation</a>.</p>
+<h3 id="nvhpc-toolchain">NVHPC toolchain</h3>
+<p>To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:</p>
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module load /home/y07/shared/tursa-modules/setup-env
+[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
+[dc-user1@tursa-login1 ~]$ module load nvhpc/21.7-nompi
+[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
+[dc-user1@tursa-login1 ~]$ module list
+Currently Loaded Modulefiles:
+ 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   2) nvhpc/21.7-nompi
+ 3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4    5) gcc/9.3.0
+</code></pre></div>
+<p>Once you have loaded the modules, the standard OpenMPI compiler wrapper
+scripts are available:</p>
+<ul>
+<li><code>mpicc</code></li>
+<li><code>mpicxx</code></li>
+<li><code>mpif90</code></li>
+</ul>
+<p>and the NVIDIA compilers are available as:</p>
+<ul>
+<li><code>nvcc</code></li>
+<li><code>nvc++</code></li>
+<li><code>nvfortran</code></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Both the NVIDIA compilers and the MPI compiler wrapper scripts will use the GCC
+compilers directly in the default configuration - this is often what you want. If
+you want the compiler wrappers to call the NVIDIA compilers themselves rather than 
+GCC directly, you would use:</p>
+<div class="highlight"><pre><span></span><code>export OMPI_CC=nvcc
+export OMPI_CXX=nvc++
+export OMPI_FC=nvfortran
+</code></pre></div>
+</div>
+<h2 id="other-build-tools">Other build tools</h2>
+<h3 id="cmake">cmake</h3>
+<p>CMake is available by using the commands:</p>
+<div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module load /home/y07/shared/tursa-modules/setup-env
+[dc-user1@tursa-login1 ~]$ module load cmake
+</code></pre></div>
 
 
 
