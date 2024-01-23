@@ -12,7 +12,7 @@ which software and versions are available to you.
 By default, all users on Tursa start with the default software
 environment loaded.
 
-Software modules on Tursa are provided by both ATOS and by EPCC.
+Software modules on Tursa are provided by both Eviden and by EPCC.
 
 In this section, we provide:
 
@@ -281,13 +281,14 @@ unset OMP_NUM_THREADS
 
 ## Compiler environment
 
-The system supports the following compilers and MPI library:
+The system supports two different primary compiler environments:
 
-- GCC 9.3.0
-- CUDA 11.4
-- OpenMPI 4.1.1
+* GCC toolchain: GCC, CUDA 11.4, OpenMPI 4.1.1
+* NVHPC toolchain: NVHPC 21.7, OpenMPI 4.1.1
 
-To compile on the system, you would typically load the required modules:
+### GCC toolchain
+
+To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
 
 ```
 [dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
@@ -308,4 +309,53 @@ scripts are available:
 You can find more information on these scripts in the
 [OpenMPI documentation](https://www.open-mpi.org/doc/v4.1/).
 
+### NVHPC toolchain
 
+To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
+
+```
+[dc-user1@tursa-login1 ~]$ module load /home/y07/shared/tursa-modules/setup-env
+[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
+[dc-user1@tursa-login1 ~]$ module load nvhpc/21.7-nompi
+[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
+[dc-user1@tursa-login1 ~]$ module list
+Currently Loaded Modulefiles:
+ 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   2) nvhpc/21.7-nompi
+ 3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4    5) gcc/9.3.0
+```
+
+Once you have loaded the modules, the standard OpenMPI compiler wrapper
+scripts are available:
+
+- `mpicc`
+- `mpicxx`
+- `mpif90`
+
+and the NVIDIA compilers are available as:
+
+- `nvcc`
+- `nvc++`
+- `nvfortran`
+
+!!! tip
+    Both the NVIDIA compilers and the MPI compiler wrapper scripts will use the GCC
+    compilers directly in the default configuration - this is often what you want. If
+    you want the compiler wrappers to call the NVIDIA compilers themselves rather than 
+    GCC directly, you would use:
+
+    ```
+    export OMPI_CC=nvcc
+    export OMPI_CXX=nvc++
+    export OMPI_FC=nvfortran
+    ```
+
+## Other build tools
+
+### cmake
+
+CMake is available by using the commands:
+
+```
+[dc-user1@tursa-login1 ~]$ module load /home/y07/shared/tursa-modules/setup-env
+[dc-user1@tursa-login1 ~]$ module load cmake
+```
