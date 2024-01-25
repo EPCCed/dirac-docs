@@ -8,7 +8,7 @@ This section covers the basic connection methods.
 Before following the process below, we assume you have setup an account on Tursa through the DiRAC SAFE. Documentation on how to do this can be
 found at:
 
-   - [DiRAC SAFE Guide for Users](https://dirac-safe.readthedocs.io/en/latest/safe-guide-users.html)
+   - [SAFE Guide for Users](https://epcced.github.io/safe-docs/safe-for-users/)
 
 
 ## Command line terminal
@@ -110,7 +110,7 @@ Remember, you will need to use both an SSH key and password to log into Tursa so
 ### Initial passwords
 
 The SAFE web interface is used to provide your initial password for logging onto Tursa (see the [SAFE
-Documentation](https://dirac-safe.readthedocs.io/en/latest/safe-guide-users.html) for more details on requesting accounts and picking up passwords).
+Documentation](https://epcced.github.io/safe-docs/safe-for-users/) for more details on requesting accounts and picking up passwords).
 
 !!! note
     You may now change your password on the Tursa machine itself
@@ -257,7 +257,7 @@ node could be unavailable.
 If you are having trouble entering your password consider using a
 password manager, from which you can copy and paste it. This will also
 help you generate a secure password. If you need to reset your password,
-instructions for doing so can be found in [the SAFE documentation](https://dirac-safe.readthedocs.io/en/latest/safe-guide-users.html)
+instructions for doing so can be found in [the SAFE documentation](https://epcced.github.io/safe-docs/safe-for-users/)
 
 Windows users please note that `Ctrl+V` does not work to paste in to
 PuTTY, MobaXterm, or PowerShell. Instead use `Shift+Ins` to paste.
