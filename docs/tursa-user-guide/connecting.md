@@ -47,7 +47,12 @@ Start MobaXterm and then click "Start local terminal"
 
 ## Access credentials
 
-To access Tursa, you need to use two credentials: your password **and** an SSH key pair protected by a passphrase. You can find more detailed instructions on how to set up your credentials to access Tursa from Windows, macOS and Linux below.
+To access Tursa, you need to use two credentials:
+
+* Before 13 Feb 2024: your password **and** an SSH key pair protected by a passphrase.
+* After 13 Feb 2024: An SSH key pair protected by a passphrase and a Time-based One Time Passcode (TOTP)
+
+You can find more detailed instructions on how to set up your credentials to access Tursa from Windows, macOS and Linux below.
 
 ### SSH Key Pairs
 
@@ -107,7 +112,7 @@ Remember, you will need to use both an SSH key and password to log into Tursa so
 !!! note
     If you want to connect to Tursa from more than one machine, e.g. from your home laptop as well as your work laptop, you should generate an ssh key on each machine, and add each of the public keys into SAFE.  
 
-### Initial passwords
+### Initial passwords (up to 13 Feb 2024)
 
 The SAFE web interface is used to provide your initial password for logging onto Tursa (see the [SAFE
 Documentation](https://epcced.github.io/safe-docs/safe-for-users/) for more details on requesting accounts and picking up passwords).
@@ -117,6 +122,27 @@ Documentation](https://epcced.github.io/safe-docs/safe-for-users/) for more deta
     using the *passwd* command or when you are prompted the first time you
     login. This change will not be reflected in the SAFE. If you forget your
     password, you should use the SAFE to request a new one-shot password.
+
+### MFA Time-based one-time passcode (TOTP) (from 13 Feb 2024)
+
+You will need to use both an SSH key and time-based one-time passcode to log into Tursa so you will
+also need to [set up a method for generating a TOTP code](https://epcced.github.io/safe-docs/safe-for-users/#how-to-turn-on-mfa-on-your-machine-account) before you can log into Tursa. 
+
+#### First login from a new account: password required
+
+!!! Important
+    You will **not** use your password when logging on to Tursa after the first login for a new account.
+
+As an additional security measure, you will also need to use a password from SAFE for your first login to Tursa
+with a new account. When you log into Tursa for the first time with a new account, you will be prompted to change
+your initial password. This is a three step process:
+
+1.  When promoted to enter your *ldap password*: Enter the password  which you [retrieve from SAFE](https://epcced.github.io/safe-docs/safe-for-users/#how-can-i-pick-up-my-password-for-the-service-machine)
+2.  When prompted to enter your new password: type in a new password
+3.  When prompted to re-enter the new password: re-enter the new password
+
+Your password has now been changed. You will no longer need this password to log into Tursa from this point
+forwards, you will use your SSH key and TOTP as described above.
 
 ## SSH Clients
 
