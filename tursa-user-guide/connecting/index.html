@@ -1014,7 +1014,11 @@ and debuggers when used in conjunction with an X client.</p>
 Tursa:</p>
 <pre><code>ssh username@tursa.dirac.ed.ac.uk
 </code></pre>
-<p>You will first be prompted for your machine account password. Once you have entered your password successfully, you will then be prompted for the passphrase associated with your SSH key pair. You need to enter both credentials correctly to be able to access Tursa.</p>
+<ul>
+<li>Before 13 Feb 2024: You will first be prompted for your machine account password. Once you have entered your password successfully, you will then be prompted for the passphrase associated with your SSH key pair.</li>
+<li>After 13 Feb 2024: You will first be prompted for the passphrase associated with your SSH key pair (if it is not already added to a local SSH Agent) and then for your TOTP. </li>
+</ul>
+<p>You need to enter both credentials correctly to be able to access Tursa.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>If your SSH key pair is not stored in the default location (usually
