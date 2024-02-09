@@ -99,7 +99,7 @@ in a web browser on your local system by setting up an SSH tunnel to the
 Tursa login nodes.
 
 You do this by logging into Tursa in the usual way (with your SSH key and password)
-and adding the `-L 9080:10.144.12.95:443` option to the `ssh` command.
+and adding the `-L 9080:10.144.20.95:443` option to the `ssh` command.
 
 For example, if your username is `dc-user1`, you would setup the tunnel
 by logging into Tursa with (assuming your SSH key is in the default location):
