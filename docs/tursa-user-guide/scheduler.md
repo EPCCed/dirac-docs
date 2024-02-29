@@ -177,8 +177,8 @@ on Tursa.
 
 | Partition | Description                                                 | Max nodes available |
 | --------- | ----------------------------------------------------------- | ------------------- |
-| cpu  | CPU nodes with AMD EPYC 32-core processor &times; 2    | 6               |
-| gpu  | GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 181                |
+| cpu  | CPU nodes with AMD EPYC 48-core processor &times; 2    | 6               |
+| gpu  | GPU nodes with AMD EPYC 48-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 181                |
 | gpu-a100-40  | GPU nodes with 2 AMD EPYC 16-core processors and NVIDIA A100-40 GPU &times; 4  | 114                |
 | gpu-a100-80  | GPU nodes with 2 AMD EPYC 24-core processor (3 nodes have 2 AMD EPYC 16-core processors) and NVIDIA A100-80 GPU &times; 4  | 67                |
 
@@ -414,7 +414,7 @@ parallel processes and threads they require.
      cores per node.
    - `--cpus-per-task=<stride between processes>` for Grid jobs on GPU nodes
      where you typically use 1 MPI process per GPU, 4 per node, this will
-     usually be 8 (so that the 32 cores on a node are evenly divided between
+     usually be 12 (so that the 48 cores on a node are evenly divided between
      the 4 MPI processes)
    - `--gres=gpu:4` the number of GPU to use per node. This will almost always
      be 4 to use all GPUs on a node. (This option should not be specified for
@@ -442,10 +442,10 @@ the job (equivalent of `--partition=gpu`).
 !!! note
     For parallel jobs, Tursa operates in a *node exclusive* way. This
     means that you are assigned resources in the units of full compute nodes
-    for your jobs (*i.e.* 32 cores and 4 GPU on GPU nodes, 128 cores on CPU nodes)
+    for your jobs (*i.e.* 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes)
     and that no other user can share those compute nodes with you. Hence,
     the minimum amount of resource you can request for a parallel job is 1 node
-    (or 32 cores and 4 GPU on GPU nodes, 128 cores on CPU nodes).
+    (or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes).
 
 To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option
@@ -581,7 +581,7 @@ partition:
 #SBATCH --time=12:0:0
 #SBATCH --nodes=2
 #SBATCH --tasks-per-node=4
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=12
 #SBATCH --gres=gpu:4
 #SBATCH --partition=gpu-a100-80
 #SBATCH --qos=dev
@@ -594,9 +594,9 @@ module load gcc/9.3.0
 module load cuda/11.4.1 
 module load openmpi/4.1.1-cuda11.4
 
-ACC_THREADS=8
+ACC_THREADS=12
 
-export OMP_NUM_THREADS=8
+export OMP_NUM_THREADS=12
 
 # Settings for MPI performance
 export OMPI_MCA_btl=^uct,openib
