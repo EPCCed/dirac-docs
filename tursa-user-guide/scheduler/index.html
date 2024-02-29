@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.f2e4d321.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -246,10 +246,8 @@
     
     
     
-    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
@@ -639,9 +637,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-job-submission-script-for-grid-parallel-job-using-cuda" class="md-nav__link">
+  <a href="#example-job-submission-script-for-a-parallel-job-using-cuda" class="md-nav__link">
     <span class="md-ellipsis">
-      Example: job submission script for Grid parallel job using CUDA
+      Example: job submission script for a parallel job using CUDA
     </span>
   </a>
   
@@ -933,9 +931,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-job-submission-script-for-grid-parallel-job-using-cuda" class="md-nav__link">
+  <a href="#example-job-submission-script-for-a-parallel-job-using-cuda" class="md-nav__link">
     <span class="md-ellipsis">
-      Example: job submission script for Grid parallel job using CUDA
+      Example: job submission script for a parallel job using CUDA
     </span>
   </a>
   
@@ -1586,8 +1584,8 @@ across the compute nodes. You will usually add the following options to
 <li><code>--bind-to none</code></li>
 </ul>
 <h2 id="example-job-submission-scripts">Example job submission scripts</h2>
-<h3 id="example-job-submission-script-for-grid-parallel-job-using-cuda">Example: job submission script for Grid parallel job using CUDA</h3>
-<p>A job submission script for a Grid job that uses 4 compute nodes, 16 MPI
+<h3 id="example-job-submission-script-for-a-parallel-job-using-cuda">Example: job submission script for a parallel job using CUDA</h3>
+<p>A job submission script for a parallel job that uses 4 compute nodes, 16 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
 GPU the job can run on so both A100-40 and A100-80 can be used:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
@@ -1632,40 +1630,14 @@ module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.1-cuda11.4
 <span class="nv">application</span><span class="o">=</span><span class="s2">&quot;my_mpi_openmp_app.x&quot;</span>
 <span class="nv">options</span><span class="o">=</span><span class="s2">&quot;arg 1 arg2&quot;</span>
 
-mpirun<span class="w"> </span>-np<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>--map-by<span class="w"> </span>numa<span class="w"> </span>-x<span class="w"> </span>LD_LIBRARY_PATH<span class="w"> </span>--bind-to<span class="w"> </span>none<span class="w"> </span>./wrapper.sh<span class="w"> </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>--map-by<span class="w"> </span>numa<span class="w"> </span>-x<span class="w"> </span>LD_LIBRARY_PATH<span class="w"> </span>--bind-to<span class="w"> </span>none<span class="w"> </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
 </code></pre></div>
-<p>This will run your executable "grid" in parallel usimg 16
+<p>This will run your executable "my_mpi_opnemp_app.x" in parallel usimg 16
 MPI processes on 4 nodes, 8 OpenMP thread will be used per
 MPI process and 4 GPUs will be used per node (32 cores per
 node, 4 GPUs per node). Slurm will allocate 4 nodes to your
 job and srun will place 4 MPI processes on each node.</p>
-<p>When running on Tursa it is important that we specify how
-each of the GPU's interacts with the network interfaces to
-reach optimal network communication performance. To achieve
-this, we introduce a wrapper script (specified as <code>wrapper.sh</code>
-in the example job script above) that sets a number of
-environment parameters for each rank in a node (each GPU
-in a node) explicitly tell each rank which network interface
-it should use to communicate internode.</p>
-<p><code>wrapper.sh</code> script example:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash
-
-
-lrank=$OMPI_COMM_WORLD_LOCAL_RANK
-numa1=$(( 2 * $lrank))
-numa2=$(( 2 * $lrank + 1 ))
-netdev=mlx5_${lrank}:1
-
-export CUDA_VISIBLE_DEVICES=$OMPI_COMM_WORLD_LOCAL_RANK
-export UCX_NET_DEVICES=mlx5_${lrank}:1
-BINDING=&quot;--interleave=$numa1,$numa2&quot;
-
-echo &quot;`hostname` - $lrank device=$CUDA_VISIBLE_DEVICES binding=$BINDING&quot;
-
-numactl ${BINDING}  $*
-</code></pre></div>
 <p>See above for a more detailed discussion of the different <code>sbatch</code> options.</p>
-<p>options</p>
 <h2 id="using-the-dev-qos">Using the <code>dev</code> QoS</h2>
 <p>The <code>dev</code> QoS is designed for faster turnaround of short jobs than is usually available through
 the production QoS. It is subject to a number of restrictions:</p>
@@ -1783,7 +1755,7 @@ mpirun<span class="w"> </span>-np<span class="w"> </span><span class="nv">$SLURM
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
     
   </body>
