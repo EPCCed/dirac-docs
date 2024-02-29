@@ -491,9 +491,9 @@ across the compute nodes. You will usually add the following options to
 
 ## Example job submission scripts
 
-### Example: job submission script for Grid parallel job using CUDA
+### Example: job submission script for a parallel job using CUDA
 
-A job submission script for a Grid job that uses 4 compute nodes, 16 MPI
+A job submission script for a parallel job that uses 4 compute nodes, 16 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
 GPU the job can run on so both A100-40 and A100-80 can be used:
 
@@ -540,47 +540,16 @@ export OMPI_MCA_btl_openib_if_exclude=mlx5_1,mlx5_2,mlx5_3
 application="my_mpi_openmp_app.x"
 options="arg 1 arg2"
 
-mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ./wrapper.sh ${application} ${options}
+mpirun -np $SLURM_NTASKS --map-by numa -x LD_LIBRARY_PATH --bind-to none ${application} ${options}
 ```
 
-This will run your executable "grid" in parallel usimg 16
+This will run your executable "my_mpi_opnemp_app.x" in parallel usimg 16
 MPI processes on 4 nodes, 8 OpenMP thread will be used per
 MPI process and 4 GPUs will be used per node (32 cores per
 node, 4 GPUs per node). Slurm will allocate 4 nodes to your
 job and srun will place 4 MPI processes on each node.
 
-When running on Tursa it is important that we specify how
-each of the GPU's interacts with the network interfaces to
-reach optimal network communication performance. To achieve
-this, we introduce a wrapper script (specified as `wrapper.sh`
-in the example job script above) that sets a number of
-environment parameters for each rank in a node (each GPU
-in a node) explicitly tell each rank which network interface
-it should use to communicate internode.
-
-`wrapper.sh` script example:
-
-```
-#!/bin/bash
-
-
-lrank=$OMPI_COMM_WORLD_LOCAL_RANK
-numa1=$(( 2 * $lrank))
-numa2=$(( 2 * $lrank + 1 ))
-netdev=mlx5_${lrank}:1
-
-export CUDA_VISIBLE_DEVICES=$OMPI_COMM_WORLD_LOCAL_RANK
-export UCX_NET_DEVICES=mlx5_${lrank}:1
-BINDING="--interleave=$numa1,$numa2"
-
-echo "`hostname` - $lrank device=$CUDA_VISIBLE_DEVICES binding=$BINDING"
-
-numactl ${BINDING}  $*
-```
-
 See above for a more detailed discussion of the different `sbatch` options.
-
-options
 
 ## Using the `dev` QoS
 
