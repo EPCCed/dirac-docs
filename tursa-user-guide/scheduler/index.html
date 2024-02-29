@@ -1121,12 +1121,12 @@ on Tursa.</p>
 <tbody>
 <tr>
 <td>cpu</td>
-<td>CPU nodes with AMD EPYC 32-core processor &times; 2</td>
+<td>CPU nodes with AMD EPYC 48-core processor &times; 2</td>
 <td>6</td>
 </tr>
 <tr>
 <td>gpu</td>
-<td>GPU nodes with AMD EPYC 32-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)</td>
+<td>GPU nodes with AMD EPYC 48-core processor and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)</td>
 <td>181</td>
 </tr>
 <tr>
@@ -1509,7 +1509,7 @@ parallel processes and threads they require.</p>
      cores per node.</li>
 <li><code>--cpus-per-task=&lt;stride between processes&gt;</code> for Grid jobs on GPU nodes
      where you typically use 1 MPI process per GPU, 4 per node, this will
-     usually be 8 (so that the 32 cores on a node are evenly divided between
+     usually be 12 (so that the 48 cores on a node are evenly divided between
      the 4 MPI processes)</li>
 <li><code>--gres=gpu:4</code> the number of GPU to use per node. This will almost always
      be 4 to use all GPUs on a node. (This option should not be specified for
@@ -1537,10 +1537,10 @@ the job (equivalent of <code>--partition=gpu</code>).</p>
 <p class="admonition-title">Note</p>
 <p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
 means that you are assigned resources in the units of full compute nodes
-for your jobs (<em>i.e.</em> 32 cores and 4 GPU on GPU nodes, 128 cores on CPU nodes)
+for your jobs (<em>i.e.</em> 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes)
 and that no other user can share those compute nodes with you. Hence,
 the minimum amount of resource you can request for a parallel job is 1 node
-(or 32 cores and 4 GPU on GPU nodes, 128 cores on CPU nodes).</p>
+(or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes).</p>
 </div>
 <p>To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option</p>
@@ -1667,7 +1667,7 @@ partition:</p>
 <span class="kp">#SBATCH --time=12:0:0</span>
 <span class="kp">#SBATCH --nodes=2</span>
 <span class="kp">#SBATCH --tasks-per-node=4</span>
-<span class="kp">#SBATCH --cpus-per-task=8</span>
+<span class="kp">#SBATCH --cpus-per-task=12</span>
 <span class="kp">#SBATCH --gres=gpu:4</span>
 <span class="kp">#SBATCH --partition=gpu-a100-80</span>
 <span class="kp">#SBATCH --qos=dev</span>
@@ -1680,9 +1680,9 @@ module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0
 module<span class="w"> </span>load<span class="w"> </span>cuda/11.4.1<span class="w"> </span>
 module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.1-cuda11.4
 
-<span class="nv">ACC_THREADS</span><span class="o">=</span><span class="m">8</span>
+<span class="nv">ACC_THREADS</span><span class="o">=</span><span class="m">12</span>
 
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">12</span>
 
 <span class="c1"># Settings for MPI performance</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl</span><span class="o">=</span>^uct,openib
