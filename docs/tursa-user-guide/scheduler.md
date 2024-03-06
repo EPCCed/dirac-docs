@@ -606,9 +606,10 @@ binding.
 export OMP_NUM_THREADS=1
 
 # Load the correct modules
+module load /home/y07/shared/tursa-modules/setup-env
 module load gcc/9.3.0
-module load cuda/11.4.1 
-module load openmpi/4.1.1-cuda11.4
+module load cuda/12.3
+module load openmpi/4.1.5-cuda12.3 
 
 # Load the correct modules
 module load /home/y07/shared/tursa-modules/setup-env
