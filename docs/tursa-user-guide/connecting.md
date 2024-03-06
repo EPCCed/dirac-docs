@@ -186,16 +186,21 @@ You need to enter both credentials correctly to be able to access Tursa.
 
     Your password has now been changed
 
-To allow remote programs, especially graphical applications to control your local display, such as being able to open up a new GUI window (such as for a debugger), use:
+## Host Keys
 
-    ssh -X username@tursa.dirac.ed.ac.uk
+Adding the host keys to your SSH configuration file provides an extra level of security for your connections to ARCHER2. The host keys are checked against the login nodes when you login to ARCHER2 and if the remote server key does not match the one in the configuration file, the connection will be refused. This provides protection against potential malicious servers masquerading as the ARCHER2 login nodes.
 
-Some sites recommend using the `-Y` flag. While this can fix some
-compatibility issues, the `-X` flag is more secure.
+### tursa.dirac.ed.ac.uk
 
-Current MacOS systems do not have an X window system. Users should install the XQuartz package to allow for SSH with X11 forwarding on MacOS systems:
+```
+tursa.dirac.ed.ac.uk ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDFniRfqDM6hfnwVTQgBw6H2k+O2sM57gaTjmg7TTewrzidPLRFI8Uojl0hHljS9naSxvpyVTJTzOR5/bDtryemqiNlMBsMTCl6posQPo8tZsw9vYYpZ1NLxtbrR7fnuczeXanzIO0E/bVSSbNnydykmVj2f/jX4PXBDL6T0RbHzjr7IQG0N0HVbrj7X0izlOhinMh0mfWO6h/DuJ0HWhaXPCiVsFiFKyjhs8YnLmaBSQMOe33EZaOOiDYiLXxctJKsIOsiW1VVveBYKSbxT0pUa7WQVQI1wPTtzJlifjv3RMb5KtQypWfSwTMGBytWYa/GlkemWefRewM1WnbG5P2w59DkCIR1O551ggGxNF4By+FMs2xW04GNi6WMikpRmyPKkHPVLap+2Mkj37S0nz0AiaMPDP3D8Bu0pAj+c44A6KL81ifybZUn8GGB9SRtquOYhIxyi21zmdykyoyK2oe8JcJ6B+DBI65uqoWQh1BziLePYRXh2H1WAVQPO7tcrxU=
 
-  - [XQuartz website](http://www.xquartz.org/)
+tursa.dirac.ed.ac.uk ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLWSJYM8B0SlKQzvAyGZth4Balkgsxef09MdjJ8JGG31V4gJCrsARqQcgk/0wc2vyjC5SKMKmUZLPBn0AOO8gSE=
+
+tursa.dirac.ed.ac.uk ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIwUG93CzIVADtlbHH9aLAyig3w3605XKE3rumMjBqt4
+```
+
+Host key verification can fail if this key is out of date, a problem which can be fixed by removing the offending entry in `~/.ssh/known_hosts` and replacing it with the new key published here.  We recommend users should check this page for any key updates and not just accept a new key from the server without confirmation.
 
 ## Making access more convenient using the SSH configuration file
 
