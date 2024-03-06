@@ -479,6 +479,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#host-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host Keys
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Host Keys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tursadiracedacuk" class="md-nav__link">
+    <span class="md-ellipsis">
+      tursa.dirac.ed.ac.uk
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#making-access-more-convenient-using-the-ssh-configuration-file" class="md-nav__link">
     <span class="md-ellipsis">
       Making access more convenient using the SSH configuration file
@@ -785,6 +809,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#host-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host Keys
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Host Keys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tursadiracedacuk" class="md-nav__link">
+    <span class="md-ellipsis">
+      tursa.dirac.ed.ac.uk
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#making-access-more-convenient-using-the-ssh-configuration-file" class="md-nav__link">
     <span class="md-ellipsis">
       Making access more convenient using the SSH configuration file
@@ -1039,15 +1087,16 @@ initial password. This is a three step process:</p>
 </ol>
 <p>Your password has now been changed</p>
 </div>
-<p>To allow remote programs, especially graphical applications to control your local display, such as being able to open up a new GUI window (such as for a debugger), use:</p>
-<pre><code>ssh -X username@tursa.dirac.ed.ac.uk
-</code></pre>
-<p>Some sites recommend using the <code>-Y</code> flag. While this can fix some
-compatibility issues, the <code>-X</code> flag is more secure.</p>
-<p>Current MacOS systems do not have an X window system. Users should install the XQuartz package to allow for SSH with X11 forwarding on MacOS systems:</p>
-<ul>
-<li><a href="http://www.xquartz.org/">XQuartz website</a></li>
-</ul>
+<h2 id="host-keys">Host Keys</h2>
+<p>Adding the host keys to your SSH configuration file provides an extra level of security for your connections to ARCHER2. The host keys are checked against the login nodes when you login to ARCHER2 and if the remote server key does not match the one in the configuration file, the connection will be refused. This provides protection against potential malicious servers masquerading as the ARCHER2 login nodes.</p>
+<h3 id="tursadiracedacuk">tursa.dirac.ed.ac.uk</h3>
+<div class="highlight"><pre><span></span><code>tursa.dirac.ed.ac.uk ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDFniRfqDM6hfnwVTQgBw6H2k+O2sM57gaTjmg7TTewrzidPLRFI8Uojl0hHljS9naSxvpyVTJTzOR5/bDtryemqiNlMBsMTCl6posQPo8tZsw9vYYpZ1NLxtbrR7fnuczeXanzIO0E/bVSSbNnydykmVj2f/jX4PXBDL6T0RbHzjr7IQG0N0HVbrj7X0izlOhinMh0mfWO6h/DuJ0HWhaXPCiVsFiFKyjhs8YnLmaBSQMOe33EZaOOiDYiLXxctJKsIOsiW1VVveBYKSbxT0pUa7WQVQI1wPTtzJlifjv3RMb5KtQypWfSwTMGBytWYa/GlkemWefRewM1WnbG5P2w59DkCIR1O551ggGxNF4By+FMs2xW04GNi6WMikpRmyPKkHPVLap+2Mkj37S0nz0AiaMPDP3D8Bu0pAj+c44A6KL81ifybZUn8GGB9SRtquOYhIxyi21zmdykyoyK2oe8JcJ6B+DBI65uqoWQh1BziLePYRXh2H1WAVQPO7tcrxU=
+
+tursa.dirac.ed.ac.uk ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLWSJYM8B0SlKQzvAyGZth4Balkgsxef09MdjJ8JGG31V4gJCrsARqQcgk/0wc2vyjC5SKMKmUZLPBn0AOO8gSE=
+
+tursa.dirac.ed.ac.uk ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIwUG93CzIVADtlbHH9aLAyig3w3605XKE3rumMjBqt4
+</code></pre></div>
+<p>Host key verification can fail if this key is out of date, a problem which can be fixed by removing the offending entry in <code>~/.ssh/known_hosts</code> and replacing it with the new key published here.  We recommend users should check this page for any key updates and not just accept a new key from the server without confirmation.</p>
 <h2 id="making-access-more-convenient-using-the-ssh-configuration-file">Making access more convenient using the SSH configuration file</h2>
 <p>Typing in the full command to login or transfer data to Tursa can
 become tedious as it often has to be repeated many times. You can use
