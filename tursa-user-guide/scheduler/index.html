@@ -1632,12 +1632,20 @@ module<span class="w"> </span>load<span class="w"> </span>cuda/12.3
 module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3<span class="w"> </span>
 
 <span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+<span class="nb">export</span><span class="w"> </span><span class="nv">SRUN_CPUS_PER_TASK</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
 
 <span class="c1"># These will need to be changed to match the actual application you are running</span>
 <span class="nv">application</span><span class="o">=</span><span class="s2">&quot;my_mpi_openmp_app.x&quot;</span>
 <span class="nv">options</span><span class="o">=</span><span class="s2">&quot;arg 1 arg2&quot;</span>
 
-<span class="nb">srun</span><span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
+<span class="c1"># We have reserved the full nodes, now distribute the processes as</span>
+<span class="c1"># required: 4 MPI processes per node, stride of 12 cores between </span>
+<span class="c1"># MPI processes</span>
+<span class="c1"># </span>
+<span class="c1"># Note use of gpu_launch.sh wrapper script for GPU and NIC pinning </span>
+<span class="nb">srun</span><span class="w"> </span>--nodes<span class="o">=</span><span class="m">4</span><span class="w"> </span>--tasks-per-node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>gpu_launch.sh<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
 </code></pre></div>
@@ -1694,8 +1702,8 @@ binding.</p>
 <span class="kp">#SBATCH --job-name=Example_Dev_Job</span>
 <span class="kp">#SBATCH --time=12:0:0</span>
 <span class="kp">#SBATCH --nodes=2</span>
-<span class="kp">#SBATCH --tasks-per-node=4</span>
-<span class="kp">#SBATCH --cpus-per-task=12</span>
+<span class="kp">#SBATCH --tasks-per-node=48</span>
+<span class="kp">#SBATCH --cpus-per-task=</span>
 <span class="kp">#SBATCH --gres=gpu:4</span>
 <span class="kp">#SBATCH --partition=gpu-a100-80</span>
 <span class="kp">#SBATCH --qos=dev</span>
@@ -1704,12 +1712,7 @@ binding.</p>
 <span class="kp">#SBATCH --account=[budget code]</span>
 
 <span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span>
-
-<span class="c1"># Load the correct modules</span>
-module<span class="w"> </span>load<span class="w"> </span>/home/y07/shared/tursa-modules/setup-env
-module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0
-module<span class="w"> </span>load<span class="w"> </span>cuda/12.3
-module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3<span class="w"> </span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
 
 <span class="c1"># Load the correct modules</span>
 module<span class="w"> </span>load<span class="w"> </span>/home/y07/shared/tursa-modules/setup-env
@@ -1721,7 +1724,13 @@ module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3
 <span class="nv">application</span><span class="o">=</span><span class="s2">&quot;my_mpi_openmp_app.x&quot;</span>
 <span class="nv">options</span><span class="o">=</span><span class="s2">&quot;arg 1 arg2&quot;</span>
 
-<span class="nb">srun</span><span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
+<span class="c1"># We have reserved the full nodes, now distribute the processes as</span>
+<span class="c1"># required: 4 MPI processes per node, stride of 12 cores between </span>
+<span class="c1"># MPI processes</span>
+<span class="c1"># </span>
+<span class="c1"># Note use of gpu_launch.sh wrapper script for GPU and NIC pinning </span>
+<span class="nb">srun</span><span class="w"> </span>--nodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>--tasks-per-node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>gpu_launch.sh<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
 </code></pre></div>
