@@ -526,12 +526,20 @@ module load cuda/12.3
 module load openmpi/4.1.5-cuda12.3 
 
 export OMP_NUM_THREADS=8
+export OMP_PLACES=cores
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
 # These will need to be changed to match the actual application you are running
 application="my_mpi_openmp_app.x"
 options="arg 1 arg2"
 
-srun --hint=nomultithread --distribution=block:block \
+# We have reserved the full nodes, now distribute the processes as
+# required: 4 MPI processes per node, stride of 12 cores between 
+# MPI processes
+# 
+# Note use of gpu_launch.sh wrapper script for GPU and NIC pinning 
+srun --nodes=4 --tasks-per-node=4 --cpus-per-task=12 \
+     --hint=nomultithread --distribution=block:block \
      gpu_launch.sh \
      ${application} ${options}
 ```
@@ -594,8 +602,8 @@ binding.
 #SBATCH --job-name=Example_Dev_Job
 #SBATCH --time=12:0:0
 #SBATCH --nodes=2
-#SBATCH --tasks-per-node=4
-#SBATCH --cpus-per-task=12
+#SBATCH --tasks-per-node=48
+#SBATCH --cpus-per-task=
 #SBATCH --gres=gpu:4
 #SBATCH --partition=gpu-a100-80
 #SBATCH --qos=dev
@@ -604,12 +612,7 @@ binding.
 #SBATCH --account=[budget code]
 
 export OMP_NUM_THREADS=1
-
-# Load the correct modules
-module load /home/y07/shared/tursa-modules/setup-env
-module load gcc/9.3.0
-module load cuda/12.3
-module load openmpi/4.1.5-cuda12.3 
+export OMP_PLACES=cores
 
 # Load the correct modules
 module load /home/y07/shared/tursa-modules/setup-env
@@ -621,7 +624,13 @@ module load openmpi/4.1.5-cuda12.3
 application="my_mpi_openmp_app.x"
 options="arg 1 arg2"
 
-srun --hint=nomultithread --distribution=block:block \
+# We have reserved the full nodes, now distribute the processes as
+# required: 4 MPI processes per node, stride of 12 cores between 
+# MPI processes
+# 
+# Note use of gpu_launch.sh wrapper script for GPU and NIC pinning 
+srun --nodes=2 --tasks-per-node=4 --cpus-per-task=12 \
+     --hint=nomultithread --distribution=block:block \
      gpu_launch.sh \
      ${application} ${options}
 ```
