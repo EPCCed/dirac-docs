@@ -478,11 +478,18 @@ Users can control the GPU frequency in their job submission scripts:
 
 ## `srun`: Launching parallel jobs
 
-If you are running parallel jobs, your job submission script should contain one or more srun commands to launch the parallel executable across the compute nodes. In most cases you will want to add the options --distribution=block:block and --hint=nomultithread to your srun command to ensure you get the correct pinning of processes to cores on a compute node.
+If you are running parallel jobs, your job submission script should contain one or
+more srun commands to launch the parallel executable across the compute nodes. In
+most cases you will want to add the following options to `srun`:
 
-A brief explanation of these options:
- - `--hint=nomultithread` - do not use hyperthreads/SMP
- - `--distribution=block:block` - the first `block` means use a block distribution
+- `--nodes=[number of nodes]` - Set the number of compute nodes for this job step
+- `--ntasks-per-node=[MPI processes per node]` - This will usually be `4` for GPU jobs 
+  as you usually have 1 MPI process per GPU
+- `--cpus-per-task=[stride between MPI processes]` - This will usually be either `8`
+   (for A100-40 nodes) or `12` (for A100-80 nodes). If you are using the `gpu` QoS
+   where you can get any type of GPU node, you will usually se this to `8`.
+- `--distribution=block:block` - do not use hyperthreads/SMP
+- `--hint=nomultithread`- the first `block` means use a block distribution
    of processes across nodes (i.e. fill nodes before moving onto the next one) and
    the second `block` means use a block distribution of processes across "sockets"
    within a node (i.e. fill a "socket" before moving on to the next one).
@@ -497,27 +504,33 @@ A brief explanation of these options:
 
 ## Example job submission scripts
 
+The typical strategy for submitting josb on Tursa is for the batch script to 
+request full nodes with no process/thread pinning and then the individual 
+`srun` commands set the correct options for dividing up processes and threads
+across nodes.
+
 ### Example: job submission script for a parallel job using CUDA
 
 A job submission script for a parallel job that uses 4 compute nodes, 4 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
-GPU the job can run on so both A100-40 and A100-80 can be used:
+GPU the job can run on so both A100-40 and A100-80 can be used.
 
 ```slurm
 #!/bin/bash
 
-# Slurm job options (job-name, compute nodes, job time)
-#SBATCH --job-name=Example_Grid_job
+# Slurm job options
+#SBATCH --job-name=Example_MPI_job
 #SBATCH --time=12:0:0
-#SBATCH --nodes=4
-#SBATCH --tasks-per-node=4
-#SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:4
 #SBATCH --partition=gpu
 #SBATCH --qos=gpu
-
 # Replace [budget code] below with your budget code (e.g. t01)
-#SBATCH --account=[budget code]             
+#SBATCH --account=[budget code]  
+
+# Request right number of full nodes (32 cores by node fits any GPU compute nodes))
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=32
+#SBATCH --cpus-per-task=1
+#SBATCH --gres=gpu:4
 
 # Load the correct modules
 module load /home/y07/shared/tursa-modules/setup-env
@@ -527,18 +540,17 @@ module load openmpi/4.1.5-cuda12.3
 
 export OMP_NUM_THREADS=8
 export OMP_PLACES=cores
-export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
 # These will need to be changed to match the actual application you are running
 application="my_mpi_openmp_app.x"
 options="arg 1 arg2"
 
 # We have reserved the full nodes, now distribute the processes as
-# required: 4 MPI processes per node, stride of 12 cores between 
+# required: 4 MPI processes per node, stride of 8 cores between 
 # MPI processes
 # 
 # Note use of gpu_launch.sh wrapper script for GPU and NIC pinning 
-srun --nodes=4 --tasks-per-node=4 --cpus-per-task=12 \
+srun --nodes=4 --ntasks-per-node=4 --cpus-per-task=8 \
      --hint=nomultithread --distribution=block:block \
      gpu_launch.sh \
      ${application} ${options}
@@ -598,18 +610,19 @@ binding.
 ```slurm
 #!/bin/bash
 
-# Slurm job options (job-name, compute nodes, job time)
-#SBATCH --job-name=Example_Dev_Job
+# Slurm job options
+#SBATCH --job-name=Example_MPI_job
 #SBATCH --time=12:0:0
-#SBATCH --nodes=2
-#SBATCH --tasks-per-node=48
-#SBATCH --cpus-per-task=
-#SBATCH --gres=gpu:4
 #SBATCH --partition=gpu-a100-80
 #SBATCH --qos=dev
-
 # Replace [budget code] below with your budget code (e.g. t01)
-#SBATCH --account=[budget code]
+#SBATCH --account=[budget code]  
+
+# Request right number of full nodes (48 cores by node for A100-80 GPU nodes))
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=48
+#SBATCH --cpus-per-task=1
+#SBATCH --gres=gpu:4
 
 export OMP_NUM_THREADS=1
 export OMP_PLACES=cores
@@ -629,7 +642,7 @@ options="arg 1 arg2"
 # MPI processes
 # 
 # Note use of gpu_launch.sh wrapper script for GPU and NIC pinning 
-srun --nodes=2 --tasks-per-node=4 --cpus-per-task=12 \
+srun --nodes=4 --ntasks-per-node=4 --cpus-per-task=12 \
      --hint=nomultithread --distribution=block:block \
      gpu_launch.sh \
      ${application} ${options}
