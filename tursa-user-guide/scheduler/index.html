@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
@@ -618,9 +618,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#mpirun-launching-parallel-jobs" class="md-nav__link">
+  <a href="#srun-launching-parallel-jobs" class="md-nav__link">
     <span class="md-ellipsis">
-      mpirun: Launching parallel jobs
+      srun: Launching parallel jobs
     </span>
   </a>
   
@@ -640,6 +640,15 @@
   <a href="#example-job-submission-script-for-a-parallel-job-using-cuda" class="md-nav__link">
     <span class="md-ellipsis">
       Example: job submission script for a parallel job using CUDA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpu_launchsh-wrapper-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      gpu_launch.sh wrapper script
     </span>
   </a>
   
@@ -912,9 +921,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#mpirun-launching-parallel-jobs" class="md-nav__link">
+  <a href="#srun-launching-parallel-jobs" class="md-nav__link">
     <span class="md-ellipsis">
-      mpirun: Launching parallel jobs
+      srun: Launching parallel jobs
     </span>
   </a>
   
@@ -934,6 +943,15 @@
   <a href="#example-job-submission-script-for-a-parallel-job-using-cuda" class="md-nav__link">
     <span class="md-ellipsis">
       Example: job submission script for a parallel job using CUDA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpu_launchsh-wrapper-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      gpu_launch.sh wrapper script
     </span>
   </a>
   
@@ -1571,21 +1589,25 @@ service.</p>
 that says <code>control disabled</code>. This is an incorrect message due to an issue with 
 how Slurm sets the GPU frequency and can be safely ignored.</p>
 </div>
-<h2 id="mpirun-launching-parallel-jobs"><code>mpirun</code>: Launching parallel jobs</h2>
-<p>If you are running parallel jobs, your job submission script should
-contain one or more <code>mpirun</code> commands to launch the parallel executable
-across the compute nodes. You will usually add the following options to
-<code>mpirun</code>:</p>
-<ul>
-<li><code>-np &lt;number of MPI processes&gt;</code>: specify the number of MPI processes
-  to launch</li>
-<li><code>--map-by-numa</code></li>
-<li><code>-x $LD_LIBRARY_PATH</code>: ensure that the library paths are available to MPI processes</li>
-<li><code>--bind-to none</code></li>
-</ul>
+<h2 id="srun-launching-parallel-jobs"><code>srun</code>: Launching parallel jobs</h2>
+<p>If you are running parallel jobs, your job submission script should contain one or more srun commands to launch the parallel executable across the compute nodes. In most cases you will want to add the options --distribution=block:block and --hint=nomultithread to your srun command to ensure you get the correct pinning of processes to cores on a compute node.</p>
+<p>A brief explanation of these options:
+ - <code>--hint=nomultithread</code> - do not use hyperthreads/SMP
+ - <code>--distribution=block:block</code> - the first <code>block</code> means use a block distribution
+   of processes across nodes (i.e. fill nodes before moving onto the next one) and
+   the second <code>block</code> means use a block distribution of processes across "sockets"
+   within a node (i.e. fill a "socket" before moving on to the next one).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The Slurm definition of a "socket" does not usually correspond to a physical CPU socket.
+On Tursa GPU nodes it corresponds to half the cores on a socket as the GPU nodes
+are configured with NPS2.</p>
+<p>On the Tursa CPU nodes, the Slurm definition of a scoket does correspond to a physical
+CPU socket (64 cores) as the COU nodes are configured with NPS1.</p>
+</div>
 <h2 id="example-job-submission-scripts">Example job submission scripts</h2>
 <h3 id="example-job-submission-script-for-a-parallel-job-using-cuda">Example: job submission script for a parallel job using CUDA</h3>
-<p>A job submission script for a parallel job that uses 4 compute nodes, 16 MPI
+<p>A job submission script for a parallel job that uses 4 compute nodes, 4 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
 GPU the job can run on so both A100-40 and A100-80 can be used:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
@@ -1604,40 +1626,45 @@ GPU the job can run on so both A100-40 and A100-80 can be used:</p>
 <span class="kp">#SBATCH --account=[budget code]             </span>
 
 <span class="c1"># Load the correct modules</span>
+module<span class="w"> </span>load<span class="w"> </span>/home/y07/shared/tursa-modules/setup-env
 module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0
-module<span class="w"> </span>load<span class="w"> </span>cuda/11.4.1<span class="w"> </span>
-module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.1-cuda11.4
-
-<span class="nv">ACC_THREADS</span><span class="o">=</span><span class="m">8</span>
+module<span class="w"> </span>load<span class="w"> </span>cuda/12.3
+module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3<span class="w"> </span>
 
 <span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span>
-
-<span class="c1"># Settings for MPI performance</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl</span><span class="o">=</span>^uct,openib
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_TLS</span><span class="o">=</span>rc,rc_x,sm,cuda_copy,cuda_ipc,gdr_copy
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_RNDV_THRESH</span><span class="o">=</span><span class="m">16384</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_RNDV_SCHEME</span><span class="o">=</span>put_zcopy
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_IB_GPU_DIRECT_RDMA</span><span class="o">=</span>yes
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_MEMTYPE_CACHE</span><span class="o">=</span>n
-
-<span class="c1"># Settings for MPI-IO</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_io</span><span class="o">=</span>romio321
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl_openib_allow_ib</span><span class="o">=</span><span class="nb">true</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl_openib_device_type</span><span class="o">=</span>infiniband
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl_openib_if_exclude</span><span class="o">=</span>mlx5_1,mlx5_2,mlx5_3
 
 <span class="c1"># These will need to be changed to match the actual application you are running</span>
 <span class="nv">application</span><span class="o">=</span><span class="s2">&quot;my_mpi_openmp_app.x&quot;</span>
 <span class="nv">options</span><span class="o">=</span><span class="s2">&quot;arg 1 arg2&quot;</span>
 
-mpirun<span class="w"> </span>-np<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>--map-by<span class="w"> </span>numa<span class="w"> </span>-x<span class="w"> </span>LD_LIBRARY_PATH<span class="w"> </span>--bind-to<span class="w"> </span>none<span class="w"> </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
+<span class="nb">srun</span><span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>gpu_launch.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
 </code></pre></div>
 <p>This will run your executable "my_mpi_opnemp_app.x" in parallel usimg 16
-MPI processes on 4 nodes, 8 OpenMP thread will be used per
-MPI process and 4 GPUs will be used per node (32 cores per
-node, 4 GPUs per node). Slurm will allocate 4 nodes to your
-job and srun will place 4 MPI processes on each node.</p>
-<p>See above for a more detailed discussion of the different <code>sbatch</code> options.</p>
+MPI processes on 4 nodes. 4 GPUs will be used per node.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You must use the <code>gpu_launch.sh</code> wrapper script to get the correct biniding
+of GPU to MPI processes and of network interface to GPU and MPI process.
+This script is described in more detail below.</p>
+</div>
+<h3 id="gpu_launchsh-wrapper-script"><code>gpu_launch.sh</code> wrapper script</h3>
+<p>The <code>gpu_launch.sh</code> wrapper script is required to set the correct binding of
+GPU to MPI processes and the correct binding of interconnect interfaces to 
+MPI process and GPU. We provide this centrally for convenience but its contents
+are simple:</p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash
+
+# Compute the raw process ID for binding to GPU and NIC
+lrank=$((SLURM_PROCID % SLURM_NTASKS_PER_NODE))
+
+# Bind the process to the correct GPU and NIC
+export CUDA_VISIBLE_DEVICES=${lrank}
+export UCX_NET_DEVICES=mlx5_${lrank}:1
+
+$@
+</code></pre></div>
 <h2 id="using-the-dev-qos">Using the <code>dev</code> QoS</h2>
 <p>The <code>dev</code> QoS is designed for faster turnaround of short jobs than is usually available through
 the production QoS. It is subject to a number of restrictions:</p>
@@ -1659,7 +1686,8 @@ the production QoS. It is subject to a number of restrictions:</p>
 <p>The generic <code>gpu</code> partition will not work consistently when using the <code>dev</code> QoS.</p>
 </div>
 <p>Here is an example job submission script for a 2-node job in the <code>dev</code> QoS using the <code>gpu-a100-80</code> 
-partition:</p>
+partition. Note the use of the <code>gpu_launch.sh</code> wrapper script to get correct GPU and NIC
+binding.</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Slurm job options (job-name, compute nodes, job time)</span>
@@ -1673,32 +1701,29 @@ partition:</p>
 <span class="kp">#SBATCH --qos=dev</span>
 
 <span class="c1"># Replace [budget code] below with your budget code (e.g. t01)</span>
-<span class="kp">#SBATCH --account=[budget code]             </span>
+<span class="kp">#SBATCH --account=[budget code]</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span>
 
 <span class="c1"># Load the correct modules</span>
+module<span class="w"> </span>load<span class="w"> </span>/home/y07/shared/tursa-modules/setup-env
 module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0
-module<span class="w"> </span>load<span class="w"> </span>cuda/11.4.1<span class="w"> </span>
-module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.1-cuda11.4
+module<span class="w"> </span>load<span class="w"> </span>cuda/12.3
+module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3<span class="w"> </span>
 
-<span class="nv">ACC_THREADS</span><span class="o">=</span><span class="m">12</span>
+<span class="c1"># Load the correct modules</span>
+module<span class="w"> </span>load<span class="w"> </span>/home/y07/shared/tursa-modules/setup-env
+module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0
+module<span class="w"> </span>load<span class="w"> </span>cuda/12.3
+module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3<span class="w"> </span>
 
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">12</span>
+<span class="c1"># These will need to be changed to match the actual application you are running</span>
+<span class="nv">application</span><span class="o">=</span><span class="s2">&quot;my_mpi_openmp_app.x&quot;</span>
+<span class="nv">options</span><span class="o">=</span><span class="s2">&quot;arg 1 arg2&quot;</span>
 
-<span class="c1"># Settings for MPI performance</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl</span><span class="o">=</span>^uct,openib
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_TLS</span><span class="o">=</span>rc,rc_x,sm,cuda_copy,cuda_ipc,gdr_copy
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_RNDV_THRESH</span><span class="o">=</span><span class="m">16384</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_RNDV_SCHEME</span><span class="o">=</span>put_zcopy
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_IB_GPU_DIRECT_RDMA</span><span class="o">=</span>yes
-<span class="nb">export</span><span class="w"> </span><span class="nv">UCX_MEMTYPE_CACHE</span><span class="o">=</span>n
-
-<span class="c1"># Settings for MPI-IO</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_io</span><span class="o">=</span>romio321
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl_openib_allow_ib</span><span class="o">=</span><span class="nb">true</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl_openib_device_type</span><span class="o">=</span>infiniband
-<span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_btl_openib_if_exclude</span><span class="o">=</span>mlx5_1,mlx5_2,mlx5_3
-
-mpirun<span class="w"> </span>-np<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>--map-by<span class="w"> </span>numa<span class="w"> </span>-x<span class="w"> </span>LD_LIBRARY_PATH<span class="w"> </span>--bind-to<span class="w"> </span>none<span class="w"> </span>./my_mpi_program.exe
+<span class="nb">srun</span><span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>gpu_launch.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
 </code></pre></div>
 
 
