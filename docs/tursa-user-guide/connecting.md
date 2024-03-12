@@ -49,8 +49,7 @@ Start MobaXterm and then click "Start local terminal"
 
 To access Tursa, you need to use two credentials:
 
-* Before 13 Feb 2024: your password **and** an SSH key pair protected by a passphrase.
-* After 13 Feb 2024: An SSH key pair protected by a passphrase and a Time-based One Time Passcode (TOTP)
+* An SSH key pair protected by a passphrase and a Time-based One Time Passcode (TOTP)
 
 You can find more detailed instructions on how to set up your credentials to access Tursa from Windows, macOS and Linux below.
 
@@ -107,23 +106,12 @@ by following the instructions at:
 
 Once you have done this, your SSH key will be added to your Tursa account.
 
-Remember, you will need to use both an SSH key and password to log into Tursa so you will also need to collect your initial password before you can log into Tursa. We cover this next.
+Remember, you will need to use both an SSH key and TOTP to log into Tursa so you will also need to setup your TOTP token before you can log into Tursa. We cover this next.
 
 !!! note
     If you want to connect to Tursa from more than one machine, e.g. from your home laptop as well as your work laptop, you should generate an ssh key on each machine, and add each of the public keys into SAFE.  
 
-### Initial passwords (up to 13 Feb 2024)
-
-The SAFE web interface is used to provide your initial password for logging onto Tursa (see the [SAFE
-Documentation](https://epcced.github.io/safe-docs/safe-for-users/) for more details on requesting accounts and picking up passwords).
-
-!!! note
-    You may now change your password on the Tursa machine itself
-    using the *passwd* command or when you are prompted the first time you
-    login. This change will not be reflected in the SAFE. If you forget your
-    password, you should use the SAFE to request a new one-shot password.
-
-### MFA Time-based one-time passcode (TOTP) (from 13 Feb 2024)
+### MFA Time-based one-time passcode (TOTP)
 
 You will need to use both an SSH key and time-based one-time passcode to log into Tursa so you will
 also need to [set up a method for generating a TOTP code](https://epcced.github.io/safe-docs/safe-for-users/#how-to-turn-on-mfa-on-your-machine-account) before you can log into Tursa. 
@@ -161,8 +149,7 @@ Tursa:
     ssh username@tursa.dirac.ed.ac.uk
 
 
-* Before 13 Feb 2024: You will first be prompted for your machine account password. Once you have entered your password successfully, you will then be prompted for the passphrase associated with your SSH key pair.
-* After 13 Feb 2024: You will first be prompted for the passphrase associated with your SSH key pair (if it is not already added to a local SSH Agent) and then for your TOTP. 
+You will first be prompted for the passphrase associated with your SSH key pair (if it is not already added to a local SSH Agent) and then for your TOTP. 
 
 You need to enter both credentials correctly to be able to access Tursa.
 
@@ -188,7 +175,7 @@ You need to enter both credentials correctly to be able to access Tursa.
 
 ## Host Keys
 
-Adding the host keys to your SSH configuration file provides an extra level of security for your connections to ARCHER2. The host keys are checked against the login nodes when you login to ARCHER2 and if the remote server key does not match the one in the configuration file, the connection will be refused. This provides protection against potential malicious servers masquerading as the ARCHER2 login nodes.
+Adding the host keys to your SSH configuration file provides an extra level of security for your connections to Tursa. The host keys are checked against the login nodes when you login to Tursa and if the remote server key does not match the one in the configuration file, the connection will be refused. This provides protection against potential malicious servers masquerading as the Tursa login nodes.
 
 ### tursa.dirac.ed.ac.uk
 
