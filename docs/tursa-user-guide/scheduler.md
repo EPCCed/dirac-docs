@@ -478,6 +478,13 @@ Users can control the GPU frequency in their job submission scripts:
 
 ## `srun`: Launching parallel jobs
 
+!!! important
+    Only OpenMPI 4.1.5 and later versions of OpenMPI support parallel job lauch
+    using `srun` on Tursa. If you try to use older versions of OpenMPI via modules
+    on Tursa you will see errors when using `srun`. The old modules are only kept
+    for backwards compatibility, you should always compile and run software using
+    OpenMPI 4.1.5 or newer if possible.
+
 If you are running parallel jobs, your job submission script should contain one or
 more srun commands to launch the parallel executable across the compute nodes. In
 most cases you will want to add the following options to `srun`:

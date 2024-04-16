@@ -216,7 +216,7 @@ To list the modules in a collection, you can execute, e.g.,:
 ```
 [dc-user1@tursa-login1 ~]$ module saveshow default
 -------------------------------------------------------------------
-/home/z01/z01/dc-turn1/.module/default:
+/home/t01/t01/dc-user1/.module/default:
 
 module use --append /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles
 module use --append /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles
@@ -234,7 +234,7 @@ home directory (the first line of output above). It is possible to save
 a module collection with a fully qualified path, e.g.,
 
 ```
-[dc-user1@tursa-login1 ~]$ module save /home/t01/z01/auser/my-module-collection
+[dc-user1@tursa-login1 ~]$ module save /home/t01/t01/auser/my-module-collection
 ```
 
 if you want to save to a specific file name.
@@ -243,6 +243,17 @@ To delete a module environment, you can execute:
 
 ```
 [dc-user1@tursa-login1 ~]$ module saverm <environment_name>
+```
+
+### Restoring original environment: `module purge` plus reload
+
+Unlike some other HPC systems, you cannot restore the original module environment
+with just the `module purge` command. You also need to reload the base environment
+setup module, i.e.
+
+```bash
+module purge
+module load /home/y07/shared/tursa-modules/setup-env
 ```
 
 ## Shell environment overview
@@ -291,12 +302,17 @@ The system supports two different primary compiler environments:
 To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
 
 ```
-[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
-[dc-user1@tursa-login1 ~]$ module load cuda/11.4.1 
-[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
-[dc-user1@tursa-login1 ~]$ module list
+module load /home/y07/shared/tursa-modules/setup-env
+module load gcc/9.3.0
+module load cuda/12.3 
+module load openmpi/4.1.5-cuda12.3
+
+
+module list
 Currently Loaded Modulefiles:
- 1) gcc/9.3.0   2) cuda/11.4.1   3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4 
+Currently Loaded Modulefiles:
+ 1) /home/y07/shared/tursa-modules/setup-env   3) cuda/12.3             5) openmpi/4.1.5-cuda12.3  
+ 2) gcc/9.3.0                                  4) ucx/1.15.0-cuda12.3  
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
@@ -314,14 +330,15 @@ You can find more information on these scripts in the
 To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
 
 ```
-[dc-user1@tursa-login1 ~]$ module load /home/y07/shared/tursa-modules/setup-env
-[dc-user1@tursa-login1 ~]$ module load gcc/9.3.0
-[dc-user1@tursa-login1 ~]$ module load nvhpc/21.7-nompi
-[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4
-[dc-user1@tursa-login1 ~]$ module list
+module load /home/y07/shared/tursa-modules/setup-env
+module load gcc/9.3.0
+module load nvhpc/23.5-nompi
+module load openmpi/4.1.5-cuda12.3
+module list
+
 Currently Loaded Modulefiles:
- 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   2) nvhpc/21.7-nompi
- 3) ucx/1.12.0-cuda11.4   4) openmpi/4.1.1-cuda11.4    5) gcc/9.3.0
+ 1) /home/y07/shared/tursa-modules/setup-env   3) nvhpc/23.5-nompi      5) openmpi/4.1.5-cuda12.3  
+ 2) gcc/9.3.0                                  4) ucx/1.15.0-cuda12.3  
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
