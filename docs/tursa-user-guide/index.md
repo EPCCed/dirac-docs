@@ -7,6 +7,7 @@ of Tursa and more technical topics.
 
 The Tursa User Guide contains the following sections:
 
+  - [Tursa hardware](hardware.md)
   - [Connecting to Tursa](connecting.md)
   - [Data management and transfer](data.md)
   - [Software environment](sw-environment.md)
