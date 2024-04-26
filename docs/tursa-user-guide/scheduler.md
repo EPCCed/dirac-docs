@@ -541,7 +541,6 @@ GPU the job can run on so both A100-40 and A100-80 can be used.
 #SBATCH --gres=gpu:4
 
 # Load the correct modules
-module load /home/y07/shared/tursa-modules/setup-env
 module load gcc/9.3.0
 module load cuda/12.3
 module load openmpi/4.1.5-cuda12.3 
@@ -636,7 +635,6 @@ export OMP_NUM_THREADS=1
 export OMP_PLACES=cores
 
 # Load the correct modules
-module load /home/y07/shared/tursa-modules/setup-env
 module load gcc/9.3.0
 module load cuda/12.3
 module load openmpi/4.1.5-cuda12.3 
