@@ -21,6 +21,30 @@ various data storage facilities that are part of the Tursa service.
 This will not only allow you to use the machine more effectively but
 also to ensure that your valuable data is protected.
 
+Here are the main points you should consider:
+
+* **Not all data are created equal, understand your data.** Know what data you have. What is your
+  critical data that needs to be copied to a secure location? Which data do you need in a different
+  location to analyse? Which data would it be easier to regenerate rather than transfer? You should
+  create a brief data management plan laying this out as this will allow you to understand which
+  tools to use and when.
+* **Minimise the data you are transferring.** Transferring large amounts of data is costly in both
+  researcher time and actual time. Make sure you are only transferring the data you need to transfer.
+* **Minimise the number of files you are transferring.** Each individual file has a static overhead in
+  data transfers so it is efficient to bundle multiple files together into a single large
+  archive file for transfer.
+* **Does compression help or hinder?** Many tools have the option to use compression (e.g. `rsync`,
+  `tar`, `zip`) and generally encourage you to use them to reduce data volumes. However, in some cases,
+  the time spent compressing the data can take longer than actually transferring the uncompressed
+  data; particularly when transferring data between two locations that both have large data transfer
+  bandwidth available.
+* **Be aware of encryption overheads.** When transferring data using `scp` (and `rsync` over `scp`)
+  your data will be encrypted introducing a static overhead per file. This issue can be minimised by
+  reducing the number files to be transferred by creating archives. You can also change the encryption
+  algorithm to one that involves minimal encryption. The fastest performing cipher that is commonly 
+  available in SSH at the moment is generally `aes128-ctr` as most common processors provide a
+  hardware implementation.
+
 ## Tursa storage
 
 Tursa has two different storage systems available:
@@ -50,6 +74,55 @@ the project PI will be able to sub-divide this quota among the groups
 and users within the project. As is standard practice on UNIX and Linux
 systems, the environment variable `$HOME` is automatically set to point
 to your home directory.
+
+#### Quotas on the Lustre file system
+
+All projects are assigned a quota on the
+Lustre file systems. The project PI or manager can split this quota up
+between users or groups of users if they wish.
+
+You can view any Lustre file system quotas that apply to your account by
+logging into SAFE and navigating to the page for your ARCHER2 login 
+account.
+
+1. [Log into SAFE](https://safe.epcc.ed.ac.uk/dirac)
+2. Use the "Login accounts" menu and select your Tursa login account
+3. The "Login account details" table lists any user or group quotas that
+   are linked with your account. (If there is no quota shown for a row
+   then you have an unlimited quota for that item, but you may still may
+   be limited by another quota.)
+
+!!! tip
+    Quota and usage data on SAFE is updated a few times a day so may not be
+    exactly up to date with the situation on the systems themselves.
+
+You can also examine up to date quotas and usage on the Tursa Lustre file system
+itself using the `lfs quota` command. To do this:
+
+- To check your user quota, you would use the command:
+
+   ```
+   [dc-user1@tursa-login2 ~]$ lfs quota -hu ${USER} .
+   Disk quotas for usr dc-user1 (uid 20358):
+     Filesystem    used   quota   limit   grace   files   quota   limit   grace
+              .  15.52G      0k  97.66T       -  107369       0       0       -
+   uid 20358 is using default file quota setting
+   ```
+
+   the `limit` of `0k` here indicate that no user quota is set for this
+   user
+
+- To check your project quota, you would use the command:
+
+   ```
+   [dc-user1@tursa-login2 ~]$ lfs quota -hp $(id -g) .
+   Disk quotas for prj 50010 (pid 50010):
+         Filesystem    used   quota   limit   grace   files   quota   limit   grace
+                  .  15.52G      0k    990G       -  107378       0       0       -
+   pid 50010 is using default file quota setting
+   ```
+   the `limit` of `990G` here indicate that you have a project quota of 990 GiB (shared
+   with all users in the project).
 
 ### Tape storage
 
