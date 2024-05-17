@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.19">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.23">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -783,12 +783,6 @@ cmake/3.27.4  nvhpc/23.5-nompi  setup-env
 ----------------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles -------------------------------------------
 cuda/12.3  openmpi/4.1.5-cuda12.3  ucx/1.15.0-cuda12.3  
 
---------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles --------------------------
-cuda/11.0.2  openmpi/4.0.4-cuda11.0.2  openmpi/4.1.1-cuda11.0.2  ucx/1.10.1-cuda11.0.2  
-
--------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ---------------------------
-cuda/11.4.1  openmpi/4.1.1-cuda11.4  ucx/1.12.0-cuda11.4  
-
 ------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles ---------------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
 
@@ -808,12 +802,6 @@ available versions of the OpenMPI library, use:</p>
 <div class="highlight"><pre><span></span><code>[dc-user1@tursa-login1 ~]$ module avail openmpi
 ------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles -------------------------------------------------
 openmpi/4.1.5-cuda12.3  
-
------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles ------------------------------------------------
-openmpi/4.0.4-cuda11.0.2  openmpi/4.1.1-cuda11.0.2  
-
-------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles -------------------------------------------------
-openmpi/4.1.1-cuda11.4  
 
 ------------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles ------------------------------------------------
 openmpi/4.1.1-cuda11.4.1  
@@ -911,9 +899,7 @@ Named collection list:
 /home/t01/t01/dc-user1/.module/default:
 
 module use --append /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles
-module use --append /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles
 module use --append /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles
-module use --append /mnt/lustre/tursafs1/apps/modulefilesintel
 module use --append /mnt/lustre/tursafs1/apps/modulefiles
 module load ucx/1.12.0-cuda11.4.1
 module load openmpi/4.1.1-cuda11.4.1
@@ -960,8 +946,8 @@ execute:</p>
 <h2 id="compiler-environment">Compiler environment</h2>
 <p>The system supports two different primary compiler environments:</p>
 <ul>
-<li>GCC toolchain: GCC, CUDA 11.4, OpenMPI 4.1.1</li>
-<li>NVHPC toolchain: NVHPC 21.7, OpenMPI 4.1.1</li>
+<li>GCC toolchain: GCC, CUDA 12.3, OpenMPI 4.1.5</li>
+<li>NVHPC toolchain: NVHPC 23.5 (CUDA 12.1), OpenMPI 4.1.5</li>
 </ul>
 <h3 id="gcc-toolchain">GCC toolchain</h3>
 <p>To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:</p>
@@ -1081,7 +1067,7 @@ export OMPI_FC=nvfortran
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.dd8806f2.min.js"></script>
+      <script src="../../assets/javascripts/bundle.ebd0bdb7.min.js"></script>
       
     
   </body>
