@@ -82,7 +82,7 @@ Lustre file systems. The project PI or manager can split this quota up
 between users or groups of users if they wish.
 
 You can view any Lustre file system quotas that apply to your account by
-logging into SAFE and navigating to the page for your ARCHER2 login 
+logging into SAFE and navigating to the page for your Tursa login 
 account.
 
 1. [Log into SAFE](https://safe.epcc.ed.ac.uk/dirac)
