@@ -67,12 +67,6 @@ cmake/3.27.4  nvhpc/23.5-nompi  setup-env
 ----------------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles -------------------------------------------
 cuda/12.3  openmpi/4.1.5-cuda12.3  ucx/1.15.0-cuda12.3  
 
---------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles --------------------------
-cuda/11.0.2  openmpi/4.0.4-cuda11.0.2  openmpi/4.1.1-cuda11.0.2  ucx/1.10.1-cuda11.0.2  
-
--------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles ---------------------------
-cuda/11.4.1  openmpi/4.1.1-cuda11.4  ucx/1.12.0-cuda11.4  
-
 ------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles ---------------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
 
@@ -96,12 +90,6 @@ available versions of the OpenMPI library, use:
 [dc-user1@tursa-login1 ~]$ module avail openmpi
 ------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles -------------------------------------------------
 openmpi/4.1.5-cuda12.3  
-
------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles ------------------------------------------------
-openmpi/4.0.4-cuda11.0.2  openmpi/4.1.1-cuda11.0.2  
-
-------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles -------------------------------------------------
-openmpi/4.1.1-cuda11.4  
 
 ------------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles ------------------------------------------------
 openmpi/4.1.1-cuda11.4.1  
@@ -231,9 +219,7 @@ To list the modules in a collection, you can execute, e.g.,:
 /home/t01/t01/dc-user1/.module/default:
 
 module use --append /mnt/lustre/tursafs1/apps/cuda-11.0.2-modulefiles
-module use --append /mnt/lustre/tursafs1/apps/cuda-11.4-modulefiles
 module use --append /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles
-module use --append /mnt/lustre/tursafs1/apps/modulefilesintel
 module use --append /mnt/lustre/tursafs1/apps/modulefiles
 module load ucx/1.12.0-cuda11.4.1
 module load openmpi/4.1.1-cuda11.4.1
@@ -306,8 +292,8 @@ unset OMP_NUM_THREADS
 
 The system supports two different primary compiler environments:
 
-* GCC toolchain: GCC, CUDA 11.4, OpenMPI 4.1.1
-* NVHPC toolchain: NVHPC 21.7, OpenMPI 4.1.1
+* GCC toolchain: GCC, CUDA 12.3, OpenMPI 4.1.5
+* NVHPC toolchain: NVHPC 23.5 (CUDA 12.1), OpenMPI 4.1.5
 
 ### GCC toolchain
 
