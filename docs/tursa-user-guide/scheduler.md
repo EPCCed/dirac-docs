@@ -530,7 +530,7 @@ GPU the job can run on so both A100-40 and A100-80 can be used.
 #SBATCH --job-name=Example_MPI_job
 #SBATCH --time=12:0:0
 #SBATCH --partition=gpu
-#SBATCH --qos=gpu
+#SBATCH --qos=standard
 # Replace [budget code] below with your budget code (e.g. t01)
 #SBATCH --account=[budget code]  
 
