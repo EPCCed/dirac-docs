@@ -290,12 +290,16 @@ unset OMP_NUM_THREADS
 
 ## Compiler environment
 
-The system supports two different primary compiler environments:
+The system supports two different primary compiler environments for GPU nodes:
 
-* GCC toolchain: GCC, CUDA 12.3, OpenMPI 4.1.5
-* NVHPC toolchain: NVHPC 23.5 (CUDA 12.1), OpenMPI 4.1.5
+* GCC GPU toolchain: GCC, CUDA 12.3, OpenMPI 4.1.5
+* NVHPC GPU toolchain: NVHPC 23.5 (CUDA 12.1), OpenMPI 4.1.5
 
-### GCC toolchain
+and one compiler environment for CPU nodes:
+
+* GCC CPU toolchain: GCC, OpenMPI 4.1.5
+
+### GCC GPU toolchain
 
 To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
 
@@ -306,7 +310,6 @@ module load openmpi/4.1.5-cuda12.3
 
 
 module list
-Currently Loaded Modulefiles:
 Currently Loaded Modulefiles:
  1) /home/y07/shared/tursa-modules/setup-env   3) cuda/12.3             5) openmpi/4.1.5-cuda12.3  
  2) gcc/9.3.0                                  4) ucx/1.15.0-cuda12.3  
@@ -322,7 +325,7 @@ scripts are available:
 You can find more information on these scripts in the
 [OpenMPI documentation](https://www.open-mpi.org/doc/v4.1/).
 
-### NVHPC toolchain
+### NVHPC GPU toolchain
 
 To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
 
@@ -361,6 +364,32 @@ and the NVIDIA compilers are available as:
     export OMPI_CXX=nvc++
     export OMPI_FC=nvfortran
     ```
+
+### GCC CPU toolchain
+
+To compile on the system for CPU nodes using the GCC toolchain, you would typically load the required modules:
+
+```
+module load gcc/9.3.0
+module load openmpi/4.1.5
+
+
+module list
+Currently Loaded Modulefiles:
+ 1) /home/y07/shared/tursa-modules/setup-env   3) openmpi/4.1.5 
+ 2) gcc/9.3.0                                  4) ucx/1.15.0  
+```
+
+Once you have loaded the modules, the standard OpenMPI compiler wrapper
+scripts are available:
+
+- `mpicc`
+- `mpicxx`
+- `mpif90`
+
+You can find more information on these scripts in the
+[OpenMPI documentation](https://www.open-mpi.org/doc/v4.1/).
+
 
 ## Other build tools
 

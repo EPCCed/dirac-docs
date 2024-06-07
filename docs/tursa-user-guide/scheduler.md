@@ -387,8 +387,13 @@ You specify the resources you require for your job using directives at
 the top of your job submission script using lines that start with the
 directive `#SBATCH`.
 
-!!! hint
-    Most options provided using `#SBATCH` directives can also be specified as command line options to `srun`.
+!!! important
+    You should always ask for the full node resources in your sbatch options
+    with `tasks-per-node` equal to the number of CPU cores on the node and
+    `cpus-per-task` equal to 1 and then specify the process and thread 
+    pinning using `srun` options. You cannot specify process/thread pinning
+    options in `sbatch` options - if you try to do so you will run into
+    problems when launching the parallel executable using `srun`.
 
 If you do not specify any options, then the default for each option will
 be applied. As a minimum, all job submissions must specify the budget
@@ -405,49 +410,6 @@ Other common options that are used are:
    - `--job-name=<jobname>` set a name for the job to help identify it
      in
 
-In addition, parallel jobs will also need to specify how many nodes,
-parallel processes and threads they require.
-
-   - `--nodes=<nodes>` the number of nodes to use for the job.
-   - `--tasks-per-node=<processes per node>` the number of parallel
-     processes (e.g. MPI ranks) per node. For Grid on GPU nodes this will
-     typically be 4 to give 1 MPI process per GPU. The CPU nodes have 128
-     cores per node.
-   - `--cpus-per-task=<stride between processes>` for Grid jobs on GPU nodes
-     where you typically use 1 MPI process per GPU, 4 per node, this will
-     usually be 12 (so that the 48 cores on a node are evenly divided between
-     the 4 MPI processes)
-   - `--gres=gpu:4` the number of GPU to use per node. This will almost always
-     be 4 to use all GPUs on a node. (This option should not be specified for
-     jobs on the CPU nodes.)
-
-If you are happy to have any GPU type for your job (A100-40 or A100-80) then you
-select the `gpu` partition:
-
-   - `--partition=gpu`
-
-If you wish to use just the A100-80 GPU nodes which have higher memory, you add the
-following option:
-
-   - `--partition=gpu-a100-80` request the job is placed on nodes with high-memory
-   (80 GB) GPUs - there are 64 high memory GPU nodes on the system. 
-
-To just use the A100-40 GPU nodes:
-
-   - `--partition=gpu-a100-40` request the job is placed on nodes with standard memory
-   (40 GB) GPUs.
-
-If you do not specfy a partition, the scheduler may use any available node types for 
-the job (equivalent of `--partition=gpu`).
-
-!!! note
-    For parallel jobs, Tursa operates in a *node exclusive* way. This
-    means that you are assigned resources in the units of full compute nodes
-    for your jobs (*i.e.* 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes)
-    and that no other user can share those compute nodes with you. Hence,
-    the minimum amount of resource you can request for a parallel job is 1 node
-    (or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes).
-
 To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option
 
@@ -459,7 +421,46 @@ should be repeatable. We strongly recommend its use, although see
 [the following section](scheduler.md#using-modules-in-the-batch-system-the-epcc-job-env-module)
 to enable access to the usual modules.
 
-### GPU frequency
+### Resources for GPU jobs
+
+In addition, parallel GPU jobs will also need to specify how many nodes,
+parallel processes and threads they require.
+
+   - `--nodes=<nodes>` the number of nodes to use for the job.
+   - `--tasks-per-node=<processes per node>` this should be set to either
+      `32` (A100-40 or unspecified nodes) or `48` (A100-80 nodes)
+   - `--cpus-per-task=1` this should always be set to `1` 
+   - `--gres=gpu:4` the number of GPU to use per node. This will almost always
+     be 4 to use all GPUs on a node.
+
+If you are happy to have any GPU type for your job (A100-40 or A100-80) then you
+select the `gpu` partition:
+
+   - `--partition=gpu`
+
+If you wish to use just the A100-80 GPU nodes which have higher memory, you add the
+following option:
+
+   - `--partition=gpu-a100-80` request the job is placed on nodes with high-memory
+   (80 GB) GPUs with 48 cores per node - there are 64 high memory GPU nodes on the system. 
+
+To just use the A100-40 GPU nodes:
+
+   - `--partition=gpu-a100-40` request the job is placed on nodes with standard memory
+   (40 GB) GPUs with 32 cores per node.
+
+If you do not specfy a partition, the scheduler may use any available node types for 
+the job (equivalent of `--partition=gpu`).
+
+!!! note
+    For parallel jobs, Tursa operates in a *node exclusive* way. This
+    means that you are assigned resources in the units of full compute nodes
+    for your jobs (*i.e.* 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes)
+    and that no other user can share those compute nodes with you. Hence,
+    the minimum amount of resource you can request for a parallel job is 1 node
+    (or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes).
+
+#### GPU frequency
 
 !!! important
     The default GPU frequency on Tursa compute nodes was changed from 1410 MHz
@@ -477,6 +478,25 @@ Users can control the GPU frequency in their job submission scripts:
     that says `control disabled`. This is an incorrect message due to an issue with 
     how Slurm sets the GPU frequency and can be safely ignored.
 
+### Resources for CPU jobs
+
+Parallel CPU node jobs are specified in a similar way to GPU jobs
+
+   - `--nodes=<nodes>` the number of nodes to use for the job.
+   - `--tasks-per-node=128` this should always be set to `128`
+   - `--cpus-per-task=1` this should always be set to `1` 
+   - `--partition=cpu` this will always be set to `cpu` for CPU jobs
+
+
+!!! note
+    For parallel jobs, Tursa operates in a *node exclusive* way. This
+    means that you are assigned resources in the units of full compute nodes
+    for your jobs (*i.e.* 128 cores on CPU nodes)
+    and that no other user can share those compute nodes with you. Hence,
+    the minimum amount of resource you can request for a parallel job is 1 node
+    (128 cores on CPU nodes).
+
+
 ## `srun`: Launching parallel jobs
 
 !!! important
@@ -491,13 +511,13 @@ more srun commands to launch the parallel executable across the compute nodes. I
 most cases you will want to add the following options to `srun`:
 
 - `--nodes=[number of nodes]` - Set the number of compute nodes for this job step
-- `--ntasks-per-node=[MPI processes per node]` - This will usually be `4` for GPU jobs 
+- `--tasks-per-node=[MPI processes per node]` - This will usually be `4` for GPU jobs 
   as you usually have 1 MPI process per GPU
 - `--cpus-per-task=[stride between MPI processes]` - This will usually be either `8`
    (for A100-40 nodes) or `12` (for A100-80 nodes). If you are using the `gpu` QoS
    where you can get any type of GPU node, you will usually se this to `8`.
-- `--distribution=block:block` - do not use hyperthreads/SMP
-- `--hint=nomultithread`- the first `block` means use a block distribution
+- `--hint=nomultithread` - do not use hyperthreads/SMP
+- `--distribution=block:block`- the first `block` means use a block distribution
    of processes across nodes (i.e. fill nodes before moving onto the next one) and
    the second `block` means use a block distribution of processes across "sockets"
    within a node (i.e. fill a "socket" before moving on to the next one).
@@ -507,8 +527,8 @@ most cases you will want to add the following options to `srun`:
     On Tursa GPU nodes it corresponds to half the cores on a socket as the GPU nodes
     are configured with NPS2.
 
-    On the Tursa CPU nodes, the Slurm definition of a scoket does correspond to a physical
-    CPU socket (64 cores) as the COU nodes are configured with NPS1.
+    On the Tursa CPU nodes, the Slurm definition of a socket does correspond to a physical
+    CPU socket (64 cores) as the CPU nodes are configured with NPS1.
 
 ## Example job submission scripts
 
@@ -517,7 +537,7 @@ request full nodes with no process/thread pinning and then the individual
 `srun` commands set the correct options for dividing up processes and threads
 across nodes.
 
-### Example: job submission script for a parallel job using CUDA
+### Example: job submission script for a parallel GPU job
 
 A job submission script for a parallel job that uses 4 compute nodes, 4 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
@@ -527,7 +547,7 @@ GPU the job can run on so both A100-40 and A100-80 can be used.
 #!/bin/bash
 
 # Slurm job options
-#SBATCH --job-name=Example_MPI_job
+#SBATCH --job-name=Example_GPU_MPI_job
 #SBATCH --time=12:0:0
 #SBATCH --partition=gpu
 #SBATCH --qos=standard
@@ -571,7 +591,7 @@ MPI processes on 4 nodes. 4 GPUs will be used per node.
     of GPU to MPI processes and of network interface to GPU and MPI process.
     This script is described in more detail below.
 
-### `gpu_launch.sh` wrapper script
+#### `gpu_launch.sh` wrapper script
 
 The `gpu_launch.sh` wrapper script is required to set the correct binding of
 GPU to MPI processes and the correct binding of interconnect interfaces to 
@@ -591,9 +611,51 @@ export UCX_NET_DEVICES=mlx5_${lrank}:1
 $@
 ```
 
-## Using the `dev` QoS
+### Example: job submission script for a parallel CPU job
 
-The `dev` QoS is designed for faster turnaround of short jobs than is usually available through
+A job submission script for a parallel job that uses 1 compute node, 128 MPI
+processes per node.
+
+```slurm
+#!/bin/bash
+
+# Slurm job options
+#SBATCH --job-name=Example_CPU_MPI_job
+#SBATCH --time=1:0:0
+#SBATCH --partition=cpu
+#SBATCH --qos=standard
+# Replace [budget code] below with your budget code (e.g. t01)
+#SBATCH --account=[budget code]  
+
+# Request right number of full nodes (32 cores by node fits any GPU compute nodes))
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=128
+#SBATCH --cpus-per-task=1
+
+# Load the correct modules
+module load gcc/9.3.0
+module load openmpi/4.1.5
+
+export OMP_NUM_THREADS=1
+export OMP_PLACES=cores
+
+# These will need to be changed to match the actual application you are running
+application="my_mpi_app.x"
+options="arg 1 arg2"
+
+# We have reserved the full nodes, now distribute the processes as
+# required: 128 MPI processes per node
+srun --nodes=1 --ntasks-per-node=128 --cpus-per-task=1 \
+     --hint=nomultithread --distribution=block:block \
+     ${application} ${options}
+```
+
+This will run your executable "my_mpi_app.x" in parallel usimg 128
+MPI processes on 1 node.
+
+## Using the `dev` QoS for short GPU jobs
+
+The `dev` QoS is designed for faster turnaround of short GPU jobs than is usually available through
 the production QoS. It is subject to a number of restrictions:
 
 * 4 hour maximum walltime
