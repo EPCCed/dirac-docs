@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.24">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
     
     
       
@@ -141,7 +141,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -625,9 +625,33 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#resources-for-gpu-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources for GPU jobs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resources for GPU jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#gpu-frequency" class="md-nav__link">
     <span class="md-ellipsis">
       GPU frequency
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources-for-cpu-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources for CPU jobs
     </span>
   </a>
   
@@ -658,13 +682,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-job-submission-script-for-a-parallel-job-using-cuda" class="md-nav__link">
+  <a href="#example-job-submission-script-for-a-parallel-gpu-job" class="md-nav__link">
     <span class="md-ellipsis">
-      Example: job submission script for a parallel job using CUDA
+      Example: job submission script for a parallel GPU job
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Example: job submission script for a parallel GPU job">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#gpu_launchsh-wrapper-script" class="md-nav__link">
@@ -679,11 +704,25 @@
     </nav>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#example-job-submission-script-for-a-parallel-cpu-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: job submission script for a parallel CPU job
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#using-the-dev-qos" class="md-nav__link">
+  <a href="#using-the-dev-qos-for-short-gpu-jobs" class="md-nav__link">
     <span class="md-ellipsis">
-      Using the dev QoS
+      Using the dev QoS for short GPU jobs
     </span>
   </a>
   
@@ -928,9 +967,33 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#resources-for-gpu-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources for GPU jobs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resources for GPU jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#gpu-frequency" class="md-nav__link">
     <span class="md-ellipsis">
       GPU frequency
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources-for-cpu-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources for CPU jobs
     </span>
   </a>
   
@@ -961,13 +1024,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-job-submission-script-for-a-parallel-job-using-cuda" class="md-nav__link">
+  <a href="#example-job-submission-script-for-a-parallel-gpu-job" class="md-nav__link">
     <span class="md-ellipsis">
-      Example: job submission script for a parallel job using CUDA
+      Example: job submission script for a parallel GPU job
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Example: job submission script for a parallel GPU job">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#gpu_launchsh-wrapper-script" class="md-nav__link">
@@ -982,11 +1046,25 @@
     </nav>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#example-job-submission-script-for-a-parallel-cpu-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: job submission script for a parallel CPU job
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#using-the-dev-qos" class="md-nav__link">
+  <a href="#using-the-dev-qos-for-short-gpu-jobs" class="md-nav__link">
     <span class="md-ellipsis">
-      Using the dev QoS
+      Using the dev QoS for short GPU jobs
     </span>
   </a>
   
@@ -1520,9 +1598,14 @@ script.</p>
 <p>You specify the resources you require for your job using directives at
 the top of your job submission script using lines that start with the
 directive <code>#SBATCH</code>.</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>Most options provided using <code>#SBATCH</code> directives can also be specified as command line options to <code>srun</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You should always ask for the full node resources in your sbatch options
+with <code>tasks-per-node</code> equal to the number of CPU cores on the node and
+<code>cpus-per-task</code> equal to 1 and then specify the process and thread 
+pinning using <code>srun</code> options. You cannot specify process/thread pinning
+options in <code>sbatch</code> options - if you try to do so you will run into
+problems when launching the parallel executable using <code>srun</code>.</p>
 </div>
 <p>If you do not specify any options, then the default for each option will
 be applied. As a minimum, all job submissions must specify the budget
@@ -1539,49 +1622,6 @@ that they wish to charge the job too with the option:</p>
 <li><code>--job-name=&lt;jobname&gt;</code> set a name for the job to help identify it
      in</li>
 </ul>
-<p>In addition, parallel jobs will also need to specify how many nodes,
-parallel processes and threads they require.</p>
-<ul>
-<li><code>--nodes=&lt;nodes&gt;</code> the number of nodes to use for the job.</li>
-<li><code>--tasks-per-node=&lt;processes per node&gt;</code> the number of parallel
-     processes (e.g. MPI ranks) per node. For Grid on GPU nodes this will
-     typically be 4 to give 1 MPI process per GPU. The CPU nodes have 128
-     cores per node.</li>
-<li><code>--cpus-per-task=&lt;stride between processes&gt;</code> for Grid jobs on GPU nodes
-     where you typically use 1 MPI process per GPU, 4 per node, this will
-     usually be 12 (so that the 48 cores on a node are evenly divided between
-     the 4 MPI processes)</li>
-<li><code>--gres=gpu:4</code> the number of GPU to use per node. This will almost always
-     be 4 to use all GPUs on a node. (This option should not be specified for
-     jobs on the CPU nodes.)</li>
-</ul>
-<p>If you are happy to have any GPU type for your job (A100-40 or A100-80) then you
-select the <code>gpu</code> partition:</p>
-<ul>
-<li><code>--partition=gpu</code></li>
-</ul>
-<p>If you wish to use just the A100-80 GPU nodes which have higher memory, you add the
-following option:</p>
-<ul>
-<li><code>--partition=gpu-a100-80</code> request the job is placed on nodes with high-memory
-   (80 GB) GPUs - there are 64 high memory GPU nodes on the system. </li>
-</ul>
-<p>To just use the A100-40 GPU nodes:</p>
-<ul>
-<li><code>--partition=gpu-a100-40</code> request the job is placed on nodes with standard memory
-   (40 GB) GPUs.</li>
-</ul>
-<p>If you do not specfy a partition, the scheduler may use any available node types for 
-the job (equivalent of <code>--partition=gpu</code>).</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
-means that you are assigned resources in the units of full compute nodes
-for your jobs (<em>i.e.</em> 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes)
-and that no other user can share those compute nodes with you. Hence,
-the minimum amount of resource you can request for a parallel job is 1 node
-(or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes, 128 cores on CPU nodes).</p>
-</div>
 <p>To prevent the behaviour of batch scripts being dependent on the user
 environment at the point of submission, the option</p>
 <ul>
@@ -1592,7 +1632,45 @@ environment at the point of submission, the option</p>
 should be repeatable. We strongly recommend its use, although see
 <a href="./#using-modules-in-the-batch-system-the-epcc-job-env-module">the following section</a>
 to enable access to the usual modules.</p>
-<h3 id="gpu-frequency">GPU frequency</h3>
+<h3 id="resources-for-gpu-jobs">Resources for GPU jobs</h3>
+<p>In addition, parallel GPU jobs will also need to specify how many nodes,
+parallel processes and threads they require.</p>
+<ul>
+<li><code>--nodes=&lt;nodes&gt;</code> the number of nodes to use for the job.</li>
+<li><code>--tasks-per-node=&lt;processes per node&gt;</code> this should be set to either
+      <code>32</code> (A100-40 or unspecified nodes) or <code>48</code> (A100-80 nodes)</li>
+<li><code>--cpus-per-task=1</code> this should always be set to <code>1</code> </li>
+<li><code>--gres=gpu:4</code> the number of GPU to use per node. This will almost always
+     be 4 to use all GPUs on a node.</li>
+</ul>
+<p>If you are happy to have any GPU type for your job (A100-40 or A100-80) then you
+select the <code>gpu</code> partition:</p>
+<ul>
+<li><code>--partition=gpu</code></li>
+</ul>
+<p>If you wish to use just the A100-80 GPU nodes which have higher memory, you add the
+following option:</p>
+<ul>
+<li><code>--partition=gpu-a100-80</code> request the job is placed on nodes with high-memory
+   (80 GB) GPUs with 48 cores per node - there are 64 high memory GPU nodes on the system. </li>
+</ul>
+<p>To just use the A100-40 GPU nodes:</p>
+<ul>
+<li><code>--partition=gpu-a100-40</code> request the job is placed on nodes with standard memory
+   (40 GB) GPUs with 32 cores per node.</li>
+</ul>
+<p>If you do not specfy a partition, the scheduler may use any available node types for 
+the job (equivalent of <code>--partition=gpu</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
+means that you are assigned resources in the units of full compute nodes
+for your jobs (<em>i.e.</em> 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes)
+and that no other user can share those compute nodes with you. Hence,
+the minimum amount of resource you can request for a parallel job is 1 node
+(or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes).</p>
+</div>
+<h4 id="gpu-frequency">GPU frequency</h4>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>The default GPU frequency on Tursa compute nodes was changed from 1410 MHz
@@ -1611,6 +1689,23 @@ service.</p>
 that says <code>control disabled</code>. This is an incorrect message due to an issue with 
 how Slurm sets the GPU frequency and can be safely ignored.</p>
 </div>
+<h3 id="resources-for-cpu-jobs">Resources for CPU jobs</h3>
+<p>Parallel CPU node jobs are specified in a similar way to GPU jobs</p>
+<ul>
+<li><code>--nodes=&lt;nodes&gt;</code> the number of nodes to use for the job.</li>
+<li><code>--tasks-per-node=128</code> this should always be set to <code>128</code></li>
+<li><code>--cpus-per-task=1</code> this should always be set to <code>1</code> </li>
+<li><code>--partition=cpu</code> this will always be set to <code>cpu</code> for CPU jobs</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
+means that you are assigned resources in the units of full compute nodes
+for your jobs (<em>i.e.</em> 128 cores on CPU nodes)
+and that no other user can share those compute nodes with you. Hence,
+the minimum amount of resource you can request for a parallel job is 1 node
+(128 cores on CPU nodes).</p>
+</div>
 <h2 id="srun-launching-parallel-jobs"><code>srun</code>: Launching parallel jobs</h2>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -1625,13 +1720,13 @@ more srun commands to launch the parallel executable across the compute nodes. I
 most cases you will want to add the following options to <code>srun</code>:</p>
 <ul>
 <li><code>--nodes=[number of nodes]</code> - Set the number of compute nodes for this job step</li>
-<li><code>--ntasks-per-node=[MPI processes per node]</code> - This will usually be <code>4</code> for GPU jobs 
+<li><code>--tasks-per-node=[MPI processes per node]</code> - This will usually be <code>4</code> for GPU jobs 
   as you usually have 1 MPI process per GPU</li>
 <li><code>--cpus-per-task=[stride between MPI processes]</code> - This will usually be either <code>8</code>
    (for A100-40 nodes) or <code>12</code> (for A100-80 nodes). If you are using the <code>gpu</code> QoS
    where you can get any type of GPU node, you will usually se this to <code>8</code>.</li>
-<li><code>--distribution=block:block</code> - do not use hyperthreads/SMP</li>
-<li><code>--hint=nomultithread</code>- the first <code>block</code> means use a block distribution
+<li><code>--hint=nomultithread</code> - do not use hyperthreads/SMP</li>
+<li><code>--distribution=block:block</code>- the first <code>block</code> means use a block distribution
    of processes across nodes (i.e. fill nodes before moving onto the next one) and
    the second <code>block</code> means use a block distribution of processes across "sockets"
    within a node (i.e. fill a "socket" before moving on to the next one).</li>
@@ -1641,22 +1736,22 @@ most cases you will want to add the following options to <code>srun</code>:</p>
 <p>The Slurm definition of a "socket" does not usually correspond to a physical CPU socket.
 On Tursa GPU nodes it corresponds to half the cores on a socket as the GPU nodes
 are configured with NPS2.</p>
-<p>On the Tursa CPU nodes, the Slurm definition of a scoket does correspond to a physical
-CPU socket (64 cores) as the COU nodes are configured with NPS1.</p>
+<p>On the Tursa CPU nodes, the Slurm definition of a socket does correspond to a physical
+CPU socket (64 cores) as the CPU nodes are configured with NPS1.</p>
 </div>
 <h2 id="example-job-submission-scripts">Example job submission scripts</h2>
 <p>The typical strategy for submitting josb on Tursa is for the batch script to 
 request full nodes with no process/thread pinning and then the individual 
 <code>srun</code> commands set the correct options for dividing up processes and threads
 across nodes.</p>
-<h3 id="example-job-submission-script-for-a-parallel-job-using-cuda">Example: job submission script for a parallel job using CUDA</h3>
+<h3 id="example-job-submission-script-for-a-parallel-gpu-job">Example: job submission script for a parallel GPU job</h3>
 <p>A job submission script for a parallel job that uses 4 compute nodes, 4 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
 GPU the job can run on so both A100-40 and A100-80 can be used.</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Slurm job options</span>
-<span class="kp">#SBATCH --job-name=Example_MPI_job</span>
+<span class="kp">#SBATCH --job-name=Example_GPU_MPI_job</span>
 <span class="kp">#SBATCH --time=12:0:0</span>
 <span class="kp">#SBATCH --partition=gpu</span>
 <span class="kp">#SBATCH --qos=standard</span>
@@ -1699,7 +1794,7 @@ MPI processes on 4 nodes. 4 GPUs will be used per node.</p>
 of GPU to MPI processes and of network interface to GPU and MPI process.
 This script is described in more detail below.</p>
 </div>
-<h3 id="gpu_launchsh-wrapper-script"><code>gpu_launch.sh</code> wrapper script</h3>
+<h4 id="gpu_launchsh-wrapper-script"><code>gpu_launch.sh</code> wrapper script</h4>
 <p>The <code>gpu_launch.sh</code> wrapper script is required to set the correct binding of
 GPU to MPI processes and the correct binding of interconnect interfaces to 
 MPI process and GPU. We provide this centrally for convenience but its contents
@@ -1715,8 +1810,45 @@ export UCX_NET_DEVICES=mlx5_${lrank}:1
 
 $@
 </code></pre></div>
-<h2 id="using-the-dev-qos">Using the <code>dev</code> QoS</h2>
-<p>The <code>dev</code> QoS is designed for faster turnaround of short jobs than is usually available through
+<h3 id="example-job-submission-script-for-a-parallel-cpu-job">Example: job submission script for a parallel CPU job</h3>
+<p>A job submission script for a parallel job that uses 1 compute node, 128 MPI
+processes per node.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Slurm job options</span>
+<span class="kp">#SBATCH --job-name=Example_CPU_MPI_job</span>
+<span class="kp">#SBATCH --time=1:0:0</span>
+<span class="kp">#SBATCH --partition=cpu</span>
+<span class="kp">#SBATCH --qos=standard</span>
+<span class="c1"># Replace [budget code] below with your budget code (e.g. t01)</span>
+<span class="kp">#SBATCH --account=[budget code]  </span>
+
+<span class="c1"># Request right number of full nodes (32 cores by node fits any GPU compute nodes))</span>
+<span class="kp">#SBATCH --nodes=1</span>
+<span class="kp">#SBATCH --ntasks-per-node=128</span>
+<span class="kp">#SBATCH --cpus-per-task=1</span>
+
+<span class="c1"># Load the correct modules</span>
+module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0
+module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+
+<span class="c1"># These will need to be changed to match the actual application you are running</span>
+<span class="nv">application</span><span class="o">=</span><span class="s2">&quot;my_mpi_app.x&quot;</span>
+<span class="nv">options</span><span class="o">=</span><span class="s2">&quot;arg 1 arg2&quot;</span>
+
+<span class="c1"># We have reserved the full nodes, now distribute the processes as</span>
+<span class="c1"># required: 128 MPI processes per node</span>
+<span class="nb">srun</span><span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">128</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--distribution<span class="o">=</span>block:block<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span><span class="si">${</span><span class="nv">application</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">options</span><span class="si">}</span>
+</code></pre></div>
+<p>This will run your executable "my_mpi_app.x" in parallel usimg 128
+MPI processes on 1 node.</p>
+<h2 id="using-the-dev-qos-for-short-gpu-jobs">Using the <code>dev</code> QoS for short GPU jobs</h2>
+<p>The <code>dev</code> QoS is designed for faster turnaround of short GPU jobs than is usually available through
 the production QoS. It is subject to a number of restrictions:</p>
 <ul>
 <li>4 hour maximum walltime</li>
@@ -1831,7 +1963,7 @@ module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
     
   </body>
