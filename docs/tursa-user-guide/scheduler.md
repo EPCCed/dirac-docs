@@ -9,9 +9,6 @@ Writing a submission script is typically the most convenient way to
 submit your job to the scheduler. Example submission scripts (with
 explanations) for the most common job types are provided below.
 
-Interactive jobs are also available and can be particularly useful for
-developing and debugging applications. More details are available below.
-
 !!! hint
     If you have any questions on how to run jobs on Tursa do not hesitate
     to contact the [DiRAC Service Desk](mailto:dirac-support@epcc.ed.ac.uk).
