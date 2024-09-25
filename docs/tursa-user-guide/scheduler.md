@@ -190,10 +190,10 @@ On Tursa, job limits are defined by the requested Quality of Service
 (QoS), as specified by the `--qos` Slurm directive. The following table
 lists the active QoS on Tursa.
 
-| QoS        | Max Nodes Per Job | Max Walltime | Jobs Queued | Jobs Running | Partition(s) | Notes |
+| QoS        | Max Nodes Per Job | Max Walltime | Queued | Running | Partition(s) | Notes |
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
-| standard   | 64                | 48 hrs       | 32          | 16           | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive. |
-| low        | 64                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative |
+| standard   | 32                | 48 hrs       | Max. 64 nodes per user | Max. 32 nodes per user | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is positive. |
+| low        | 32                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is zero or negative |
 | dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with the `gpu-a100-40` (1-node maximum) or `gpu-a100-80` (2-node maximum) partitions.  |
 
 You can find out the QoS that you can use by running the following
@@ -213,7 +213,7 @@ budget you can use the `low` QoS to continue to run jobs at a lower priority tha
 
 !!! important
     Only jobs sizes that are powers of 2 nodes
-    are allowed. i.e. 1, 2, 4, 8, 16, 32, 64 nodes on the `gpu` partition and 
+    are allowed. i.e. 1, 2, 4, 8, 16, 32 nodes on the `gpu` partition and 
     1, 2, 4 nodes on the `cpu` partition. There is a discussion of why this is enforced in
     the [Hardware](hardware.md) section of the User Guide.
 
