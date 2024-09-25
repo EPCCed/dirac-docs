@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.37">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.06209087.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1271,8 +1271,8 @@ lists the active QoS on Tursa.</p>
 <th>QoS</th>
 <th>Max Nodes Per Job</th>
 <th>Max Walltime</th>
-<th>Jobs Queued</th>
-<th>Jobs Running</th>
+<th>Queued</th>
+<th>Running</th>
 <th>Partition(s)</th>
 <th>Notes</th>
 </tr>
@@ -1280,21 +1280,21 @@ lists the active QoS on Tursa.</p>
 <tbody>
 <tr>
 <td>standard</td>
-<td>64</td>
-<td>48 hrs</td>
 <td>32</td>
-<td>16</td>
+<td>48 hrs</td>
+<td>Max. 64 nodes per user</td>
+<td>Max. 32 nodes per user</td>
 <td>gpu, gpu-a100-40, gpu-a100-80, cpu</td>
-<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is positive.</td>
+<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is positive.</td>
 </tr>
 <tr>
 <td>low</td>
-<td>64</td>
+<td>32</td>
 <td>24 hrs</td>
 <td>4</td>
 <td>4</td>
 <td>gpu, gpu-a100-40, gpu-a100-40, cpu</td>
-<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32, 64 nodes), only available when your budget is zero or negative</td>
+<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is zero or negative</td>
 </tr>
 <tr>
 <td>dev</td>
@@ -1324,7 +1324,7 @@ can discuss how to accommodate your requirements.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Only jobs sizes that are powers of 2 nodes
-are allowed. i.e. 1, 2, 4, 8, 16, 32, 64 nodes on the <code>gpu</code> partition and 
+are allowed. i.e. 1, 2, 4, 8, 16, 32 nodes on the <code>gpu</code> partition and 
 1, 2, 4 nodes on the <code>cpu</code> partition. There is a discussion of why this is enforced in
 the <a href="../hardware/">Hardware</a> section of the User Guide.</p>
 </div>
@@ -1961,7 +1961,7 @@ module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.5-cuda12.3
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>
