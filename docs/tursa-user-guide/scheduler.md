@@ -192,7 +192,7 @@ lists the active QoS on Tursa.
 
 | QoS        | Max Nodes Per Job | Max Walltime | Queued | Running | Partition(s) | Notes |
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
-| standard   | 32                | 48 hrs       | Max. 64 nodes per user | Max. 32 nodes per user | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is positive. |
+| standard   | 128                | 48 hrs       | Max. 128 nodes per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is positive. |
 | low        | 32                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is zero or negative |
 | dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS must be used with the `gpu-a100-40` (1-node maximum) or `gpu-a100-80` (2-node maximum) partitions.  |
 
