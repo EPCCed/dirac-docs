@@ -58,6 +58,10 @@ The Tursa storage is provided by a parallel Lustre file system that
 provides your home directories and working storage. When you log in
 you will be placed in your home directory. 
 
+!!!warning
+   The Lustre file system is backed up for disaster recovery purposes only (e.g. loss of the whole file system) so it is not
+   possible to recover individual files if they are deleted by mistake or otherwise lost.
+
 The home directory for each user is located at:
 
     /home/[project code]/[group code]/[username]
