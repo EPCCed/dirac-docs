@@ -61,17 +61,23 @@ available, use:
 
 ```
 [dc-user1@tursa-login1 ~]$ module avail
------------------------------------------------------- /home/y07/shared/tursa-modules -----------------------------------------------
-cmake/3.27.4  nvhpc/23.5-nompi  setup-env  
+---------------------------------------- /home/y07/shared/tursa-modules ----------------------------------------
+cmake/3.27.4        openmpi/4.1.5                       ucx/1.15.0                       
+cudnn/9.3.0-cuda12  openmpi/4.1.5-gcc9-cpu              ucx/1.15.0-gcc9-cpu              
+gcc/9.3.0(default)  openmpi/4.1.5-gcc9-cuda12(default)  ucx/1.15.0-gcc9-cuda12(default)  
+gcc/12.2.0          openmpi/4.1.5-gcc12-cpu             ucx/1.15.0-gcc12-cpu             
+gdrcopy/2.5.1       openmpi/4.1.5-gcc12-cuda12          ucx/1.15.0-gcc12-cuda12          
+nvhpc/23.5-nompi    setup-env                           
 
------------------------------------------ /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles -------------------------------------------
+------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles --------------------------------
 cuda/12.3  openmpi/4.1.5-cuda12.3  ucx/1.15.0-cuda12.3  
 
-------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles ---------------------------------------
+------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -------------------------------
 cuda/11.4.1  openmpi/4.1.1-cuda11.4.1  ucx/1.12.0-cuda11.4.1  
 
-------------------------------------------------- /mnt/lustre/tursafs1/apps/modulefiles --------------------------------
-cuda/11.0.3  dot  gcc/9.3.0  module-git  module-info  modules  null  openmpi/4.0.4  openmpi/4.1.1  ucx/1.10.1  use.own  xpmem/2.6.5  
+------------------------------------ /mnt/lustre/tursafs1/apps/modulefiles -------------------------------------
+cuda/11.0.3  gcc/9.3.0(default)  module-info  null           openmpi/4.1.1  use.own      
+dot          module-git          modules      openmpi/4.0.4  ucx/1.10.1     xpmem/2.6.5   
 ```
 
 This will list all the names and versions of the modules available on
@@ -88,14 +94,18 @@ available versions of the OpenMPI library, use:
 
 ```
 [dc-user1@tursa-login1 ~]$ module avail openmpi
-------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles -------------------------------------------------
+---------------------------------------- /home/y07/shared/tursa-modules ----------------------------------------
+openmpi/4.1.5           openmpi/4.1.5-gcc9-cuda12(default)  openmpi/4.1.5-gcc12-cuda12  
+openmpi/4.1.5-gcc9-cpu  openmpi/4.1.5-gcc12-cpu             
+
+------------------------------- /mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles --------------------------------
 openmpi/4.1.5-cuda12.3  
 
------------------------------------------------- /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles ------------------------------------------------
+------------------------------ /mnt/lustre/tursafs1/apps/cuda-11.4.1-modulefiles -------------------------------
 openmpi/4.1.1-cuda11.4.1  
 
------------------------------------------------------- /mnt/lustre/tursafs1/apps/modulefiles ------------------------------------------------------
-openmpi/4.0.4  openmpi/4.1.1 
+------------------------------------ /mnt/lustre/tursafs1/apps/modulefiles -------------------------------------
+openmpi/4.0.4  openmpi/4.1.1  
 ```
 
 The `module show` command reveals what operations the module actually
@@ -106,7 +116,7 @@ below. For example, for the default openmpi module:
 ```
 [dc-user1@tursa-login1 ~]$ module show openmpi
 -------------------------------------------------------------------
-/mnt/lustre/tursafs1/apps/cuda-12.3-modulefiles/openmpi/4.1.5-cuda12.3:
+/home/y07/shared/tursa-modules/openmpi/4.1.5-gcc9-cuda12:
 
 module-whatis   Sets up OpenMPI on your environment
 setenv          MPI_ROOT        /mnt/lustre/tursafs1/apps/basestack/cuda-12.3/openmpi/4.1.5-cuda12.3-slurm
@@ -135,7 +145,6 @@ the default version of OpenMPI into your environment, use:
         UCX 1.15.0 compiled with cuda 12.3 loaded
 
         OpenMPI 4.1.5 with cuda-12.3 and UCX 1.15.0 loaded
-
 ```
 
 Once you have done this, your environment will be setup to use the OpenMPI library.
@@ -144,16 +153,10 @@ OpenMPI. If you need a specific version of the software, you can
 add more information:
 
 ```
-[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.1-cuda11.4.1
-
-        UCX 1.12.0 compiled with cuda 11.4.1 loaded
-
-
-        OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
-
+[dc-user1@tursa-login1 ~]$ module load openmpi/4.1.5-gcc12-cuda12 
 ```
 
-will load OpenMPI version 4.1.1 with CUDA 11.4.1 into your environment,
+will load OpenMPI version 4.1.5 compiled with GCC 12.2 and CUDA 12.3 into your environment,
 regardless of the default.
 
 If you want to remove software from your environment, `module rm`
@@ -172,17 +175,11 @@ version which is not yet the default or using a legacy version to keep
 compatibility with old data. This can be achieved most easily by using
 `module swap oldmodule newmodule`.
 
-Suppose you have loaded version 4.1.1 of `openmpi`, the following
-command will change to version 4.1.1-cuda11.4.1:
+Suppose you have loaded version `4.1.5-gcc9-cuda12` of `openmpi`, the following
+command will change to version `4.1.5-gcc12-cuda12`:
 
 ```
-[dc-user1@tursa-login1 ~]$ module swap openmpi openmpi/4.1.1-cuda11.4.1
-
-        UCX 1.12.0 compiled with cuda 11.4.1 loaded
-
-
-        OpenMPI 4.1.1 with cuda-11.4.1 and UCX 1.12.0  loaded
-
+[dc-user1@tursa-login1 ~]$ module swap openmpi openmpi/4.1.5-gcc12-cuda12
 ```
 
 You did not need to specify the version of the loaded module in your
@@ -290,14 +287,16 @@ unset OMP_NUM_THREADS
 
 ## Compiler environment
 
-The system supports two different primary compiler environments for GPU nodes:
+The system supports three different primary compiler environments for GPU nodes:
 
-* GCC GPU toolchain: GCC, CUDA 12.3, OpenMPI 4.1.5
+* GCC GPU toolchain: GCC 12.2.0, CUDA 12.3, OpenMPI 4.1.5
+* GCC GPU toolchain: GCC 9.3.0, CUDA 12.3, OpenMPI 4.1.5
 * NVHPC GPU toolchain: NVHPC 23.5 (CUDA 12.1), OpenMPI 4.1.5
 
-and one compiler environment for CPU nodes:
+and two compiler environments for CPU nodes:
 
-* GCC CPU toolchain: GCC, OpenMPI 4.1.5
+* GCC CPU toolchain: GCC 12.2.0, OpenMPI 4.1.5
+* GCC CPU toolchain: GCC 9.3.0, OpenMPI 4.1.5
 
 ### GCC GPU toolchain
 
@@ -306,13 +305,16 @@ To compile on the system for GPU nodes using the GCC toolchain, you would typica
 ```
 module load gcc/9.3.0
 module load cuda/12.3 
-module load openmpi/4.1.5-cuda12.3
+module load openmpi/4.1.5-gcc9-cuda12
 
 
 module list
+
 Currently Loaded Modulefiles:
- 1) /home/y07/shared/tursa-modules/setup-env   3) cuda/12.3             5) openmpi/4.1.5-cuda12.3  
- 2) gcc/9.3.0                                  4) ucx/1.15.0-cuda12.3  
+ 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   5) openmpi/4.1.5-gcc12-cuda12  
+ 2) ucx/1.15.0-cuda12.3                                            6) gcc/9.3.0(default)          
+ 3) openmpi/4.1.5-gcc9-cuda12(default)                             7) cuda/12.3                   
+ 4) ucx/1.15.0-gcc12-cuda12       
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
@@ -332,12 +334,13 @@ To compile on the system for GPU nodes using the GCC toolchain, you would typica
 ```
 module load gcc/9.3.0
 module load nvhpc/23.5-nompi
-module load openmpi/4.1.5-cuda12.3
+module load openmpi/4.1.5-gcc9-cuda12
+
 module list
 
 Currently Loaded Modulefiles:
- 1) /home/y07/shared/tursa-modules/setup-env   3) nvhpc/23.5-nompi      5) openmpi/4.1.5-cuda12.3  
- 2) gcc/9.3.0                                  4) ucx/1.15.0-cuda12.3  
+ 1) /home/y07/shared/tursa-modules/setup-env   3) nvhpc/23.5-nompi      5) openmpi/4.1.5-gcc9-cuda12(default)  
+ 2) gcc/9.3.0(default)                         4) ucx/1.15.0-cuda12.3 
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
@@ -371,13 +374,13 @@ To compile on the system for CPU nodes using the GCC toolchain, you would typica
 
 ```
 module load gcc/9.3.0
-module load openmpi/4.1.5
-
+module load openmpi/4.1.5-gcc9-cpu
 
 module list
+
 Currently Loaded Modulefiles:
- 1) /home/y07/shared/tursa-modules/setup-env   3) openmpi/4.1.5 
- 2) gcc/9.3.0                                  4) ucx/1.15.0  
+ 1) /home/y07/shared/tursa-modules/setup-env   3) ucx/1.15.0              
+ 2) gcc/9.3.0(default)                         4) openmpi/4.1.5-gcc9-cpu  
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
@@ -398,6 +401,5 @@ You can find more information on these scripts in the
 CMake is available by using the commands:
 
 ```
-[dc-user1@tursa-login1 ~]$ module load /home/y07/shared/tursa-modules/setup-env
 [dc-user1@tursa-login1 ~]$ module load cmake
 ```
