@@ -9,6 +9,10 @@ which software and versions are available to you.
     contains the settings required to run a software package and, usually,
     encodes required dependencies on other software packages.
 
+!!! tip
+    You may wish to consider using [Spack on Tursa](spack.md) to manage
+    your software installations and to help you compile software.
+
 By default, all users on Tursa start with the default software
 environment loaded.
 
@@ -403,3 +407,9 @@ CMake is available by using the commands:
 ```
 [dc-user1@tursa-login1 ~]$ module load cmake
 ```
+
+### Spack
+
+See the [Spack on Tursa](spack.md) section for information on using the
+[Spack](https://spack.readthedocs.io) software package manager to install
+and manage software.
