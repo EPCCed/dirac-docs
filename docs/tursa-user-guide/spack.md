@@ -152,7 +152,7 @@ more information.
 
 ## Custom configuration
 
-Spack is configured using YAML files. The central installation on ARCHER2 made
+Spack is configured using YAML files. The central installation on Tursa made
 available to users is configured to use pre-installed software and
 to allow you to start installing software to your `/home` directories right
 away, but if you wish to make any changes you can provide your own overriding
@@ -160,7 +160,7 @@ userspace configuration.
 
 Your own configuration should fit in the user level scope. On Tursa Spack is
 configured to, by default, place and look for your configuration files in your
-work directory at e.g. `/home/dp001/dp001/dc-user1/.spack`. You can however override
+home directory at e.g. `/home/dp001/dp001/dc-user1/.spack`. You can however override
 this to have Spack use any directory you choose by setting the
 `SPACK_USER_CONFIG_PATH` environment variable, for example:
 
