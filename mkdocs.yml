@@ -29,4 +29,5 @@ nav:
     - "Data Management and transfer": tursa-user-guide/data.md
     - "Software environment": tursa-user-guide/sw-environment.md
     - "Running jobs on Tursa": tursa-user-guide/scheduler.md
+    - "Spack on Tursa": tursa-user-guide/spack.md
 
