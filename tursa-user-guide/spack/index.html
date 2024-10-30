@@ -1,0 +1,1061 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../scheduler/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Spack on Tursa - DiRAC Extreme Scaling User Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spack" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DiRAC Extreme Scaling User Documentation" class="md-header__button md-logo" aria-label="DiRAC Extreme Scaling User Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DiRAC Extreme Scaling User Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spack on Tursa
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EPCCed/dirac-docs.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    EPCCed/dirac-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DiRAC Extreme Scaling User Documentation" class="md-nav__button md-logo" aria-label="DiRAC Extreme Scaling User Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DiRAC Extreme Scaling User Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EPCCed/dirac-docs.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    EPCCed/dirac-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Documentation overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tursa User Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Tursa User Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hardware
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connecting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Connecting to Tursa
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Management and transfer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sw-environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Software environment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scheduler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running jobs on Tursa
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Spack on Tursa
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Spack on Tursa
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#activating-spack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activating Spack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-spack-on-tursa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Spack on Tursa
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Spack on Tursa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing software
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-spack-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Spack packages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maintaining-your-spack-installations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maintaining your Spack installations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-new-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing new packages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing new packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-your-own-package-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating your own package repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaces-and-repository-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      Namespaces and repository priority
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a package
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#activating-spack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activating Spack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-spack-on-tursa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Spack on Tursa
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Spack on Tursa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing software
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-spack-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Spack packages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maintaining-your-spack-installations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maintaining your Spack installations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-new-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing new packages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing new packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-your-own-package-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating your own package repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaces-and-repository-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      Namespaces and repository priority
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a package
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="spack">Spack</h1>
+<p><a href="https://github.com/spack/spack">Spack</a> is a package manager, a tool to assist
+with building and installing software as well as determining what dependencies
+are required and installing those. It was originally designed for use on HPC
+clusters, where several variations of a given package may be installed alongside
+one another for different use cases -- for example different versions, built
+with different compilers, using MPI or hybrid MPI+OpenMP. Spack is principally
+written in Python but has a component written in Answer Set Programming (ASP)
+which is used to determine the required dependencies for a given package
+installation.</p>
+<p>Users are welcome to install Spack themselves in their own directories, but we
+are making an experimental installation tailored for Tursa available
+centrally. This page provides documentation on how to activate and install
+packages using the central installation on Tursa. For more in-depth
+information on using Spack itself please see the <a href="https://spack.readthedocs.io/en/latest/">developers'
+documentation</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>As the Tursa central Spack installation is still in an experimental stage
+please be aware that we cannot guarantee that it will work with full
+functionality and we may not be able to provide support.</p>
+</div>
+<h2 id="activating-spack">Activating Spack</h2>
+<p>You activate Spack in your environment on Tursa with the command:</p>
+<div class="highlight"><pre><span></span><code>source /home/y07/shared/utils/core/spack/share/spack/setup-env.sh
+</code></pre></div>
+<p>This configures Spack to place its cache on and install software to a directory
+called <code>.spack</code> in your base home directory, e.g. at
+<code>/home/dp001/dp001/dc-user1/.spack</code>.</p>
+<p>At this point Spack is available to you via the <code>spack</code> command. You can get
+started with <code>spack help</code>, reading the <a href="https://spack.readthedocs.io/en/latest/">Spack
+documentation</a>, or by testing a
+package's installation.</p>
+<h2 id="using-spack-on-tursa">Using Spack on Tursa</h2>
+<h3 id="installing-software">Installing software</h3>
+<p>At its simplest, Spack installs software with the <code>spack install</code> command:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack install gromacs
+</code></pre>
+<p>This very simple <code>gromacs</code> installation specification, or spec, would install
+GROMACS using the default options given by the Spack <code>gromacs</code> package. The spec
+can be expanded to include which options you like. For example, the command</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack install gromacs@2024.3 %gcc +mpi +cuda
+</code></pre>
+<p>would use the GCC compiler to install an MPI-enabled and CUDA-enabled version of GROMACS version
+2024.3.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Spack needs to bootstrap the installation of some extra software in order to
+function, principally <code>clingo</code> which is used to solve the dependencies
+required for an installation. The first time you ask Spack to concretise a
+spec into a precise set of requirements, it will take extra time as it
+downloads this software and extracts it into a local directory for Spack's
+use.</p>
+</div>
+<p>You can find information about any Spack package and the options
+available to use with the <code>spack info</code> command:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack info gromacs
+</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The Spack developers also provide a website at
+<a href="https://packages.spack.io/">https://packages.spack.io/</a> where you can
+search for and examine packages, including all information on options,
+versions and dependencies.</p>
+</div>
+<p>When installing a package, Spack will determine what dependencies are required
+to support it. If they are not already available to Spack, either as packages
+that it has installed beforehand or as external dependencies, then Spack will
+also install those, marking them as implicitly installed, as opposed to the
+explicit installation of the package you requested. If you want to see the
+dependencies of a package before you install it, you can use <code>spack spec</code> to see
+the full concretised set of packages:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack spec gromacs@2024.2 %gcc +mpi +cuda
+</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Spack on Tursa has been configured to use already installed versions of
+some software, e.g., OpenMPI, CUDA.</p>
+</div>
+<h3 id="using-spack-packages">Using Spack packages</h3>
+<p>Spack provides a module-like way of making software that you have installed
+available to use. If you have a GROMACS installation, you can make it
+available to use with <code>spack load</code>:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack load gromacs
+</code></pre>
+<p>At this point you should be able to use the software as normal. You can then
+remove it once again from the environment with <code>spack unload</code>:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack unload gromacs
+</code></pre>
+<p>If you have multiple variants of the same package installed, you can use the
+spec to distinguish between them. You can always check what packages have been
+installed using the <code>spack find</code> command. If no other arguments are given it
+will simply list all installed packages, or you can give a package name to
+narrow it down:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack find gromacs
+</code></pre>
+<p>You can see your packages' install locations using <code>spack find --paths</code> or
+<code>spack find -p</code>.</p>
+<h3 id="maintaining-your-spack-installations">Maintaining your Spack installations</h3>
+<p>In any Spack command that requires as an argument a reference to an installed
+package, you can provide a hash reference to it rather than its spec. You can
+see the first part of the hash by running <code>spack find -l</code>, or the full hash with
+<code>spack find -L</code>. Then use the hash in a command by prefixing it with a forward
+slash, e.g. <code>wjy5dus</code> becomes <code>/wjy5dus</code>.</p>
+<p>If you have two packages installed which appear identical in <code>spack find</code> apart
+from their hash, you can differentiate them with <code>spack diff</code>:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack diff /wjy5dus /bleelvs
+</code></pre>
+<p>You can uninstall your packages with <code>spack uninstall</code>:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack uninstall gromacs@2024.2
+</code></pre>
+<p>and of course, to be absolutely certain that you are uninstalling the correct
+package, you can provide the hash:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack uninstall /wjy5dus
+</code></pre>
+<p>Uninstalling a package will leave behind any implicitly installed packages that
+were installed to support it. Spack may have also installed build-time
+dependencies that aren't actually needed any more -- these are often packages
+like <code>autoconf</code>, <code>cmake</code> and <code>m4</code>. You can run the garbage collection command to
+uninstall any build dependencies and implicit dependencies that are no longer
+required:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack gc
+</code></pre>
+<p>If you commonly use a set of Spack packages together you may want to consider
+using a Spack environment to assist you in their installation and management.
+Please see the <a href="https://spack.readthedocs.io/en/latest/environments.html">Spack
+documentation</a> for
+more information.</p>
+<h2 id="custom-configuration">Custom configuration</h2>
+<p>Spack is configured using YAML files. The central installation on Tursa made
+available to users is configured to use pre-installed software and
+to allow you to start installing software to your <code>/home</code> directories right
+away, but if you wish to make any changes you can provide your own overriding
+userspace configuration.</p>
+<p>Your own configuration should fit in the user level scope. On Tursa Spack is
+configured to, by default, place and look for your configuration files in your
+home directory at e.g. <code>/home/dp001/dp001/dc-user1/.spack</code>. You can however override
+this to have Spack use any directory you choose by setting the
+<code>SPACK_USER_CONFIG_PATH</code> environment variable, for example:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ export SPACK_USER_CONFIG_PATH=/home/dp001/dp001/dc-user1/spack-config
+</code></pre>
+<p>Of course this will need to be a directory where you have write permissions,
+such in your home or work directories, or in one of your project's <code>shared</code>
+directories.</p>
+<p>You can edit the configuration files directly in a text editor or by
+running, for example:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack config edit repos
+</code></pre>
+<p>which would open your <code>repos.yaml</code> in <code>vim</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you would rather not use <code>vim</code>, you can change which editor is used by
+Spack by setting the <code>SPACK_EDITOR</code> environment variable.</p>
+</div>
+<p>The final configuration used by Spack is a compound of several scopes, from the
+Spack defaults which are overridden by the Tursa system configuration files,
+which can then be overridden in turn by your own configurations. You can see
+what options are in use at any point by running, for example:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack config get config
+</code></pre>
+<p>which goes through any and all <code>config.yaml</code> files known to Spack and sets
+the options according to those files' level of precedence. You can also get more
+information on which files are responsible for which lines in the final active
+configuration by running, for example to check <code>packages.yaml</code>:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack config blame packages
+</code></pre>
+<p>Unless you have already written a <code>packages.yaml</code> of your own, this will show a
+mix of options originating from the Spack defaults and also from the configuration
+we have created on Tursa.</p>
+<p>If there is some behaviour in Spack that you want to change, looking at the
+output of <code>spack config get</code> and <code>spack config blame</code> may help to show what you
+would need to do. You can then write your own user scope configuration file to
+set the behaviour you want, which will override the option as set by the
+lower-level scopes.</p>
+<p>Please see the <a href="https://spack.readthedocs.io/en/latest/configuration.html">Spack
+documentation</a> to
+find out more about writing configuration files.</p>
+<h2 id="writing-new-packages">Writing new packages</h2>
+<p>A Spack package is at its core a Python <code>package.py</code> file which provides
+instructions to Spack on how to obtain source code and compile it. A very simple
+package will allow it to build just one version with one compiler and one set of
+options. A more fully-featured package will list more versions and include logic
+to build them with different compilers and different options, and to also pick
+its dependencies correctly according to what is chosen.</p>
+<p>Spack provides several thousand packages in its <code>builtin</code> repository. You may be
+able to use these with no issues on Tursa by running <code>spack install</code> as
+described above, but if you do run into problems then you may wish to write your own.</p>
+<h3 id="creating-your-own-package-repository">Creating your own package repository</h3>
+<p>A package repository is a directory containing a <code>repo.yaml</code> configuration file
+and another directory called <code>packages</code>. Directories within the latter are named
+for the package they provide, for example <code>cp2k</code>, and contain in turn a
+<code>package.py</code>. You can create a repository from scratch with the command</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack repo create dirname
+</code></pre>
+<p>where <code>dirname</code> is the name of the directory holding the repository. This
+command will create the directory in your current working directory, but you can
+choose to instead provide a path to its location. You can then make the new
+repository available to Spack by running:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack repo add dirname
+</code></pre>
+<p>This adds the path to <code>dirname</code> to the <code>repos.yaml</code> file in your user scope
+configuration directory <a href="#custom-configuration">as described above</a>. If your
+<code>repos.yaml</code> doesn't yet exist, it will be created.</p>
+<p>A Spack repository can similarly be removed from the config using:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack repo rm dirname
+</code></pre>
+<h3 id="namespaces-and-repository-priority">Namespaces and repository priority</h3>
+<p>A package can exist in several repositories. To distinguish between these packages,
+each repository's packages exist within that repository's namespace. By default
+the namespace is the same as the name of the directory it was created in, but Spack
+does allow it to be different. </p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you want your repository namespace to be different from the name of
+the directory, you can change it either by editing the repository's
+<code>repo.yaml</code> or by providing an extra argument to <code>spack repo create</code>:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack repo create dirname namespace
+</code></pre>
+</div>
+<p>Running <code>spack find -N</code> will return the list of installed packages with their
+namespace. You'll see that they are then prefixed with the repository namespace,
+for example <code>builtin.bison@3.8.2</code> and <code>tursa.quantum-espresso@7.2</code>. In order
+to avoid ambiguity when managing package installation you can always prefix a
+spec with a repository namespace.</p>
+<p>If you don't include the repository in a spec, Spack will search in order all the
+repositories it has been configured to use until it finds a matching
+package, which it will then use. The earlier in the list of repositories, the
+higher the priority. You can check this with:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack repo list
+</code></pre>
+<p>If you run this without having added any repositories of your own, you will see
+that the <code>builtin</code> repository is the only one available.</p>
+<h3 id="creating-a-package">Creating a package</h3>
+<p>Once you have a repository of your own in place, you can create new packages to
+store within it. Spack has a <code>spack create</code> command which will do the initial
+setup and create a boilerplate <code>package.py</code>. To create an empty package called
+<code>packagename</code> you would run:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack create --name packagename
+</code></pre>
+<p>However, it will very often be more efficient if you instead provide a download
+URL for your software as the argument. For example, the Code_Saturne 8.0.3
+source is obtained from
+<code>https://www.code-saturne.org/releases/code_saturne-8.0.3.tar.gz</code>,
+so you can run:</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack create https://www.code-saturne.org/releases/code_saturne-8.0.3.tar.gz
+</code></pre>
+<p>Spack will determine from this the package name, the download URLs for all
+versions X.Y.Z matching the
+<code>https://www.code-saturne.org/releases/code_saturne-X.Y.Z.tar.gz</code> pattern. It
+will then ask you interactively which of these you want to use. Finally, it will
+download the <code>.tar.gz</code> archives for those versions and calculate their
+checksums, then place all this information in the initial version of the package
+for you. This takes away a lot of the initial work!</p>
+<p>At this point you can get to work on the package. You can edit an existing
+package by running</p>
+<pre><code>[dc-user1@tursa-login1 ~]$ spack edit packagename
+</code></pre>
+<p>or by directly opening <code>packagename/package.py</code> within the repository with a
+text editor.</p>
+<p>The boilerplate code will note several sections for you to fill out. If you did
+provide a source code download URL, you'll also see listed the versions you
+chose and their checksums.</p>
+<p>A package is implemented as a Python class. You'll see that by default it will
+inherit from the <code>AutotoolsPackage</code> class which defines how a package following
+the common <code>configure</code> &gt; <code>make</code> &gt; <code>make install</code> process should be built. You
+can change this to another build system, for example <code>CMakePackage</code>. If you
+want, you can have the class inherit from several different types of build
+system classes and choose between them at install time.</p>
+<p>Options must be provided to the build. For an <code>AutotoolsPackage</code> package, you
+can write a <code>configure_args</code> method which very simply returns a list of the
+command line arguments you would give to <code>configure</code> if you were building the
+code yourself. There is an identical <code>cmake_args</code> method for <code>CMakePackage</code>
+packages.</p>
+<p>Finally, you will need to provide your package's dependencies. In the main body
+of your package class you should add calls to the <code>depends_on()</code> function. For
+example, if your package needs MPI, add <code>depends_on("mpi")</code>. As the argument to
+the function is a full Spack spec, you can provide any necessary versioning or
+options, so, for example, if you need PETSc 3.18.0 or newer with Fortran support,
+you can call <code>depends_on("petsc+fortran@3.18.0:")</code>.</p>
+<p>If you know that you will only ever want to build a package one way, then
+providing the build options and dependencies should be all that you need to do.
+However, if you want to allow for different options as part of the install spec,
+patch the source code or perform post-install fixes, or take more manual control
+of the build process, it can become much more complex. Thankfully the Spack
+developers have provided excellent documentation covering the whole process, and
+there are many existing packages you can look at to see how it is done.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.top"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
