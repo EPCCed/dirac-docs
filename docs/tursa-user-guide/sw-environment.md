@@ -333,7 +333,11 @@ You can find more information on these scripts in the
 
 ### NVHPC GPU toolchain
 
-To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
+!!! important
+    Compiling with OpenMPI and Fortran using the NVHPC toolchain is not yet supported on Tursa. We hope
+    to add this functionality soon. 
+
+To compile on the system for GPU nodes using the NVHPC toolchain, you would typically load the required modules:
 
 ```
 module load gcc/9.3.0
@@ -348,17 +352,15 @@ Currently Loaded Modulefiles:
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
-scripts are available:
+scripts are available (for C and C++):
 
 - `mpicc`
 - `mpicxx`
-- `mpif90`
 
-and the NVIDIA compilers are available as:
+and the NVIDIA C and C++ compilers are available as:
 
 - `nvcc`
 - `nvc++`
-- `nvfortran`
 
 !!! tip
     Both the NVIDIA compilers and the MPI compiler wrapper scripts will use the GCC
@@ -369,7 +371,6 @@ and the NVIDIA compilers are available as:
     ```
     export OMPI_CC=nvcc
     export OMPI_CXX=nvc++
-    export OMPI_FC=nvfortran
     ```
 
 ### GCC CPU toolchain
