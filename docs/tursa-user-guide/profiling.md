@@ -4,13 +4,13 @@ This section provides brief documentation on how to use the NVIDIA NSight tools
 to profile an application on Tursa. The process is provided as short example using
 a simple application.
 
-For full details, see the NVidia Nsight documentation:
+For full details, see the NVIDIA Nsight documentation:
 
  - [NVIDIA Nsight Systems](https://docs.nvidia.com/nsight-systems/UserGuide/index.html)
- - [NVIDIA Nsigh Compute](https://docs.nvidia.com/nsight-compute/)
+ - [NVIDIA Nsight Compute](https://docs.nvidia.com/nsight-compute/)
 
 !!! important
-    The Night GUI is not available on Tursa and you cannot connect a local GUI to
+    The Nsight GUI is not available on Tursa and you cannot connect a local GUI to
     Tursa over SSH due to limitations in the SSH module in the Nsight GUI. If you want
     to visualise profiles, you must download them from Tursa to your local system 
     where you have installed the GUI.
