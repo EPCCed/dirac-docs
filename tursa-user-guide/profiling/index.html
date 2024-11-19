@@ -9,6 +9,8 @@
       
       
       
+        <link rel="prev" href="../spack/">
+      
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -236,19 +238,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -262,7 +264,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Tursa User Guide
@@ -411,6 +413,112 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Profiling
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Profiling
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compile-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile the code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-the-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test the example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-nsight-system-to-generate-a-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Nsight System to generate a profile
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-nsight-compute-to-investiage-hardware-counters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Nsight Compute to investiage hardware counters
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -694,9 +802,9 @@ module<span class="w"> </span>load<span class="w"> </span>gcc/12.2.0
 nsys<span class="w"> </span>profile<span class="w"> </span>--stats<span class="o">=</span><span class="nb">true</span><span class="w"> </span>vector-add.exe
 </code></pre></div>
 <p>This should produce output something like:</p>
-<div class="highlight"><pre><span></span><code>1/8] [========================100%] report2.nsys-rep
-[2/8] [========================100%] report2.sqlite
-SKIPPED: /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report2.sqlite does not contain NV Tools Extension (NVTX) data.
+<div class="highlight"><pre><span></span><code>[1/8] [========================100%] report1.nsys-rep
+[2/8] [========================100%] report1.sqlite
+SKIPPED: /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite does not contain NV Tools Extension (NVTX) data.
 [3/8] Executing &#39;nvtx_sum&#39; stats report
 [4/8] Executing &#39;osrt_sum&#39; stats report
 
@@ -757,8 +865,8 @@ SKIPPED: /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report2.sqlite d
     134.218    768     0.175     0.033     0.004     1.044        0.301  [CUDA Unified Memory memcpy DtoH]
 
 Generated:
-    /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report1.nsys-rep
-    /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report1.sqlite
+    /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.nsys-rep
+    /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite
 </code></pre></div>
 <p>You can download the <code>report1.nsys-rep</code> file to your local system to load into the Nsight GUI for 
 visualisation if you wish.</p>
