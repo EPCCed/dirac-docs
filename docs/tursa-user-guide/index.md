@@ -13,3 +13,4 @@ The Tursa User Guide contains the following sections:
   - [Software environment](sw-environment.md)
   - [Running jobs on Tursa](scheduler.md)
   - [Spack on Tursa](spack.md)
+  - [Profiling](profiling.md)

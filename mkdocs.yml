@@ -30,4 +30,5 @@ nav:
     - "Software environment": tursa-user-guide/sw-environment.md
     - "Running jobs on Tursa": tursa-user-guide/scheduler.md
     - "Spack on Tursa": tursa-user-guide/spack.md
+    - "Profiling": tursa-user-guide/profiling.md
 

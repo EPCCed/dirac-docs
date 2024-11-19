@@ -201,9 +201,9 @@ nsys profile --stats=true vector-add.exe
 This should produce output something like:
 
 ```
-1/8] [========================100%] report2.nsys-rep
-[2/8] [========================100%] report2.sqlite
-SKIPPED: /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report2.sqlite does not contain NV Tools Extension (NVTX) data.
+[1/8] [========================100%] report1.nsys-rep
+[2/8] [========================100%] report1.sqlite
+SKIPPED: /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite does not contain NV Tools Extension (NVTX) data.
 [3/8] Executing 'nvtx_sum' stats report
 [4/8] Executing 'osrt_sum' stats report
 
@@ -264,8 +264,8 @@ SKIPPED: /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report2.sqlite d
     134.218    768     0.175     0.033     0.004     1.044        0.301  [CUDA Unified Memory memcpy DtoH]
 
 Generated:
-    /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report1.nsys-rep
-    /mnt/lustre/tursafs1/home/z01/z01/dc-turn1/test/nsight/report1.sqlite
+    /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.nsys-rep
+    /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite
 ```
 
 You can download the `report1.nsys-rep` file to your local system to load into the Nsight GUI for 
