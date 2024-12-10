@@ -359,7 +359,7 @@ scripts are available (for C and C++):
 
 and the NVIDIA C and C++ compilers are available as:
 
-- `nvcc`
+- `nvc`
 - `nvc++`
 
 !!! tip
@@ -369,7 +369,7 @@ and the NVIDIA C and C++ compilers are available as:
     GCC directly, you would use:
 
     ```
-    export OMPI_CC=nvcc
+    export OMPI_CC=nvc
     export OMPI_CXX=nvc++
     ```
 
