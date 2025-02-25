@@ -15,13 +15,15 @@ There is a single Lustre file system which is available on login and compute nod
 - 64 GPU nodes with A100-80
      + 4x NVIDIA Ampere A100-80 GPU
      + 2x AMD 7413 EPYC 24c processor
+     + 1 TB DDR4 DRAM
      + NVLink intranode GPU interconnect
-     + 4x 200 Gbps NVIDIA Infiniband interfaces
+     + 4x 200 Gbps NVIDIA Infiniband interfaces (100 Gbps bi-directional)
 - 114 GPU nodes with A100-40
      + 4x NVIDIA Ampere A100-40 GPU
      + 2x AMD 7302 EPYC 16c processor
+     + 1 TB DDR4 DRAM
      + NVLink intranode GPU interconnect
-     + 4x 200 Gbps NVIDIA Infiniband interfaces
+     + 4x 200 Gbps NVIDIA Infiniband interfaces (100 Gbps bi-directional)
 
 ## Interconnect details
 
