@@ -237,7 +237,7 @@ Priority = [10000 * P(QoS)] + [500 * P(Age)] + [300 * P(Fairshare)]
 The priority factors are:
 
 - P(QoS) - The QoS priority normalised to a value between 0 and 1. The maximum raw
-  value is 10000 and the minimum is 0. `standard` QoS has a value of 5000 and `low`
+  value is 100000 and the minimum is 0. `standard` QoS has a value of 5000 and `low`
   QoS a value of 1.
 - P(Age) - The priority based on the job age normalised to a value between 0 and 1.
   The maximum raw value is 14 days (where P(Age) = 1).
