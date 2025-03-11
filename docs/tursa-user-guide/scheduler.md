@@ -256,14 +256,16 @@ command:
 
 ```
 [dc-user1@tursa-login1 ~]$ sprio 
-          JOBID PARTITION   PRIORITY       SITE        AGE  FAIRSHARE        QOS
-          43963 gpu             5055          0         51          5       5000
-          43975 gpu             5061          0         41         20       5000
-          43976 gpu             5061          0         41         20       5000
-          43982 gpu             5046          0         26         20       5000
-          43986 gpu             5011          0          6          5       5000
-          43996 gpu             5020          0          0         20       5000
-          43997 gpu             5020          0          0         20       5000
+          JOBID PARTITION   PRIORITY       SITE        AGE  FAIRSHARE    JOBSIZE        QOS
+          48290 gpu              816          0        278         33          5        500
+          48293 gpu              784          0        246         33          5        500
+          48295 gpu              781          0        244         33          5        500
+          50245 gpu             1183          0        672          1         10        500
+          50343 gpu             1183          0        672          1         10        500
+          50344 gpu             1183          0        672          1         10        500
+          50345 gpu             1183          0        672          1         10        500
+          50346 gpu             1183          0        672          1         10        500
+          50347 gpu             1183          0        672          1         10        500
 ```
 
 ## Troubleshooting
