@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4af4bdda.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1403,7 +1403,7 @@ the <a href="../hardware/">Hardware</a> section of the User Guide.</p>
 <p>Each of these factors is normalised to a value between 0 and 1, is multiplied
 with a weight and the resulting values combined to produce a priority for the job. 
 The current job priority formula on Tursa is:</p>
-<div class="highlight"><pre><span></span><code>Priority = [10000 * P(QoS)] + [500 * P(Age)] + [300 * P(Fairshare)]
+<div class="highlight"><pre><span></span><code>Priority = [10000 * P(QoS)] + [672 * P(Age)] + [374 * P(Size)] + [300 * P(Fairshare)]
 </code></pre></div>
 <p>The priority factors are:</p>
 <ul>
@@ -1412,6 +1412,7 @@ The current job priority formula on Tursa is:</p>
   QoS a value of 1.</li>
 <li>P(Age) - The priority based on the job age normalised to a value between 0 and 1.
   The maximum raw value is 14 days (where P(Age) = 1).</li>
+<li>P(Size) - The priority based on the job size normalised to a value between 0 and 1.</li>
 <li>P(Fairshare) - The fairshare priority normalised to a value between 0 and 1. Your
   fairshare priority is determined by a combination of your budget code fairshare 
   value and your user fairshare value within that budget code. The more use that 
