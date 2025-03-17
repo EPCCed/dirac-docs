@@ -231,7 +231,7 @@ with a weight and the resulting values combined to produce a priority for the jo
 The current job priority formula on Tursa is:
 
 ```
-Priority = [10000 * P(QoS)] + [500 * P(Age)] + [300 * P(Fairshare)]
+Priority = [10000 * P(QoS)] + [672 * P(Age)] + [374 * P(Size)] + [300 * P(Fairshare)]
 ```
 
 The priority factors are:
@@ -241,6 +241,7 @@ The priority factors are:
   QoS a value of 1.
 - P(Age) - The priority based on the job age normalised to a value between 0 and 1.
   The maximum raw value is 14 days (where P(Age) = 1).
+- P(Size) - The priority based on the job size normalised to a value between 0 and 1.
 - P(Fairshare) - The fairshare priority normalised to a value between 0 and 1. Your
   fairshare priority is determined by a combination of your budget code fairshare 
   value and your user fairshare value within that budget code. The more use that 
