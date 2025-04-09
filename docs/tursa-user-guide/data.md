@@ -182,7 +182,7 @@ For example, if your username is `dc-user1`, you would setup the tunnel
 by logging into Tursa with (assuming your SSH key is in the default location):
 
 ```
-ssh -L 9080:10.144.20.95:443 dc-user1@tursa.dirac.ed.ac.uk
+ssh -L 9080:10.144.12.95:443 dc-user1@tursa.dirac.ed.ac.uk
 ```
 
 Enter your SSH key passphrase and password in the usual way.
