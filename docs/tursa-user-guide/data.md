@@ -197,11 +197,16 @@ Once you have setup the SSH tunnel, you should be able to access the Miria
 interface in a web browser on your local system. Open a new tab and enter the
 URL:
 
- - http://localhost:9080/webapp-en/login
+ - https://localhost:9080/webapp-en/login
 
-You should see an interface asking you for a username and password. Use the 
-username and password that you use to log into Tursa to log into the tape 
-storage interface.
+You should see an interface asking you for a username and password.
+
+- Username: this is your usual username on Tursa
+- Password: this is the password you set when you first registered for
+  a Tursa account. You will probably not have used it since you logged in
+  for the frist time as you use an SSH key and MFA code to login. If you have forgotten
+  this password, [you can reset it](https://epcced.github.io/safe-docs/safe-for-users/#reset_machine) (when you request a reset, you will be asked to change
+  it when you next login to Tursa.
 
 #### Transfer data from Tursa Lustre to tape
 
