@@ -307,18 +307,16 @@ and two compiler environments for CPU nodes:
 To compile on the system for GPU nodes using the GCC toolchain, you would typically load the required modules:
 
 ```
-module load gcc/9.3.0
+module load gcc/12.2.0
 module load cuda/12.3 
-module load openmpi/4.1.5-gcc9-cuda12
+module load openmpi/4.1.5-gcc12-cuda12
 
 
 module list
 
 Currently Loaded Modulefiles:
- 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   5) openmpi/4.1.5-gcc12-cuda12  
- 2) ucx/1.15.0-cuda12.3                                            6) gcc/9.3.0(default)          
- 3) openmpi/4.1.5-gcc9-cuda12(default)                             7) cuda/12.3                   
- 4) ucx/1.15.0-gcc12-cuda12       
+ 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   3) cuda/12.3                 5) openmpi/4.1.5-gcc12-cuda12  
+ 2) gcc/12.2.0                                                     4) ucx/1.15.0-gcc12-cuda12        
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
@@ -333,22 +331,18 @@ You can find more information on these scripts in the
 
 ### NVHPC GPU toolchain
 
-!!! important
-    Compiling with OpenMPI and Fortran using the NVHPC toolchain is not yet supported on Tursa. We hope
-    to add this functionality soon. 
-
 To compile on the system for GPU nodes using the NVHPC toolchain, you would typically load the required modules:
 
 ```
-module load gcc/9.3.0
+module load gcc/12.2.0
 module load nvhpc/23.5-nompi
-module load openmpi/4.1.5-gcc9-cuda12
+module load openmpi/4.1.5-nvhpc235-cuda12
 
 module list
 
 Currently Loaded Modulefiles:
- 1) /home/y07/shared/tursa-modules/setup-env   3) nvhpc/23.5-nompi      5) openmpi/4.1.5-gcc9-cuda12(default)  
- 2) gcc/9.3.0(default)                         4) ucx/1.15.0-cuda12.3 
+ 1) /mnt/lustre/tursafs1/home/y07/shared/tursa-modules/setup-env   3) nvhpc/23.5-nompi          5) openmpi/4.1.5-nvhpc235-cuda12  
+ 2) gcc/12.2.0                                                     4) ucx/1.15.0-gcc12-cuda12 
 ```
 
 Once you have loaded the modules, the standard OpenMPI compiler wrapper
@@ -356,11 +350,13 @@ scripts are available (for C and C++):
 
 - `mpicc`
 - `mpicxx`
+- `mpif90`
 
-and the NVIDIA C and C++ compilers are available as:
+and the NVIDIA C, C++ and Fortran compilers are available as:
 
 - `nvc`
 - `nvc++`
+- `nvfortran`
 
 !!! tip
     Both the NVIDIA compilers and the MPI compiler wrapper scripts will use the GCC
@@ -371,6 +367,7 @@ and the NVIDIA C and C++ compilers are available as:
     ```
     export OMPI_CC=nvc
     export OMPI_CXX=nvc++
+    export OMPI_FC=nvfortran
     ```
 
 ### GCC CPU toolchain
