@@ -1,9 +1,7 @@
 theme:
   name: material
   palette:
-    scheme: standard
-    primary: custom
-    accent: custom
+    scheme: dirac
   features:
     - tabs
   logo: assets/dirac_logo.png
