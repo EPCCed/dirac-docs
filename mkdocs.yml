@@ -1,15 +1,19 @@
 theme:
   name: material
   palette:
-    scheme: default
+    scheme: dirac
   features:
     - tabs
+  logo: assets/dirac_logo.png
   icon:
     repo: fontawesome/brands/github
   features:
     - navigation.expand
     - navigation.top
-  
+
+extra_css:
+    - stylesheets/dirac.css
+
 site_name: DiRAC Extreme Scaling User Documentation
 repo_url: https://github.com/EPCCed/dirac-docs.git
 repo_name: EPCCed/dirac-docs
