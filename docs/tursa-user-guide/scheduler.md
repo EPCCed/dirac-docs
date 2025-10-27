@@ -214,8 +214,8 @@ budget you can use the `low` QoS to continue to run jobs at a lower priority tha
 
 !!! important
     Only jobs sizes that are powers of 2 nodes
-    are allowed. i.e. 1, 2, 4, 8, 16, 32 nodes on the `gpu` partition and 
-    1, 2, 4 nodes on the `cpu` partition. There is a discussion of why this is enforced in
+    are allowed. i.e. 1, 2, 4, 8, 16, 32 nodes on the `gpu` partition.
+	There is a discussion of why this is enforced in
     the [Hardware](hardware.md) section of the User Guide.
 
 ### Priority
