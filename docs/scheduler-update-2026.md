@@ -50,9 +50,7 @@ jobs into predefined 16, 32 and 64 node blocks based on tested performance betwe
 individual 8 node blocks.
 
 For users, the effect of these restrictions is that single node failures in a block can render
-larger jobs very difficult to place and lead to long queue times. If the application being run
-has a critical performance dependence on interconnect performance then the blocking makes sense
-but many HPC applications do not have their performance limited in such a way.
+larger jobs very difficult to place and lead to long queue times.
 
 **This change will remove this enforced blocking so that jobs, by default, can be assigned nodes
 from anywhere in the interconnect topology.** This will allow for more flexibility in job placement and
@@ -61,6 +59,12 @@ reduce the impact of single node failures on availability of resources.
 Users can recover the strict blocking behaviour by using
 [the Slurm `--switches` option](https://slurm.schedmd.com/sbatch.html#OPT_switches). See 
 below for specific examples of how to use this.
+
+!!! note "Performance of 8-nodes or less jobs"
+    If the application being run on 8-nodes or less has a critical performance dependence on
+    interconnect performance then ensuring all nodes in the job come from the same block that
+    share an L1 switch makes sense to get best performance. Many HPC applications do not have
+    their performance limited in such a way.
 
 ### Removal of power of two job size restriction
 
