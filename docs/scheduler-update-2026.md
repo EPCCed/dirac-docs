@@ -9,12 +9,15 @@ and what it means for users.
 
 ## Summary of user impact
 
-- Strict topology blocking will no longer be enforced on the system
-- Users that wish to continue to request strict topology blocking will need to
-  use the `--switches` option to `sbatch`/`srun`/`salloc` to request this
-- Jobs queued during the migration will retain their strict topology blocking
+This list provides a high level overview of user impacts. More detail can be
+found lower down this page.
+
+- Strict topology blocking will no longer be enforced on the system.
+- Users that wish to continue to request topology blocking will need to
+  use the `--switches` option to `sbatch`/`srun`/`salloc` to request this.
+- Jobs queued during the migration will retain their topology blocking
   requests that were the default at time of submission. Users that want to 
-  remove this constraint will need to delete jobs and resubmit
+  remove this constraint will need to delete jobs and resubmit.
 
 ## Overview of Tursa interconnect topology
 
