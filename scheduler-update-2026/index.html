@@ -610,13 +610,15 @@
 the resource more flexible. This page provides an overview of the planned changes
 and what it means for users.</p>
 <h2 id="summary-of-user-impact">Summary of user impact</h2>
+<p>This list provides a high level overview of user impacts. More detail can be
+found lower down this page.</p>
 <ul>
-<li>Strict topology blocking will no longer be enforced on the system</li>
-<li>Users that wish to continue to request strict topology blocking will need to
-  use the <code>--switches</code> option to <code>sbatch</code>/<code>srun</code>/<code>salloc</code> to request this</li>
-<li>Jobs queued during the migration will retain their strict topology blocking
+<li>Strict topology blocking will no longer be enforced on the system.</li>
+<li>Users that wish to continue to request topology blocking will need to
+  use the <code>--switches</code> option to <code>sbatch</code>/<code>srun</code>/<code>salloc</code> to request this.</li>
+<li>Jobs queued during the migration will retain their topology blocking
   requests that were the default at time of submission. Users that want to 
-  remove this constraint will need to delete jobs and resubmit</li>
+  remove this constraint will need to delete jobs and resubmit.</li>
 </ul>
 <h2 id="overview-of-tursa-interconnect-topology">Overview of Tursa interconnect topology</h2>
 <p>The current configuration of the scheduler is designed to match onto the
