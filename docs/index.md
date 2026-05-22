@@ -1,6 +1,6 @@
-# DiRAC Extreme Scaling User Documentation
+# DiRAC Extreme Scaling (Tursa) User Documentation
 
-DiRAC Extreme Scaling is part of the [DiRAC National HPC Service](https://www.dirac.ac.uk). You
+DiRAC Extreme Scaling (Tursa) is part of the [DiRAC National HPC Service](https://www.dirac.ac.uk). You
 can find more information on the service and the research it supports on
 the [DiRAC website](https://www.dirac.ac.uk).
 
@@ -12,13 +12,22 @@ by [ATOS](https://www.atos.net).
 
 ## What the documentation covers
 
-The documentation currently includes:
+### Tursa User Guide
 
-  - [Tursa User Guide](tursa-user-guide/index.md)
-    Covers all aspects of use of the Tursa resource.
-    This includes fundamentals (required by all users to use the system
-    effectively), best practice for getting the most out of Tursa, and
-    other advanced technical topics.
+The Tursa User Guide covers all aspects of use of
+the Tursa resource. This includes fundamentals (required by all users
+to use the system effectively), best practice for getting the most out
+of Tursa and more technical topics.
+
+The Tursa User Guide contains the following sections:
+
+  - [Tursa hardware](hardware.md)
+  - [Connecting to Tursa](connecting.md)
+  - [Data management and transfer](data.md)
+  - [Software environment](sw-environment.md)
+  - [Running jobs on Tursa](scheduler.md)
+  - [Spack on Tursa](spack.md)
+  - [Profiling](profiling.md)
 
 ## Contributing to the documentation
 
@@ -33,5 +42,8 @@ improved.
 Full details of how to contribute can be found in the `README.md` file of
 the repository.
 
+
+
+# Tursa User Guide
 
 
