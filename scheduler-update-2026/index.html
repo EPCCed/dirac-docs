@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../scheduler/">
+      
+      
+        <link rel="next" href="../spack/">
       
       
         
@@ -19,7 +23,7 @@
     
     
       
-        <title>Tursa scheduler configuration update 2026 - DiRAC Extreme Scaling User Documentation</title>
+        <title>Updated scheduler setup: 24 Jun 2026 - DiRAC Extreme Scaling User Documentation</title>
       
     
     
@@ -105,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tursa scheduler configuration update 2026
+              Updated scheduler setup: 24 Jun 2026
             
           </span>
         </div>
@@ -356,11 +360,24 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../scheduler/" class="md-nav__link">
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -374,7 +391,248 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Running jobs on Tursa
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current scheduler setup
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Updated scheduler setup: 24 Jun 2026
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Updated scheduler setup: 24 Jun 2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-user-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of user impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview-of-tursa-interconnect-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview of Tursa interconnect topology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-changing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is changing?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is changing?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removal-of-enforced-topology-blocking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removal of enforced topology blocking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removal-of-power-of-two-job-size-restriction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removal of power of two job size restriction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes-to-priority-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changes to priority formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slurm-switches-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slurm --switches option
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Slurm --switches option">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default behaviour
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcing-blocking-8-nodes-or-less" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcing blocking: 8-nodes or less
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforced-blocking-16-nodes-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforced blocking: 16-nodes or more
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -604,9 +862,9 @@
 <h1 id="tursa-scheduler-configuration-update-2026">Tursa scheduler configuration update 2026</h1>
 <div class="admonition note">
 <p class="admonition-title">Last update</p>
-<p>This information was last updated on 22 May 2026.</p>
+<p>This information was last updated on 26 May 2026.</p>
 </div>
-<p>In June 2026 the Tursa scheduler configuration will undergo major changes to make
+<p>On <strong>Wednesday 24 June 2026</strong> the Tursa scheduler configuration will undergo major changes to make
 the resource more flexible. This page provides an overview of the planned changes
 and what it means for users.</p>
 <h2 id="summary-of-user-impact">Summary of user impact</h2>
