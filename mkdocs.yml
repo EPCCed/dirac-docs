@@ -32,7 +32,7 @@ nav:
   - "Software environment": sw-environment.md
   - "Running jobs on Tursa": 
     - "Current scheduler setup": scheduler.md
-    - "Updated scheduler setup: 24 Jun 2026": scheduler-update-2026.md
+    - "Updated scheduler setup: Jul 2026": scheduler-update-2026.md
   - "Spack on Tursa": spack.md
   - "Profiling": profiling.md
 
