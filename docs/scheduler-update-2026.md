@@ -1,9 +1,9 @@
 # Tursa scheduler configuration update 2026
 
 !!! note "Last update"
-    This information was last updated on 26 May 2026.
+    This information was last updated on 2 June 2026.
 
-During **July 2026** the Tursa scheduler configuration will undergo major changes to make
+On **9 July 2026** the Tursa scheduler configuration will undergo major changes to make
 the resource more flexible. This page provides an overview of the planned changes
 and what it means for users.
 
