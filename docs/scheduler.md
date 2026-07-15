@@ -192,9 +192,9 @@ lists the active QoS on Tursa.
 
 | QoS        | Max Nodes Per Job | Max Walltime | Queued | Running | Partition(s) | Notes |
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
-| standard   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only jobs sizes that are powers of 2 nodes are allowed on GPU nodes (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is positive. |
-| low        | 32                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes) on GPU nodes, only available when your budget is zero or negative |
-| high   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80     | Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes) on GPU nodes, only available when you have access to "dpXYZ-high" budget and the budget is positive. Only available to RAC projects. High priority jobs are prioritised above other jobs on the system. |
+| standard   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only available when your budget is positive. |
+| low        | 32                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only available when your budget is zero or negative |
+| high   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80     | Only available when you have access to "dpXYZ-high" budget and the budget is positive. Only available to RAC projects. High priority jobs are prioritised above other jobs on the system. |
 | dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS includes 2x A100-40 GPU nodes and 3x A100-80 GPU nodes.  |
 
 You can find out the QoS that you can use by running the following
@@ -241,16 +241,7 @@ The priority factors are:
   QoS a value of 1.
 - P(Age) - The priority based on the job age normalised to a value between 0 and 1.
   The maximum raw value is 14 days (where P(Age) = 1).
-- P(Size) - The priority based on the job size normalised to a value between 0 and 1.
-- P(Fairshare) - The fairshare priority normalised to a value between 0 and 1. Your
-  fairshare priority is determined by a combination of your budget code fairshare 
-  value and your user fairshare value within that budget code. The more use that 
-  the budget code you are using has made of the system recently relative to other 
-  budget codes on the system, the lower the budget code fairshare value will be; and the more
-  use you have made of the system recently relative to other users within your
-  budget code, the lower your user fairshare value will be. The decay half life 
-  for fairshare on Tursa is set to 14 days. [More information on the Slurm fairshare
-  algorithm](https://slurm.schedmd.com/fair_tree.html).
+- P(Size) - TThe fairshare priority normalised to a value between 0 and 1. Your fairshare priority is determined by a combination of your project fairshare value and your user fairshare value within that project. The more use that the project you are using has made of the system recently relative to other projects on the system, the lower the project fairshare value will be; and the more use you have made of the system recently relative to other users within your project, the lower your user fairshare value will be. The number of shares that a project has within the fairshare system is linked to its GPUh allocation - so a project that has a larger allocation on Tursa, will have a larger number of shares within the fairshare system. A floor value of 1% is set for allocation shares so all projects with 1% or lower allocations have the same number of shares. The decay half life for fairshare on Tursa is set to 14 days. [More information on the Slurm fairshare algorithm](https://slurm.schedmd.com/fair_tree.html).
 
 You can view the priorities for current queued jobs on the system with the `sprio`
 command:
@@ -461,6 +452,39 @@ the job (equivalent of `--partition=gpu`).
     the minimum amount of resource you can request for a parallel job is 1 node
     (or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes).
 
+#### Enforcing interconnect locality: 8-nodes or less
+
+A single interconnect block on the Tursa topology (where all nodes share L1 switches) contains 
+8 nodes. If you are running jobs of 8-nodes and less and want to ensure all nodes are in a 
+single block (i.e. share a L1 switch) you should add the `--switches=1` option to your Slurm 
+submission commands. Most commonly, this would mean adding the following to your batch
+submission script:
+
+```
+#SBATCH --switches=1
+```
+
+!!! important "Adding blocking is likely to increase queue time"
+    Adding the additional constraint around interconnect blocking with the `switches` option
+    will likely have a detrimental effect on queue time.
+
+#### Enforcing interconnect locality: 16-nodes or more
+
+Beyond 8-nodes, to ensure strict interconnect blocking, you need to increase the number of
+switches along with node count:
+
+| Node count | `switches` option | Notes |
+|--:|---|---|
+| 16 | `switches=2` | | 
+| 32 | `switches=4` | | 
+| 64 | `switches=8` | Not available for A100-80 |
+| 128 | `switches=16` | Not available for A100-80. Only available when A100-40 and A100-80 nodes are mixed in the job. |
+
+!!! note "Power of 2 job sizes make sense for strict blocking"
+    While there is no longer a restriction to power of two size jobs in the updated
+    configuration, it will usually make sense to stick to these sizes if you want
+    to request strict interconnect topology blocking.
+
 #### GPU frequency
 
 !!! important
@@ -473,11 +497,6 @@ Users can control the GPU frequency in their job submission scripts:
    - `--gpu-freq=<desired GPU freq in MHz>` allows users to set the GPU frequency 
      on a per job basis. The frequency can be set in the range 210 - 1410 MHz in steps
      of 15 MHz.
-
-!!! bug
-    When setting the GPU frequency you will see an error in the output from the job 
-    that says `control disabled`. This is an incorrect message due to an issue with 
-    how Slurm sets the GPU frequency and can be safely ignored.
 
 ### Resources for CPU jobs
 
@@ -542,7 +561,9 @@ across nodes.
 
 A job submission script for a parallel job that uses 4 compute nodes, 4 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
-GPU the job can run on so both A100-40 and A100-80 can be used.
+GPU the job can run on so both A100-40 and A100-80 can be used. It does not
+request interconnect locality so nodes can be selected from anywhere on the
+system.
 
 ```slurm
 #!/bin/bash

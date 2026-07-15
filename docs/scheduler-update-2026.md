@@ -1,9 +1,9 @@
 # Tursa scheduler configuration update 2026
 
 !!! note "Last update"
-    This information was last updated on 2 June 2026.
+    This information was last updated on 15 July 2026.
 
-On **9 July 2026** the Tursa scheduler configuration will undergo major changes to make
+On **9 July 2026** the Tursa scheduler configuration underwent major changes to make
 the resource more flexible. This page provides an overview of the planned changes
 and what it means for users.
 
@@ -26,7 +26,7 @@ interconnect topology as initial use cases for Tursa were critically dependent
 on best interconnect performance which can only by achieved by matching job
 layout to interconnect topology. 
 
-Many of the upcoming changes are based on relaxing topology restrictions so we provide
+Many of the changes are based on relaxing topology restrictions so we provide
 a very brief description of the topology layout here as useful context for the 
 following descriptions.
 
@@ -39,22 +39,22 @@ connected to a set of 4 L1 switches. These are divided into
 
 All blocks are connected via 20 L2 switches in a fat tree topology.
 
-## What is changing?
+## What has changed?
 
 ### Removal of enforced topology blocking
 
-Currently, all jobs on Tursa are subject to enforced topology blocking. For multi-node
-jobs of 8 nodes or less, all the nodes in the job must come from a single block that share
-an L1 switch. For jobs larger than 8 nodes, the scheduler is further configured to allocate
+Originally, all jobs on Tursa are subject to enforced topology blocking. For multi-node
+jobs of 8 nodes or less, all the nodes in the job had to come from a single block that shared
+an L1 switch. For jobs larger than 8 nodes, the scheduler was further configured to allocate
 jobs into predefined 16, 32 and 64 node blocks based on tested performance between groups of
 individual 8 node blocks.
 
-For users, the effect of these restrictions is that single node failures in a block can render
+For users, the effect of these restrictions was that single node failures in a block could render
 larger jobs very difficult to place and lead to long queue times.
 
-**This change will remove this enforced blocking so that jobs, by default, can be assigned nodes
-from anywhere in the interconnect topology.** This will allow for more flexibility in job placement and
-reduce the impact of single node failures on availability of resources.
+**This change removed this enforced blocking so that jobs, by default, can be assigned nodes
+from anywhere in the interconnect topology.** This allows for more flexibility in job placement and
+reduces the impact of single node failures on availability of resources.
 
 Users can recover the strict blocking behaviour by using
 [the Slurm `--switches` option](https://slurm.schedmd.com/sbatch.html#OPT_switches). See 
@@ -68,22 +68,22 @@ below for specific examples of how to use this.
 
 ### Removal of power of two job size restriction
 
-Another consequence of the strict interconnect blocking is that jobs are currently restricted
-to power of two sizes (to match onto the topology layout).
+Another consequence of the strict interconnect blocking is that jobs were restricted
+to power of two node count sizes (to match onto the topology layout).
 
-**This change will remove the restriction on job sizes to power of two.** This will allow for
+**This change removed the restriction on job node count sizes to power of two.** This allows for
 more flexibility in job placement.
 
 ### Changes to priority formula
 
-Along with changes to blocking restrictions, we will be implementing some changes to the job
+Along with changes to blocking restrictions, we implemented some changes to the job
 priority setup:
 
-- **Enable allocation-tied fairshare**: at the moment, all projects have the same number of
-  shares on the service. This change will link the number of shares on the system to the size
-  of the project's current GPUh allocation. This change will help ensure that projects get
+- **Enable allocation-tied fairshare**: orginally, all projects had the same number of
+  shares on the service. This change linked the number of shares on the system to the size
+  of the project's current GPUh allocation. This change helps ensure that projects get
   priorities that allow them to use the level of allocation they have been granted on the service.
-- **Update priority weights**: To support the change in allocation-tied fairshare, we will update
+- **Update priority weights**: To support the change in allocation-tied fairshare, we updated the
   weights for different parts of the priority formula to increase the weight associated with the
   fairshare priority component relative to other components.
 
@@ -93,7 +93,7 @@ Users can use the Slurm `--switches` option to partially recover the job topolog
 behaviour from before the change.
 
 !!! note "Static 16-node block or greater setup cannot be recovered"
-    In the current configuration, the blocks in the topology that make up 16, 32, 64 or 128
+    In the original configuration, the blocks in the topology that make up 16, 32, 64 or 128
     node blocks are statically defined. In the updated configuration, any combination of 8 node
     blocks can make up larger jobs with strict blocking defined by `--switches` options as 
     described below.
@@ -133,6 +133,6 @@ switches along with node count:
 | 128 | `switches=16` | Not available for A100-80. Only available when A100-40 and A100-80 nodes are mixed in the job. |
 
 !!! note "Power of 2 job sizes make sense for strict blocking"
-    While there will no longer be a restriction to power of two size jobs in the updated
-    configuration, it will usually make sense to stick to these sizes if you are wanting
+    While there is no longer a restriction to power of two size jobs in the updated
+    configuration, it will usually make sense to stick to these sizes if you want
     to request strict interconnect topology blocking.
