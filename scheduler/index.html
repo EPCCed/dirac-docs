@@ -718,6 +718,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#enforcing-interconnect-locality-8-nodes-or-less" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcing interconnect locality: 8-nodes or less
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcing-interconnect-locality-16-nodes-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcing interconnect locality: 16-nodes or more
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gpu-frequency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1198,6 +1220,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#enforcing-interconnect-locality-8-nodes-or-less" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcing interconnect locality: 8-nodes or less
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcing-interconnect-locality-16-nodes-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcing interconnect locality: 16-nodes or more
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gpu-frequency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1524,7 +1568,7 @@ lists the active QoS on Tursa.</p>
 <td>Max. 128 jobs per user</td>
 <td>Max. 128 nodes per user, max. 32 jobs per user</td>
 <td>gpu, gpu-a100-40, gpu-a100-80, cpu</td>
-<td>Only jobs sizes that are powers of 2 nodes are allowed on GPU nodes (i.e. 1, 2, 4, 8, 16, 32 nodes), only available when your budget is positive.</td>
+<td>Only available when your budget is positive.</td>
 </tr>
 <tr>
 <td>low</td>
@@ -1533,7 +1577,7 @@ lists the active QoS on Tursa.</p>
 <td>4</td>
 <td>4</td>
 <td>gpu, gpu-a100-40, gpu-a100-40, cpu</td>
-<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes) on GPU nodes, only available when your budget is zero or negative</td>
+<td>Only available when your budget is zero or negative</td>
 </tr>
 <tr>
 <td>high</td>
@@ -1542,7 +1586,7 @@ lists the active QoS on Tursa.</p>
 <td>Max. 128 jobs per user</td>
 <td>Max. 128 nodes per user, max. 32 jobs per user</td>
 <td>gpu, gpu-a100-40, gpu-a100-80</td>
-<td>Only jobs sizes that are powers of 2 nodes are allowed (i.e. 1, 2, 4, 8, 16, 32 nodes) on GPU nodes, only available when you have access to "dpXYZ-high" budget and the budget is positive. Only available to RAC projects. High priority jobs are prioritised above other jobs on the system.</td>
+<td>Only available when you have access to "dpXYZ-high" budget and the budget is positive. Only available to RAC projects. High priority jobs are prioritised above other jobs on the system.</td>
 </tr>
 <tr>
 <td>dev</td>
@@ -1595,16 +1639,7 @@ The current job priority formula on Tursa is:</p>
   QoS a value of 1.</li>
 <li>P(Age) - The priority based on the job age normalised to a value between 0 and 1.
   The maximum raw value is 14 days (where P(Age) = 1).</li>
-<li>P(Size) - The priority based on the job size normalised to a value between 0 and 1.</li>
-<li>P(Fairshare) - The fairshare priority normalised to a value between 0 and 1. Your
-  fairshare priority is determined by a combination of your budget code fairshare 
-  value and your user fairshare value within that budget code. The more use that 
-  the budget code you are using has made of the system recently relative to other 
-  budget codes on the system, the lower the budget code fairshare value will be; and the more
-  use you have made of the system recently relative to other users within your
-  budget code, the lower your user fairshare value will be. The decay half life 
-  for fairshare on Tursa is set to 14 days. <a href="https://slurm.schedmd.com/fair_tree.html">More information on the Slurm fairshare
-  algorithm</a>.</li>
+<li>P(Size) - TThe fairshare priority normalised to a value between 0 and 1. Your fairshare priority is determined by a combination of your project fairshare value and your user fairshare value within that project. The more use that the project you are using has made of the system recently relative to other projects on the system, the lower the project fairshare value will be; and the more use you have made of the system recently relative to other users within your project, the lower your user fairshare value will be. The number of shares that a project has within the fairshare system is linked to its GPUh allocation - so a project that has a larger allocation on Tursa, will have a larger number of shares within the fairshare system. A floor value of 1% is set for allocation shares so all projects with 1% or lower allocations have the same number of shares. The decay half life for fairshare on Tursa is set to 14 days. <a href="https://slurm.schedmd.com/fair_tree.html">More information on the Slurm fairshare algorithm</a>.</li>
 </ul>
 <p>You can view the priorities for current queued jobs on the system with the <code>sprio</code>
 command:</p>
@@ -1919,6 +1954,59 @@ and that no other user can share those compute nodes with you. Hence,
 the minimum amount of resource you can request for a parallel job is 1 node
 (or 32 cores and 4 GPU on GPU A100-40 nodes, 48 cores and 4 GPU on A100-80 nodes).</p>
 </div>
+<h4 id="enforcing-interconnect-locality-8-nodes-or-less">Enforcing interconnect locality: 8-nodes or less</h4>
+<p>A single interconnect block on the Tursa topology (where all nodes share L1 switches) contains 
+8 nodes. If you are running jobs of 8-nodes and less and want to ensure all nodes are in a 
+single block (i.e. share a L1 switch) you should add the <code>--switches=1</code> option to your Slurm 
+submission commands. Most commonly, this would mean adding the following to your batch
+submission script:</p>
+<div class="highlight"><pre><span></span><code>#SBATCH --switches=1
+</code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">Adding blocking is likely to increase queue time</p>
+<p>Adding the additional constraint around interconnect blocking with the <code>switches</code> option
+will likely have a detrimental effect on queue time.</p>
+</div>
+<h4 id="enforcing-interconnect-locality-16-nodes-or-more">Enforcing interconnect locality: 16-nodes or more</h4>
+<p>Beyond 8-nodes, to ensure strict interconnect blocking, you need to increase the number of
+switches along with node count:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Node count</th>
+<th><code>switches</code> option</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">16</td>
+<td><code>switches=2</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">32</td>
+<td><code>switches=4</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">64</td>
+<td><code>switches=8</code></td>
+<td>Not available for A100-80</td>
+</tr>
+<tr>
+<td style="text-align: right;">128</td>
+<td><code>switches=16</code></td>
+<td>Not available for A100-80. Only available when A100-40 and A100-80 nodes are mixed in the job.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Power of 2 job sizes make sense for strict blocking</p>
+<p>While there is no longer a restriction to power of two size jobs in the updated
+configuration, it will usually make sense to stick to these sizes if you want
+to request strict interconnect topology blocking.</p>
+</div>
 <h4 id="gpu-frequency">GPU frequency</h4>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -1932,12 +2020,6 @@ service.</p>
      on a per job basis. The frequency can be set in the range 210 - 1410 MHz in steps
      of 15 MHz.</li>
 </ul>
-<div class="admonition bug">
-<p class="admonition-title">Bug</p>
-<p>When setting the GPU frequency you will see an error in the output from the job 
-that says <code>control disabled</code>. This is an incorrect message due to an issue with 
-how Slurm sets the GPU frequency and can be safely ignored.</p>
-</div>
 <h3 id="resources-for-cpu-jobs">Resources for CPU jobs</h3>
 <p>Parallel CPU node jobs are specified in a similar way to GPU jobs</p>
 <ul>
@@ -1996,7 +2078,9 @@ across nodes.</p>
 <h3 id="example-job-submission-script-for-a-parallel-gpu-job">Example: job submission script for a parallel GPU job</h3>
 <p>A job submission script for a parallel job that uses 4 compute nodes, 4 MPI
 processes per node and 4 GPUs per node. It does not restrict what type of
-GPU the job can run on so both A100-40 and A100-80 can be used.</p>
+GPU the job can run on so both A100-40 and A100-80 can be used. It does not
+request interconnect locality so nodes can be selected from anywhere on the
+system.</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Slurm job options</span>
