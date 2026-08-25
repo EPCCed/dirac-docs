@@ -444,7 +444,7 @@ To just use the A100-40 GPU nodes:
 If you do not specfy a partition, the scheduler may use any available node types for 
 the job (equivalent of `--partition=gpu`).
 
-!!! !!! important "Some A100-40 nodes may have A100-80 GPU installed instead"
+!!! important "Some A100-40 nodes may have A100-80 GPU installed instead"
     As A100-40 GPU are no longer available from NVIDIA, some A100-40 nodes where
     hardware has failed have had to have A100-80 GPU installed instead. 
     The following nodes in the `gpu-a100-40` partition contain A100-80 GPUs:
