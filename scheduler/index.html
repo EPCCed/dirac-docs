@@ -1950,12 +1950,15 @@ following option:</p>
 </ul>
 <p>If you do not specfy a partition, the scheduler may use any available node types for 
 the job (equivalent of <code>--partition=gpu</code>).</p>
-<p>!!! !!! important "Some A100-40 nodes may have A100-80 GPU installed instead"
-    As A100-40 GPU are no longer available from NVIDIA, some A100-40 nodes where
-    hardware has failed have had to have A100-80 GPU installed instead. 
-    The following nodes in the <code>gpu-a100-40</code> partition contain A100-80 GPUs:</p>
-<pre><code>- tu-c0r2n06
-</code></pre>
+<div class="admonition important">
+<p class="admonition-title">Some A100-40 nodes may have A100-80 GPU installed instead</p>
+<p>As A100-40 GPU are no longer available from NVIDIA, some A100-40 nodes where
+hardware has failed have had to have A100-80 GPU installed instead. 
+The following nodes in the <code>gpu-a100-40</code> partition contain A100-80 GPUs:</p>
+<ul>
+<li>tu-c0r2n06</li>
+</ul>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
