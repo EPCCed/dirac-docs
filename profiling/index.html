@@ -17,7 +17,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -790,11 +790,11 @@ void checkElementsAre(float target, float *vector, int N)
   {
     if(vector[i] != target)
     {
-      printf(&quot;FAIL: vector[%d] - %0.0f does not equal %0.0f\n&quot;, i, vector[i], target);
+      printf("FAIL: vector[%d] - %0.0f does not equal %0.0f\n", i, vector[i], target);
       exit(1);
     }
   }
-  printf(&quot;Success! All values calculated correctly.\n&quot;);
+  printf("Success! All values calculated correctly.\n");
 }
 
 int main()
@@ -805,7 +805,7 @@ int main()
 
   cudaGetDevice(&amp;deviceId);
   cudaDeviceGetAttribute(&amp;numberOfSMs, cudaDevAttrMultiProcessorCount, deviceId);
-  printf(&quot;Device ID: %d\tNumber of SMs: %d\n&quot;, deviceId, numberOfSMs);
+  printf("Device ID: %d\tNumber of SMs: %d\n", deviceId, numberOfSMs);
 
   const int N = 2&lt;&lt;24;
   size_t size = N * sizeof(float);
@@ -839,10 +839,10 @@ int main()
   addVectorsInto&lt;&lt;&lt;numberOfBlocks, threadsPerBlock&gt;&gt;&gt;(c, a, b, N);
 
   addVectorsErr = cudaGetLastError();
-  if(addVectorsErr != cudaSuccess) printf(&quot;Error: %s\n&quot;, cudaGetErrorString(addVectorsErr));
+  if(addVectorsErr != cudaSuccess) printf("Error: %s\n", cudaGetErrorString(addVectorsErr));
 
   asyncErr = cudaDeviceSynchronize();
-  if(asyncErr != cudaSuccess) printf(&quot;Error: %s\n&quot;, cudaGetErrorString(asyncErr));
+  if(asyncErr != cudaSuccess) printf("Error: %s\n", cudaGetErrorString(asyncErr));
 
   checkElementsAre(7, c, N);
 
@@ -908,8 +908,8 @@ nsys<span class="w"> </span>profile<span class="w"> </span>--stats<span class="o
 <div class="highlight"><pre><span></span><code>[1/8] [========================100%] report1.nsys-rep
 [2/8] [========================100%] report1.sqlite
 SKIPPED: /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite does not contain NV Tools Extension (NVTX) data.
-[3/8] Executing &#39;nvtx_sum&#39; stats report
-[4/8] Executing &#39;osrt_sum&#39; stats report
+[3/8] Executing 'nvtx_sum' stats report
+[4/8] Executing 'osrt_sum' stats report
 
  Time (%)  Total Time (ns)  Num Calls   Avg (ns)    Med (ns)   Min (ns)   Max (ns)   StdDev (ns)          Name         
  --------  ---------------  ---------  ----------  ----------  --------  ----------  -----------  ---------------------
@@ -937,7 +937,7 @@ SKIPPED: /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite does not cont
       0.0             2864          1      2864.0      2864.0      2864        2864          0.0  bind                 
       0.0             1886          1      1886.0      1886.0      1886        1886          0.0  listen               
 
-[5/8] Executing &#39;cuda_api_sum&#39; stats report
+[5/8] Executing 'cuda_api_sum' stats report
 
  Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)   Min (ns)  Max (ns)   StdDev (ns)           Name         
  --------  ---------------  ---------  -----------  ----------  --------  ---------  -----------  ----------------------
@@ -947,20 +947,20 @@ SKIPPED: /mnt/lustre/tursafs1/home/t01/t01/dc-user1/report1.sqlite does not cont
       2.8         13646243          3    4548747.7   4418958.0   4016391    5210894     607736.3  cudaFree              
       0.0             7054          1       7054.0      7054.0      7054       7054          0.0  cuModuleGetLoadingMode
 
-[6/8] Executing &#39;cuda_gpu_kern_sum&#39; stats report
+[6/8] Executing 'cuda_gpu_kern_sum' stats report
 
  Time (%)  Total Time (ns)  Instances   Avg (ns)    Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                       Name                     
  --------  ---------------  ---------  ----------  ----------  --------  --------  -----------  ----------------------------------------------
     100.0         84862110          1  84862110.0  84862110.0  84862110  84862110          0.0  addVectorsInto(float *, float *, float *, int)
 
-[7/8] Executing &#39;cuda_gpu_mem_time_sum&#39; stats report
+[7/8] Executing 'cuda_gpu_mem_time_sum' stats report
 
  Time (%)  Total Time (ns)  Count  Avg (ns)  Med (ns)  Min (ns)  Max (ns)  StdDev (ns)              Operation            
  --------  ---------------  -----  --------  --------  --------  --------  -----------  ---------------------------------
      81.9         48978013  10109    4845.0    3455.0      2656     51328       5656.4  [CUDA Unified Memory memcpy HtoD]
      18.1         10801550    768   14064.5    4095.0      2463     79840      21695.6  [CUDA Unified Memory memcpy DtoH]
 
-[8/8] Executing &#39;cuda_gpu_mem_size_sum&#39; stats report
+[8/8] Executing 'cuda_gpu_mem_size_sum' stats report
 
  Total (MB)  Count  Avg (MB)  Med (MB)  Min (MB)  Max (MB)  StdDev (MB)              Operation            
  ----------  -----  --------  --------  --------  --------  -----------  ---------------------------------
@@ -1047,7 +1047,7 @@ ncu<span class="w"> </span>./vector-add.exe
     Achieved Active Warps Per SM           warp        61.59
     ------------------------------- ----------- ------------
 
-    INF   This kernel&#39;s theoretical occupancy is not impacted by any block limit. 
+    INF   This kernel's theoretical occupancy is not impacted by any block limit. 
 </code></pre></div>
 
 
@@ -1107,7 +1107,7 @@ ncu<span class="w"> </span>./vector-add.exe
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.expand", "navigation.top"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
