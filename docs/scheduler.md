@@ -172,12 +172,12 @@ specify a partition using the `--partition` option in your Slurm
 submission script. The following table has a list of active partitions
 on Tursa.
 
-| Partition | Description                                                 | Max nodes available |
-| --------- | ----------------------------------------------------------- | ------------------- |
-| cpu  | CPU nodes with 2 AMD EPYC 64-core processor    | 6               |
-| gpu  | GPU nodes with 2 AMD EPYC processor (16-core or 24-core) and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 181                |
-| gpu-a100-40  | GPU nodes with 2 AMD EPYC 16-core processors and NVIDIA A100-40 GPU &times; 4  | 114                |
-| gpu-a100-80  | GPU nodes with 2 AMD EPYC 24-core processor (3 nodes have 2 AMD EPYC 16-core processors) and NVIDIA A100-80 GPU &times; 4  | 67                |
+| Partition | Description                                                 | Max nodes available | Notes |
+| --------- | ----------------------------------------------------------- | ------------------- | ----- |
+| cpu  | CPU nodes with 2 AMD EPYC 64-core processor    | 6               |  |
+| gpu  | GPU nodes with 2 AMD EPYC processor (16-core or 24-core) and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)  | 181                |   |
+| gpu-a100-40  | GPU nodes with 2 AMD EPYC 16-core processors and NVIDIA A100-40 GPU &times; 4  | 114  | Some nodes in this partition may have A100-80 GPU instead due to unavailability of A100-40 replacement hardware |
+| gpu-a100-80  | GPU nodes with 2 AMD EPYC 24-core processor (3 nodes have 2 AMD EPYC 16-core processors) and NVIDIA A100-80 GPU &times; 4  | 67                |    |
 
 You can list the active partitions by running `sinfo`.
 
@@ -443,6 +443,14 @@ To just use the A100-40 GPU nodes:
 
 If you do not specfy a partition, the scheduler may use any available node types for 
 the job (equivalent of `--partition=gpu`).
+
+!!! !!! important "Some A100-40 nodes may have A100-80 GPU installed instead"
+    As A100-40 GPU are no longer available from NVIDIA, some A100-40 nodes where
+    hardware has failed have had to have A100-80 GPU installed instead. 
+    The following nodes in the `gpu-a100-40` partition contain A100-80 GPUs:
+
+    - tu-c0r2n06
+
 
 !!! note
     For parallel jobs, Tursa operates in a *node exclusive* way. This

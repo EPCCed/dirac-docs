@@ -25,6 +25,12 @@ There is a single Lustre file system which is available on login and compute nod
      + NVLink intranode GPU interconnect
      + 4x 200 Gbps NVIDIA Infiniband interfaces (100 Gbps bi-directional)
 
+!!! important "Some A100-40 nodes may have A100-80 GPU installed instead"
+    As A100-40 GPU are no longer available from NVIDIA, some A100-40 nodes where
+    hardware has failed have had to have A100-80 GPU installed instead. 
+    An up to date list of GPU type by node ID is available in the 
+    [Scheduler section](scheduler.md#resources-for-gpu-jobs)
+
 ## Interconnect details
 
 Tursa has a high performance interconnect with 4x 200 Gb/s infiniband interfaces per node. It uses a 2-layer fat tree topology:
