@@ -30,9 +30,7 @@ nav:
   - "Connecting to Tursa": connecting.md
   - "Data management and transfer": data.md
   - "Software environment": sw-environment.md
-  - "Running jobs on Tursa": 
-    - "Current scheduler setup": scheduler.md
-    - "Updated scheduler setup: Jul 2026": scheduler-update-2026.md
+  - "Running jobs on Tursa": scheduler.md
   - "Spack on Tursa": spack.md
   - "Profiling": profiling.md
 
