@@ -617,6 +617,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#constraints-selecting-gpu-node-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraints - selecting GPU node type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#quality-of-service-qos" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1119,6 +1130,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#constraints-selecting-gpu-node-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraints - selecting GPU node type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#quality-of-service-qos" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1528,19 +1550,7 @@ on Tursa.</p>
 <td>gpu</td>
 <td>GPU nodes with 2 AMD EPYC processor (16-core or 24-core) and NVIDIA A100 GPU &times; 4 (this includes both A100-40 and A100-80 GPU)</td>
 <td>181</td>
-<td></td>
-</tr>
-<tr>
-<td>gpu-a100-40</td>
-<td>GPU nodes with 2 AMD EPYC 16-core processors and NVIDIA A100-40 GPU &times; 4</td>
-<td>114</td>
-<td>Some nodes in this partition may have A100-80 GPU instead due to unavailability of A100-40 replacement hardware</td>
-</tr>
-<tr>
-<td>gpu-a100-80</td>
-<td>GPU nodes with 2 AMD EPYC 24-core processor (3 nodes have 2 AMD EPYC 16-core processors) and NVIDIA A100-80 GPU &times; 4</td>
-<td>67</td>
-<td></td>
+<td>See notes on <a href="#constraints---selecting-gpu-node-type">Constraints</a> below on selecting GPU node type</td>
 </tr>
 </tbody>
 </table>
@@ -1549,6 +1559,44 @@ on Tursa.</p>
 <p class="admonition-title">Tip</p>
 <p>You may not have access to all the available partitions.</p>
 </div>
+<h3 id="constraints-selecting-gpu-node-type">Constraints - selecting GPU node type</h3>
+<p>You can use the <code>--constraint</code> option to specify which GPU node type you want (either A100-40 or A100-80).</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Max nodes available</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No constraint option</td>
+<td>Allow job to use A100-40 or A100-80 nodes but not allow them to be mixed for a single job</td>
+<td>114 (A100-40 node type)</td>
+<td>Equivalent to <code>--constraint=[a100-40|a100-80]</code></td>
+</tr>
+<tr>
+<td><code>--contraint=a100-40</code></td>
+<td>Allow job to use only A100-40 nodes</td>
+<td>114</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--contraint=a100-80</code></td>
+<td>Allow job to use only A100-80 nodes</td>
+<td>67</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--constraint=a100-40|a100-80</code>  (note lack of square brackets)</td>
+<td>Allow job to use A100-40 or A100-80 nodes and allow types to be mixed</td>
+<td>181</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="quality-of-service-qos">Quality of Service (QoS)</h3>
 <p>On Tursa, job limits are defined by the requested Quality of Service
 (QoS), as specified by the <code>--qos</code> Slurm directive. The following table
@@ -1617,13 +1665,6 @@ budget you can use the <code>low</code> QoS to continue to run jobs at a lower p
 <a href="https://www.archer2.ac.uk/support-access/servicedesk.html">contact the Service
 Desk</a> and we
 can discuss how to accommodate your requirements.</p>
-</div>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Only jobs sizes that are powers of 2 nodes
-are allowed. i.e. 1, 2, 4, 8, 16, 32 nodes on the <code>gpu</code> partition.
-There is a discussion of why this is enforced in
-the <a href="../hardware/">Hardware</a> section of the User Guide.</p>
 </div>
 <h3 id="priority">Priority</h3>
 <p>Job priority on Tursa depends on a number of different factors:</p>
@@ -1932,33 +1973,23 @@ parallel processes and threads they require.</p>
 <li><code>--gres=gpu:4</code> the number of GPU to use per node. This will almost always
      be 4 to use all GPUs on a node.</li>
 </ul>
-<p>If you are happy to have any GPU type for your job (A100-40 or A100-80) then you
-select the <code>gpu</code> partition:</p>
+<p>You should specify the <code>gpu</code> partition:</p>
 <ul>
 <li><code>--partition=gpu</code></li>
 </ul>
 <p>If you wish to use just the A100-80 GPU nodes which have higher memory, you add the
 following option:</p>
 <ul>
-<li><code>--partition=gpu-a100-80</code> request the job is placed on nodes with high-memory
-   (80 GB) GPUs with 48 cores per node - there are 64 high memory GPU nodes on the system. </li>
+<li><code>--constraint=a100-80</code> request the job is placed on nodes with high-memory
+   (80 GB) GPUs with 48 cores per node - there are 67 high memory GPU nodes on the system. </li>
 </ul>
 <p>To just use the A100-40 GPU nodes:</p>
 <ul>
-<li><code>--partition=gpu-a100-40</code> request the job is placed on nodes with standard memory
+<li><code>--constraint=a100-40</code> request the job is placed on nodes with standard memory
    (40 GB) GPUs with 32 cores per node.</li>
 </ul>
-<p>If you do not specfy a partition, the scheduler may use any available node types for 
-the job (equivalent of <code>--partition=gpu</code>).</p>
-<div class="admonition important">
-<p class="admonition-title">Some A100-40 nodes may have A100-80 GPU installed instead</p>
-<p>As A100-40 GPU are no longer available from NVIDIA, some A100-40 nodes where
-hardware has failed have had to have A100-80 GPU installed instead. 
-The following nodes in the <code>gpu-a100-40</code> partition contain A100-80 GPUs:</p>
-<ul>
-<li>tu-c0r2n06</li>
-</ul>
-</div>
+<p>If you do not specfy a constraint, the scheduler may use any available node types for 
+the job but cannot mix types within a single job (equivalent of <code>--constraint=[a100-40|a100-80]</code>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For parallel jobs, Tursa operates in a <em>node exclusive</em> way. This
@@ -2200,30 +2231,25 @@ the production QoS. It is subject to a number of restrictions:</p>
 <ul>
 <li>4 hour maximum walltime</li>
 <li>Maximum job size:<ul>
-<li>2 nodes for <code>gpu-a100-80</code> partition</li>
-<li>1 node for <code>gpu-a100-40</code> partition</li>
+<li>2 nodes for <code>--constraint=a100-80</code> </li>
+<li>1 node for <code>--constrain=a100-40</code> partition</li>
 </ul>
 </li>
 <li>Maximum 1 job running per user</li>
 <li>Maximum 2 jobs queued per user</li>
 <li>Only available to projects with a positive budget</li>
 </ul>
-<p>In addtion, you <em>must</em> specify either the <code>gpu-a100-80</code> or <code>gpu-a100-40</code> partitions when using the
-<code>dev</code> QoS.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>The generic <code>gpu</code> partition will not work consistently when using the <code>dev</code> QoS.</p>
-</div>
-<p>Here is an example job submission script for a 2-node job in the <code>dev</code> QoS using the <code>gpu-a100-80</code> 
-partition. Note the use of the <code>gpu_launch.sh</code> wrapper script to get correct GPU and NIC
+<p>Here is an example job submission script for a 2-node job in the <code>dev</code> QoS using the <code>a100-80</code> 
+nodes. Note the use of the <code>gpu_launch.sh</code> wrapper script to get correct GPU and NIC
 binding.</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Slurm job options</span>
 <span class="kp">#SBATCH --job-name=Example_MPI_job</span>
 <span class="kp">#SBATCH --time=12:0:0</span>
-<span class="kp">#SBATCH --partition=gpu-a100-80</span>
+<span class="kp">#SBATCH --partition=gpu</span>
 <span class="kp">#SBATCH --qos=dev</span>
+<span class="kp">#SBATCH --constraint=a100-80</span>
 <span class="c1"># Replace [budget code] below with your budget code (e.g. t01)</span>
 <span class="kp">#SBATCH --account=[budget code]  </span>
 
