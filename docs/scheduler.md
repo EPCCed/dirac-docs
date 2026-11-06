@@ -204,7 +204,7 @@ lists the active QoS on Tursa.
 | ---------- | ----------------- | ------------ | ----------- | ------------ | ------------ | ------|
 | standard   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80, cpu     | Only available when your budget is positive. |
 | low        | 32                | 24 hrs       | 4           | 4            | gpu, gpu-a100-40, gpu-a100-40, cpu     | Only available when your budget is zero or negative |
-| high   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80     | Only available when you have access to "dpXYZ-high" budget and the budget is positive. Only available to RAC projects. High priority jobs are prioritised above other jobs on the system. |
+| high   | 128                | 48 hrs       | Max. 128 jobs per user | Max. 128 nodes per user, max. 32 jobs per user | gpu, gpu-a100-40, gpu-a100-80     | Only available when you have access to "dpXYZ-high" budget and the budget is positive. Only available to RAC projects. Projects can use a maximum of 10% of quarterly allocation in high priority. High priority jobs are prioritised above other jobs on the system. |
 | dev        | 2                | 4 hrs       | 2           | 1            | gpu     | For faster turnaround for development jobs and interactive sessions, only available when your budget is positive. The dev QoS includes 2x A100-40 GPU nodes and 3x A100-80 GPU nodes.  |
 
 You can find out the QoS that you can use by running the following
@@ -263,6 +263,17 @@ command:
           50346 gpu             1183          0        672          1         10        500
           50347 gpu             1183          0        672          1         10        500
 ```
+
+### High priority QoS use
+
+All RAC projects have access to use a limited amount of allocated resources for high priority access per quarter. Projects can assign a maximum of 10% of their allocated resources for high priority use per quarter. You use high priority by:
+
+- Allocating resources to the "dpXXX-high" budget in DiRAC SAFE (where dpXXX is replaced with your project code)
+- Adding users who should have high-priority access to the "dpXXX-high" budget in DiRAC SAFE
+- Users then specify the "high" QoS in their job submission scripts (`--qos=high` option)
+
+!!! important "SAFE does not enforce 10% high limit"
+    SAFE does not currently enforce the limit of 10% of quarterly resources so project PIs/managers are responsible for ensuring that excessive resources are not assigned to high-priority issues. Projects that exceed limits may have high-priority access revoked.
 
 ## Troubleshooting
 
