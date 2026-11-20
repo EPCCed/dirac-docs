@@ -37,3 +37,6 @@ admonition = {}
 pymdownx.details = {}
 pymdownx.superfences = {}
 tables = {}
+
+[project.plugins.redirects.redirect_maps]
+"tursa-user-guide.md" = "index.md"
