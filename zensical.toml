@@ -24,8 +24,6 @@ logo = "assets/dirac_logo.png"
 features = [
   "content.action.edit",
   "content.action.view",
-  "navigation.expand",
-  "navigation.footer",
   "navigation.top",
 ]
 
