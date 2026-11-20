@@ -1,0 +1,40 @@
+[project]
+site_name = "DiRAC Extreme Scaling User Documentation"
+docs_dir = "docs"
+extra_css = ["stylesheets/dirac.css"]
+repo_url = "https://github.com/EPCCed/dirac-docs"
+repo_name = "EPCCed/dirac-docs"
+edit_uri = "edit/main/docs/"
+
+nav = [
+    { "Documentation overview" = "index.md" },
+    { "Hardware" = "hardware.md" },
+    { "Connecting to Tursa" = "connecting.md" },
+    { "Data management and transfer" = "data.md" },
+    { "Software environment" = "sw-environment.md" },
+    { "Running jobs on Tursa" = "scheduler.md" },
+    { "Spack on Tursa" = "spack.md" },
+    { "Profiling" = "profiling.md" },
+]
+
+[project.theme]
+variant = "classic"
+scheme = "dirac"
+logo = "assets/dirac_logo.png"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "navigation.top",
+]
+
+[project.theme.icon]
+repo = "fontawesome/brands/github"
+
+[project.markdown_extensions]
+admonition = {}
+pymdownx.details = {}
+pymdownx.superfences = {}
+tables = {}
+
+[project.plugins.redirects.redirect_maps]
+"tursa-user-guide.md" = "index.md"
