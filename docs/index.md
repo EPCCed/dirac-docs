@@ -1,4 +1,4 @@
-# Documentation overview
+# DiRAC Extreme Scaling user documentation
 
 DiRAC Extreme Scaling (Tursa) is part of the [DiRAC National HPC Service](https://www.dirac.ac.uk). You
 can find more information on the service and the research it supports on
